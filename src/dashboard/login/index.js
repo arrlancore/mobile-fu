@@ -1,14 +1,11 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Col, Row } from "antd";
+import { Form, Icon, Input, Button, Col, Row } from "antd";
 import * as actions from "../../actions/index";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Logo from "../../assets/mainlogo.png";
+import Head from "../../components/head";
+import { func, object, bool } from "prop-types";
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
@@ -27,67 +24,78 @@ class NormalLoginForm extends React.Component {
     }
     const { getFieldDecorator } = this.props.form;
     return (
-      <Row type="flex" justify="center" align="middle">
-        <Col span={8}>
-          <div className="logo_company">
-            <img src={Logo} />
-          </div>
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator("userName", {
-                rules: [
-                  { required: true, message: "Please input your username!" }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Username"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [
-                  { required: true, message: "Please input your Password!" }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              )}
-            </Form.Item>
-            <Col span={24}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-                style={{ width: "100%" }}
-              >
-                Log in
-              </Button>
-              <div
-                style={{
-                  textAlign: "center",
-                  color: "#383838",
-                  fontSize: "12px",
-                  margin: " 15px 0px"
-                }}
-              >
-                <a>Forgot your password ?</a>
-              </div>
-            </Col>
-          </Form>
-        </Col>
-      </Row>
+      <div>
+        <Head>
+          <title>KPI Login</title>
+        </Head>
+        <Row type="flex" justify="center" align="middle">
+          <Col span={8}>
+            <div className="logo_company">
+              <img src={Logo} alt="ati-logo" />
+            </div>
+            <Form onSubmit={this.handleSubmit} className="login-form">
+              <Form.Item>
+                {getFieldDecorator("userName", {
+                  rules: [
+                    { required: true, message: "Please input your username!" }
+                  ]
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    placeholder="Username"
+                  />
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator("password", {
+                  rules: [
+                    { required: true, message: "Please input your Password!" }
+                  ]
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    type="password"
+                    placeholder="Password"
+                  />
+                )}
+              </Form.Item>
+              <Col span={24}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                  style={{ width: "100%" }}
+                >
+                  Log in
+                </Button>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: "#383838",
+                    fontSize: "12px",
+                    margin: " 15px 0px"
+                  }}
+                >
+                  <a href="/">Forgot your password ?</a>
+                </div>
+              </Col>
+            </Form>
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
+
+NormalLoginForm.propTypes = {
+  loginMember: func,
+  isLogin: bool,
+  form: object
+};
 
 const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(
   NormalLoginForm

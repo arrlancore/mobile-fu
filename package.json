@@ -9,6 +9,7 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
@@ -21,10 +22,52 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "parser": "babel-eslint",
+    "plugins": [
+      "react"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {
+      "no-console": "off",
+      "max-len": [
+        "error",
+        {
+          "code": 100
+        }
+      ],
+      "prefer-promise-reject-errors": [
+        "off"
+      ],
+      "react/jsx-filename-extension": [
+        "off"
+      ],
+      "react/prop-types": [
+        "warn"
+      ],
+      "no-return-assign": [
+        "off"
+      ]
+    }
   },
   "browserslist": {
     "production": [
@@ -37,5 +80,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.13.0",
+    "prop-types": "^15.7.2",
+    "husky": "^2.2.0",
+    "pretty-quick": "^1.10.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
