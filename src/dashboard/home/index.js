@@ -1,13 +1,12 @@
 import React from "react";
-import Header from "../header";
-import { Row, Col } from "antd";
-
+import LayoutPage from "components/layout";
+import Header from "components/header";
 class HomePage extends React.Component {
   render() {
     return (
-      <Row>
+      <LayoutPage>
         <Header />
-      </Row>
+      </LayoutPage>
     );
   }
 }

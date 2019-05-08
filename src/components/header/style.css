@@ -1,0 +1,6 @@
+.header-base {
+  background: #fff;
+  -moz-box-shadow: 2px 6px 12px 8px #f9f9f9;
+  -webkit-box-shadow: 2px 6px 12px 8px #f9f9f9;
+  box-shadow: 2px 6px 12px 8px #f9f9f9;
+}

@@ -1,11 +1,15 @@
 import React from "react";
-import { Form, Icon, Input, Button, Col, Row } from "antd";
-import * as actions from "../../actions/index";
+import { Form, Icon, Col, Row } from "antd";
+import * as actions from "actions/index";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import Logo from "../../assets/mainlogo.png";
-import Head from "../../components/head";
+import Logo from "assets/image/logo/logo1x.png";
+import Helmet from "components/helmet";
+import Button from "components/button";
+import Input from "components/input";
+import Layout from "components/layout";
 import { func, object, bool } from "prop-types";
+import "./style.css";
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
@@ -24,16 +28,28 @@ class NormalLoginForm extends React.Component {
     }
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
-        <Head>
+      <Layout>
+        <Helmet>
           <title>KPI Login</title>
-        </Head>
-        <Row type="flex" justify="center" align="middle">
-          <Col span={8}>
+        </Helmet>
+        <Row
+          type="flex"
+          justify="center"
+          align="middle"
+          style={{ height: "100%" }}
+        >
+          <div style={{ height: "100%" }} />
+          <Col span={6} xl={4}>
             <div className="logo_company">
               <img src={Logo} alt="ati-logo" />
             </div>
             <Form onSubmit={this.handleSubmit} className="login-form">
+              <label
+                style={{ marginBottom: "6px" }}
+                htmlFor="normal_login_userName"
+              >
+                Username
+              </label>
               <Form.Item>
                 {getFieldDecorator("userName", {
                   rules: [
@@ -44,10 +60,16 @@ class NormalLoginForm extends React.Component {
                     prefix={
                       <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                     }
-                    placeholder="Username"
+                    placeholder="johnys"
                   />
                 )}
               </Form.Item>
+              <label
+                style={{ marginBottom: "6px" }}
+                htmlFor="normal_login_password"
+              >
+                Password
+              </label>
               <Form.Item>
                 {getFieldDecorator("password", {
                   rules: [
@@ -59,18 +81,14 @@ class NormalLoginForm extends React.Component {
                       <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                     }
                     type="password"
-                    placeholder="Password"
+                    placeholder="******"
+                    onPressEnter={this.handleSubmit}
                   />
                 )}
               </Form.Item>
               <Col span={24}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                  style={{ width: "100%" }}
-                >
-                  Log in
+                <Button type="primary" htmlType="submit">
+                  LOGIN
                 </Button>
                 <div
                   style={{
@@ -86,7 +104,7 @@ class NormalLoginForm extends React.Component {
             </Form>
           </Col>
         </Row>
-      </div>
+      </Layout>
     );
   }
 }

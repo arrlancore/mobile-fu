@@ -1,9 +1,9 @@
 import React from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 
-import Login from "../dashboard/login";
-import Home from "../dashboard/home";
-import User from "../dashboard/managementUser";
+import Login from "dashboard/login";
+import Home from "dashboard/home";
+import User from "dashboard/managementUser";
 
 function ReactRouter() {
   return (

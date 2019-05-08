@@ -1,2 +1,2 @@
 export const DATA_MEMBER = "DATA_MEMBER";
-export const STORE_DATA_MEMBER = 'STORE_DATA_MEMBER';
+export const STORE_DATA_MEMBER = "STORE_DATA_MEMBER";

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { message } from "antd";
 import * as actionTypes from "./actionTypes";
 
 import constant from "../utils/constant";
@@ -9,7 +8,7 @@ import constant from "../utils/constant";
 export const loginMember = data => dispatch => {
   // Start
   const dataStart = {
-    loading: true,
+    loading: true
   };
   dispatch(storeDataMember(dataStart));
   const URL = constant.MASTER_PATH + constant.URL_LOGIN;
@@ -34,7 +33,8 @@ export const loginMember = data => dispatch => {
     .catch(error => {
       const dataError = {
         loading: false,
-        formError: true
+        formError: true,
+        error
       };
       dispatch(storeDataMember(dataError));
     });
