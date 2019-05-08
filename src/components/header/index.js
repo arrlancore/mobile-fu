@@ -7,9 +7,12 @@ const { Header } = Layout;
 
 const header = props => {
   return (
-    <Header {...props} className="header-base">
-      {props.children}
-    </Header>
+    <>
+      <Header {...props} className="header-base">
+        {props.children}
+      </Header>
+      <div className="header-shadow" />
+    </>
   );
 };
 

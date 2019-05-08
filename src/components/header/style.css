@@ -1,6 +1,17 @@
+/*  */
+
 .header-base {
+  overflow: hidden;
+  height: 100px;
   background: #fff;
-  -moz-box-shadow: 2px 6px 12px 8px #f9f9f9;
-  -webkit-box-shadow: 2px 6px 12px 8px #f9f9f9;
-  box-shadow: 2px 6px 12px 8px #f9f9f9;
+  position: relative;
+}
+
+.header-shadow {
+  width: 95%;
+  margin: 0 auto;
+  display: block;
+  border-radius: 40px;
+  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+  border-bottom: 5px solid rgba(0, 0, 0, 0.02);
 }
