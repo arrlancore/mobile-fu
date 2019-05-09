@@ -1,7 +1,7 @@
 import React from "react";
 import { node } from "prop-types";
 import { Button } from "antd";
-import "./index.css";
+import "./style.css";
 
 const button = ({ children, ...rest }) => {
   return (

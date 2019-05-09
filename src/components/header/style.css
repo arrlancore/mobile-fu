@@ -4,14 +4,34 @@
   overflow: hidden;
   height: 100px;
   background: #fff;
-  position: relative;
+  /* position: relative;
+  display: flex;
+  align-items: center; */
 }
 
 .header-shadow {
   width: 95%;
   margin: 0 auto;
   display: block;
-  border-radius: 40px;
-  /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
-  border-bottom: 5px solid rgba(0, 0, 0, 0.02);
+  height: 10px;
+  box-shadow: -5px 14px 19px -4px #a0a0a0;
+  position: relative;
+  top: -10px;
+}
+
+.header-font {
+  font-family: Nunito, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #b9bbc5;
+  font-size: 18px;
+}
+
+.primary-header-color {
+  color: #5570e3;
+}
+
+.root-menu .ant-menu-item {
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
 }

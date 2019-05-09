@@ -1,0 +1,7 @@
+.image-base {
+  width: 24px;
+  margin: 12px;
+}
+.image-wrapper {
+  cursor: pointer;
+}
