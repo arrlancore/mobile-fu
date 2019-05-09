@@ -1,26 +1,26 @@
-import React from "react";
-import { Menu } from "antd";
+import React from 'react'
+import { Menu } from 'antd'
 
 function MainMenu() {
-  const initMenu = "home";
-  const [activeMenu, setActiveMenu] = React.useState(initMenu);
+  const initMenu = 'home'
+  const [activeMenu, setActiveMenu] = React.useState(initMenu)
   const onMenuCLicked = e => {
-    setActiveMenu(e.key);
-  };
+    setActiveMenu(e.key)
+  }
   const listMenus = [
     {
-      name: "Home",
-      key: "home"
+      name: 'Home',
+      key: 'home'
     },
     {
-      name: "KPI",
-      key: "kpi"
+      name: 'KPI',
+      key: 'kpi'
     },
     {
-      name: "Administration",
-      key: "administration"
+      name: 'Administration',
+      key: 'administration'
     }
-  ];
+  ]
   return (
     <div className="root-menu">
       <Menu
@@ -28,8 +28,8 @@ function MainMenu() {
         selectedKeys={[activeMenu]}
         mode="horizontal"
         style={{
-          lineHeight: "82px",
-          width: "100%",
+          lineHeight: '82px',
+          width: '100%',
           fontSize: 18,
           borderBottom: 0
         }}
@@ -39,7 +39,7 @@ function MainMenu() {
         ))}
       </Menu>
     </div>
-  );
+  )
 }
 
-export default MainMenu;
+export default MainMenu

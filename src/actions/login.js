@@ -1,7 +1,7 @@
-import axios from "axios";
-import * as actionTypes from "./actionTypes";
+import axios from 'axios'
+import * as actionTypes from './actionTypes'
 
-import constant from "../utils/constant";
+import constant from '../utils/constant'
 
 /**
  */
@@ -9,9 +9,9 @@ export const loginMember = data => dispatch => {
   // Start
   const dataStart = {
     loading: true
-  };
-  dispatch(storeDataMember(dataStart));
-  const URL = constant.MASTER_PATH + constant.URL_LOGIN;
+  }
+  dispatch(storeDataMember(dataStart))
+  const URL = constant.MASTER_PATH + constant.URL_LOGIN
   axios
     .post(URL, data)
     .then(response => {
@@ -20,14 +20,14 @@ export const loginMember = data => dispatch => {
           loading: false,
           formSuccess: true,
           data: response.data
-        };
-        dispatch(storeDataMember(dataSuccess));
+        }
+        dispatch(storeDataMember(dataSuccess))
       } else {
         const dataError = {
           loading: false,
           formError: true
-        };
-        dispatch(storeDataMember(dataError));
+        }
+        dispatch(storeDataMember(dataError))
       }
     })
     .catch(error => {
@@ -35,12 +35,12 @@ export const loginMember = data => dispatch => {
         loading: false,
         formError: true,
         error
-      };
-      dispatch(storeDataMember(dataError));
-    });
-};
+      }
+      dispatch(storeDataMember(dataError))
+    })
+}
 
 export const storeDataMember = data => ({
   type: actionTypes.DATA_MEMBER,
   data
-});
+})

@@ -1,22 +1,22 @@
-import * as actionTypes from "actions/actionTypes";
-import { updateObject } from "utils/updateObject";
+import * as actionTypes from 'actions/actionTypes'
+import { updateObject } from 'utils/updateObject'
 
 const initialState = {
   loading: false,
   formSuccess: false,
   data: []
-};
+}
 
-const storeDataMember = (state, action) => updateObject(state, action.data);
+const storeDataMember = (state, action) => updateObject(state, action.data)
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.DATA_MEMBER:
-      return storeDataMember(state, action);
+  case actionTypes.DATA_MEMBER:
+    return storeDataMember(state, action)
 
-    default:
-      return state;
+  default:
+    return state
   }
-};
+}
 
-export default reducer;
+export default reducer

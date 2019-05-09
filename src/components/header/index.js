@@ -1,14 +1,14 @@
-import React from "react";
-import { node } from "prop-types";
-import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon } from "antd";
-import PhotoTemp from "assets/image/temp/Photo.png";
-import IconBell from "assets/icon/Bell.svg";
-import IconMessages from "assets/icon/Messages.svg";
-import ImageIcon from "components/image-icon";
-import MainMenu from "./menu";
-import "./style.css";
+import React from 'react'
+import { node } from 'prop-types'
+import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon } from 'antd'
+import PhotoTemp from 'assets/image/temp/Photo.png'
+import IconBell from 'assets/icon/Bell.svg'
+import IconMessages from 'assets/icon/Messages.svg'
+import ImageIcon from 'components/image-icon'
+import MainMenu from './menu'
+import './style.css'
 
-const { Header } = Layout;
+const { Header } = Layout
 
 const menu = (
   <Menu mode="horizontal" onClick={handleMenuClick}>
@@ -16,13 +16,13 @@ const menu = (
     <Menu.Item key="2">Setting</Menu.Item>
     <Menu.Item key="3">Logout</Menu.Item>
   </Menu>
-);
+)
 
 function handleMenuClick(e) {
-  console.log("click", e);
+  console.log('click', e)
 }
 
-const name = "Janne";
+const name = 'Janne'
 
 const header = props => {
   return (
@@ -34,7 +34,7 @@ const header = props => {
           align="middle"
           type="flex"
           justify="center"
-          style={{ height: "100%" }}
+          style={{ height: '100%' }}
         >
           <Col span={5}>
             <Avatar
@@ -42,15 +42,15 @@ const header = props => {
               size="large"
               style={{ width: 72, height: 72, marginRight: 12 }}
             />
-            <div style={{ display: "inline" }}>Hello, </div>
+            <div style={{ display: 'inline' }}>Hello, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
                 {name}
                 <Icon
                   style={{
                     marginLeft: 14,
-                    color: "#B9BBC5",
-                    position: "relative",
+                    color: '#B9BBC5',
+                    position: 'relative',
                     top: 2
                   }}
                   type="caret-down"
@@ -61,10 +61,10 @@ const header = props => {
           <Col
             span={7}
             style={{
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              borderLeft: "1px solid #efefef"
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              borderLeft: '1px solid #efefef'
             }}
           >
             <ImageIcon src={IconBell} alt="Notification" />
@@ -77,9 +77,9 @@ const header = props => {
       </Header>
       <div className="header-shadow" />
     </>
-  );
-};
+  )
+}
 
-header.propTypes = { children: node };
+header.propTypes = { children: node }
 
-export default header;
+export default header

@@ -1,1 +1,1 @@
-export { loginMember, storeDataMember } from "./login";
+export { loginMember, storeDataMember } from './login'

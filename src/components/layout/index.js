@@ -1,13 +1,13 @@
-import { Layout } from "antd";
-import React from "react";
-import { node } from "prop-types";
+import { Layout } from 'antd'
+import React from 'react'
+import { node } from 'prop-types'
 
 function layout({ children }) {
   return (
-    <Layout style={{ background: "#fff", height: "100vh" }}>{children}</Layout>
-  );
+    <Layout style={{ background: '#fff', height: '100vh' }}>{children}</Layout>
+  )
 }
 
-layout.propTypes = { children: node };
+layout.propTypes = { children: node }
 
-export default layout;
+export default layout
