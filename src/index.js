@@ -13,5 +13,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-
+require('dotenv').config()
 serviceWorker.unregister()

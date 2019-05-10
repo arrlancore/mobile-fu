@@ -27,6 +27,7 @@ class NormalLoginForm extends React.Component {
       return <Redirect to={'/home'} />
     }
     const { getFieldDecorator } = this.props.form
+    console.log(process.env)
     return (
       <Layout>
         <Helmet>
