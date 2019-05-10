@@ -12,7 +12,7 @@ const imageicon = props => {
     <span
       className="image-wrapper"
       id={'icon-' + props.alt}
-      onCLick={props.onClick}
+      onClick={props.onClick}
     >
       <img {...props} alt={props.alt} style={props.style || defaultStyle} />
     </span>

@@ -1,31 +1,27 @@
 import React from 'react'
 import { Menu } from 'antd'
+import { NavLink } from 'react-router-dom'
 
 function MainMenu() {
-  const initMenu = 'home'
-  const [activeMenu, setActiveMenu] = React.useState(initMenu)
-  const onMenuCLicked = e => {
-    setActiveMenu(e.key)
-  }
+  const path = document.location.pathname
   const listMenus = [
     {
       name: 'Home',
-      key: 'home'
+      path: '/home',
     },
     {
       name: 'KPI',
-      key: 'kpi'
+      path: '/kpi',
     },
     {
       name: 'Administration',
-      key: 'administration'
+      path: '/administration',
     }
   ]
   return (
     <div className="root-menu">
       <Menu
-        onClick={onMenuCLicked}
-        selectedKeys={[activeMenu]}
+        selectedKeys={[path]}
         mode="horizontal"
         style={{
           lineHeight: '82px',
@@ -35,7 +31,9 @@ function MainMenu() {
         }}
       >
         {listMenus.map(menu => (
-          <Menu.Item key={menu.key}>{menu.name}</Menu.Item>
+          <Menu.Item key={menu.path}>
+            <NavLink to={menu.path}>{menu.name}</NavLink>
+          </Menu.Item>
         ))}
       </Menu>
     </div>

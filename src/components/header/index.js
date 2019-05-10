@@ -1,5 +1,5 @@
 import React from 'react'
-import { node } from 'prop-types'
+import { node, object } from 'prop-types'
 import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon } from 'antd'
 import PhotoTemp from 'assets/image/temp/Photo.png'
 import IconBell from 'assets/icon/Bell.svg'
@@ -10,21 +10,19 @@ import './style.css'
 
 const { Header } = Layout
 
-const menu = (
-  <Menu mode="horizontal" onClick={handleMenuClick}>
-    <Menu.Item key="1">My Profile</Menu.Item>
-    <Menu.Item key="2">Setting</Menu.Item>
-    <Menu.Item key="3">Logout</Menu.Item>
-  </Menu>
-)
-
 function handleMenuClick(e) {
   console.log('click', e)
 }
 
-const name = 'Janne'
-
 const header = props => {
+  const { user } = props
+  const menu = (
+    <Menu mode="horizontal" onClick={handleMenuClick}>
+      <Menu.Item key="1">My Profile</Menu.Item>
+      <Menu.Item key="2">Setting</Menu.Item>
+      <Menu.Item key="3">Logout</Menu.Item>
+    </Menu>
+  )
   return (
     <>
       <Header {...props} className="header-base header-font">
@@ -38,14 +36,14 @@ const header = props => {
         >
           <Col span={5}>
             <Avatar
-              src={PhotoTemp}
+              src={user.imageProfile}
               size="large"
               style={{ width: 72, height: 72, marginRight: 12 }}
             />
             <div style={{ display: 'inline' }}>Hello, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
-                {name}
+                {user.firstName}
                 <Icon
                   style={{
                     marginLeft: 14,
@@ -67,8 +65,8 @@ const header = props => {
               borderLeft: '1px solid #efefef'
             }}
           >
-            <ImageIcon src={IconBell} alt="Notification" />
-            <ImageIcon src={IconMessages} alt="Messages" />
+            <ImageIcon onClick={ () => { }} src={IconBell} alt="Notification" />
+            <ImageIcon onClick={ () => { }} src={IconMessages} alt="Messages" />
           </Col>
           <Col span={12}>
             <MainMenu />
@@ -80,6 +78,9 @@ const header = props => {
   )
 }
 
-header.propTypes = { children: node }
+header.propTypes = { children: node, user: object }
+header.defaultProps = {
+  user: { firstName: 'Jaine', imageProfile: PhotoTemp }
+}
 
 export default header

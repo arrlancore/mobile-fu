@@ -1,0 +1,12 @@
+.select-root .ant-select-selection {
+  height: 44px;
+}
+.select-root .ant-select-selection__rendered {
+  height: 42px;
+}
+.select-root .ant-select-selection-selected-value {
+  line-height: 42px;
+}
+ul.ant-select-dropdown-menu {
+  width: 100%
+}

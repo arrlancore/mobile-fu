@@ -29,9 +29,18 @@
   color: #5570e3;
 }
 
-.root-menu .ant-menu-item {
+.root-menu li.ant-menu-item {
   padding-left: 30px;
   padding-right: 30px;
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.root-menu li a {
+  width: auto;
+}
+
+root-menu .ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
+  color: #5570E3;
+  border-bottom: 4px solid #5570E3;
 }
