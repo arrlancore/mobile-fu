@@ -3,12 +3,12 @@ import { Typography } from 'antd'
 import { node, bool } from 'prop-types'
 const { Title } = Typography
 
-function Text(props) {
+function Text({ bold, children, ...rest}) {
   const style = {
     color: '#7F7F7F',
-    fontWeight: props.bold ? 'bold' : 500
+    fontWeight: bold ? 'bold' : 500
   }
-  return <Title style={style} {...props}>{props.children}</Title>
+  return <Title style={style} {...rest}>{children}</Title>
 }
 
 Text.propTypes = { 

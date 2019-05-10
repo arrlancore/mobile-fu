@@ -6,7 +6,6 @@
   "dependencies": {
     "antd": "^3.16.6",
     "axios": "^0.18.0",
-    "dotenv": "^8.0.0",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
     "react": "^16.8.6",
@@ -115,6 +114,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.11.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "customize-cra": "^0.2.12",
     "eslint-plugin-react": "^7.13.0",
     "husky": "^2.2.0",

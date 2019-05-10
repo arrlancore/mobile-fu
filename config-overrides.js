@@ -1,8 +1,16 @@
 const themeConfig = require("./src/config/themeConfig");
 
-const { override, fixBabelImports, addLessLoader } = require("customize-cra");
+const { override, fixBabelImports, addLessLoader, addBabelPlugin } = require("customize-cra");
 
 module.exports = override(
+  addBabelPlugin(
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "test": "./test"
+      }
+    }]
+  ),
   fixBabelImports("import", {
     libraryName: "antd",
     libraryDirectory: "es",

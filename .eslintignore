@@ -12,3 +12,4 @@ test.js
 !.eslintrc.js
 /src/serviceWorker.js
 config-overrides.js
+.pnp.js

@@ -2,6 +2,8 @@ import React from 'react'
 import { Menu } from 'antd'
 import { NavLink } from 'react-router-dom'
 
+const SubMenu = Menu.SubMenu
+
 function MainMenu() {
   const path = document.location.pathname
   const listMenus = [
@@ -12,12 +14,19 @@ function MainMenu() {
     {
       name: 'KPI',
       path: '/kpi',
+      submenus: [
+        {
+          name: 'KPI Calculation',
+          path: '/kpi-calculation'
+        }
+      ]
     },
     {
       name: 'Administration',
       path: '/administration',
     }
   ]
+
   return (
     <div className="root-menu">
       <Menu
@@ -30,11 +39,20 @@ function MainMenu() {
           borderBottom: 0
         }}
       >
-        {listMenus.map(menu => (
-          <Menu.Item key={menu.path}>
-            <NavLink to={menu.path}>{menu.name}</NavLink>
-          </Menu.Item>
-        ))}
+        {listMenus.map(menu =>  {
+          return menu.submenus && menu.submenus[0] ?
+            (<SubMenu key={menu.path} title={menu.name}>
+              {menu.submenus.map(submenu => (
+                <Menu.Item key={submenu.path}>
+                  <NavLink to={submenu.path}>{submenu.name}</NavLink>
+                </Menu.Item>
+              ))}
+            </SubMenu>) :
+            (<Menu.Item key={menu.path}>
+              <NavLink to={menu.path}>{menu.name}</NavLink>
+            </Menu.Item>)
+        }
+        )}
       </Menu>
     </div>
   )

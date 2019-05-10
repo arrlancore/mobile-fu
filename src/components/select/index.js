@@ -6,40 +6,19 @@ import { Select } from 'antd'
 
 const Option = Select.Option
 
-function select ({ optionList, label, ...rest }) {
-  function onChange(value) {
-    console.log(`selected ${value}`)
-  }
-  
-  function onBlur() {
-    console.log('blur')
-  }
-  
-  function onFocus() {
-    console.log('focus')
-  }
-  
-  function onSearch(val) {
-    console.log('search:', val)
-  }
+function select ({ optionList, type, label, ...rest }) {
+  const primary = type === 'primary'
+  const color = primary ? '#D5D6DB' : '#2699FB'
   return (
     <>
       <label
         htmlFor={`select ${label}`}
-        style={{ display: 'block' }}
+        style={{ display: 'block', color: color, fontWeight: 'bold' }}
       >
         {label}
       </label>
-      <div className="select-root">
+      <div className={`select-root ${primary ? '' : 'select-secondary'}`}>
         <Select
-          showSearch
-          style={{ width: 360 }}
-          placeholder="Select year"
-          optionFilterProp="children"
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onSearch={onSearch}
           {...rest}
         >
           {optionList.map(list => (
@@ -51,7 +30,7 @@ function select ({ optionList, label, ...rest }) {
   )
 }
 
-select.propTypes = { optionList: array, label:string, id: string }
+select.propTypes = { optionList: array, label:string, type: string }
 select.defaultProps = { optionList: [{ value: 1, name: 'Choose me please' }] }
 
 export default select

@@ -27,7 +27,6 @@ class NormalLoginForm extends React.Component {
       return <Redirect to={'/home'} />
     }
     const { getFieldDecorator } = this.props.form
-    console.log(process.env)
     return (
       <Layout>
         <Helmet>
@@ -58,9 +57,7 @@ class NormalLoginForm extends React.Component {
                   ]
                 })(
                   <Input
-                    prefix={
-                      <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     placeholder="johnys"
                   />
                 )}
@@ -78,9 +75,7 @@ class NormalLoginForm extends React.Component {
                   ]
                 })(
                   <Input
-                    prefix={
-                      <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     type="password"
                     placeholder="******"
                     onPressEnter={this.handleSubmit}

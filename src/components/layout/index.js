@@ -5,7 +5,7 @@ import Header from 'components/header'
 
 function layout({ children, withHeader, propsHeader }) {
   return (
-    <Layout style={{ background: '#fff', height: '100vh' }}>
+    <Layout style={{ background: '#fff', minHeight: '100vh' }}>
       {withHeader && <Header {...propsHeader} />}
       {children}
     </Layout>

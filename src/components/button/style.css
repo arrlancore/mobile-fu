@@ -6,3 +6,8 @@
   font-weight: 500;
   letter-spacing: 2px;
 }
+
+.button-secondary {
+  background: #2699FB;
+  color: #FFFFFF;
+}

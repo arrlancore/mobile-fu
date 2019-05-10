@@ -1,0 +1,22 @@
+.checkbox-root .ant-checkbox-inner {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.checkbox-root .ant-checkbox-inner::after {
+  margin-left: 2px;
+  width: 7.714286px;
+  height: 12.142857px;
+}
+
+.checkbox-secondary .ant-checkbox-inner {
+  border: 1px solid #2699FB;
+}
+
+.checkbox-secondary .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #2699FB;
+  border-color: #2699FB;
+  border: 1px solid #2699FB;
+}

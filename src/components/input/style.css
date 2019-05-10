@@ -1,0 +1,13 @@
+.input-base {
+  height: 44px;
+  background: #fff;
+  width: 100%;
+  margin: 8px 0;
+  border-radius: 8px;
+}
+
+.input-secondary {
+  border: 1px solid #BCE0FD;
+  background: #F1F9FF;
+  color: #2699FB;
+}
