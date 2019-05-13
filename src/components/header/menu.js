@@ -18,6 +18,10 @@ function MainMenu() {
         {
           name: 'KPI Calculation',
           path: '/kpi-calculation'
+        },
+        {
+          name: 'KPI Achivement',
+          path: '/kpi-achivement'
         }
       ]
     },

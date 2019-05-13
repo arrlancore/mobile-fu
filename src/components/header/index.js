@@ -1,6 +1,6 @@
 import React from 'react'
 import { node, object } from 'prop-types'
-import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon } from 'antd'
+import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge } from 'antd'
 import PhotoTemp from 'assets/image/temp/Photo.png'
 import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
@@ -23,6 +23,7 @@ const header = props => {
       <Menu.Item key="3">Logout</Menu.Item>
     </Menu>
   )
+  const showBadge = true
   return (
     <>
       <Header {...props} className="header-base header-font">
@@ -66,6 +67,7 @@ const header = props => {
             }}
           >
             <ImageIcon onClick={ () => { }} src={IconBell} alt="Notification" />
+            {showBadge && <Badge color="#DC5667" dot={true} />}
             <ImageIcon onClick={ () => { }} src={IconMessages} alt="Messages" />
           </Col>
           <Col span={12}>

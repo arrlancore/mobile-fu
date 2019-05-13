@@ -7,7 +7,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-ul {
+/* ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -63,8 +63,8 @@ nav ul {
   }
 
   /* Option 1 - Display Inline */
-  .nav li {
+  /* .nav li {
     display: inline-block;
     margin-right: -4px;
   }
-}
+} */

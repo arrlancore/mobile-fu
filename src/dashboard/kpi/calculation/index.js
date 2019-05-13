@@ -1,13 +1,13 @@
 import React from 'react'
-import { Row, Col, Upload } from 'antd'
+import { Row, Col } from 'antd'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Select from 'components/select'
 import Input from 'components/input'
 import Button from 'components/button'
-import LargeCheckbox from 'components/checkbox/large'
 import Title from 'components/text/title'
+import UploadForm from './uploadForm'
 
 import './style.css'
 
@@ -27,41 +27,6 @@ function onFocus() {
 function onSearch(val) {
   console.log('search:', val)
 }
-
-
-const UploadForm = ({...rest}) => (
-  <div className="upload-forms">
-    <Col span={10}>
-      <Input
-        value="File A.xlsx"
-        style={{ maxWidth: 300, width: '100%' }}
-        label="File Name"
-        type="secondary"
-      />
-      <Upload style={{ margin: '0 20px' }}>
-        <Button type="secondary">
-          Choose File
-        </Button>
-      </Upload>
-    </Col>
-    <Col span={8} style={{ marginLeft: 26, display: 'flex', alignItems: 'center' }}>
-      <Input
-        value="File A.xlsx"
-        style={{ maxWidth: 300, width: '100%' }}
-        label="Origin File Name"
-        type="secondary"
-      />
-      <span style={{ marginTop: 20 }}>
-        <LargeCheckbox
-          type="secondary"
-          checked={rest.checkDefault}
-          disabled={false}
-          onChange={onChange}
-        />
-      </span>
-    </Col>
-  </div>
-)
 
 function KpiCalculationPage () {
   const listYear = [
