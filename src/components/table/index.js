@@ -30,7 +30,9 @@ function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
       return column
     })
   }
+
   const columns = getColumn(data)
+
   return (
     <Table
       rowKey={(data) => data.id || data._id}
