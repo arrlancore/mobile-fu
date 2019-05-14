@@ -79,9 +79,6 @@
       "react/prop-types": [
         "warn"
       ],
-      "no-return-assign": [
-        "off"
-      ],
       "indent": [
         "error",
         2
@@ -97,7 +94,70 @@
       "semi": [
         "error",
         "never"
-      ]
+      ],
+      "max-lines": ["error"],
+      "complexity": ["off", 11],
+      "eqeqeq": ["error", "always"],
+      "max-classes-per-file": ["off", 1],
+      "no-alert": "warn",
+      "no-caller": "error",
+      "no-div-regex": "off",
+      "no-else-return": ["error", { "allowElseIf": false }],
+      "no-empty-pattern": "error",
+      "no-empty-function": ["error", {
+        "allow": [
+          "arrowFunctions",
+          "functions",
+          "methods"
+        ]
+      }],
+      "no-eq-null": "off",
+      "no-eval": "error",
+      "no-global-assign": ["error", { "exceptions": [] }],
+      "no-native-reassign": "off",
+      "no-implicit-coercion": ["off", {
+        "boolean": false,
+        "number": true,
+        "string": true,
+        "allow": []
+      }],
+      "no-implicit-globals": "off",
+      "no-loop-func": "error",
+      "no-lone-blocks": "error",
+      "no-multi-spaces": ["error", {
+        "ignoreEOLComments": false
+      }],
+      "no-octal": "error",
+      "no-param-reassign": ["error", {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "acc",
+          "accumulator",
+          "e",
+          "staticContext"
+        ]
+      }],
+      "no-proto": "error",
+      "no-redeclare": "error",
+      "no-return-assign": ["error", "always"],
+      "no-return-await": "error",
+      "no-self-assign": ["error", {
+        "props": false
+      }],
+      "no-self-compare": "error",
+      "no-sequences": "error",
+      "no-throw-literal": "error",
+      "no-warning-comments": ["off", { "terms": ["todo", "fixme", "change"], "location": "start" }],
+      "no-with": "error",
+      "radix": "error",
+      "require-await": "off",
+      "require-unicode-regexp": "off",
+      "yoda": "error",
+      "comma-dangle": ["error", "never"],
+      "accessor-pairs": "off",
+      "no-multiple-empty-lines": "error",
+      "no-trailing-spaces": "error",
+      "eol-last": ["error", "always"]
     }
   },
   "browserslist": {

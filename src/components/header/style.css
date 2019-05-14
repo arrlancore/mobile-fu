@@ -45,9 +45,11 @@
 .header-base .ant-badge-status-dot {
   width: 12px;
   height: 12px;
+  cursor: pointer;
 }
 .header-base .ant-badge-status {
   position: absolute;
   top: 10px;
   left: 28px;
+  cursor: pointer;
 }

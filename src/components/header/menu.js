@@ -9,7 +9,7 @@ function MainMenu() {
   const listMenus = [
     {
       name: 'Home',
-      path: '/home',
+      path: '/home'
     },
     {
       name: 'KPI',
@@ -27,7 +27,7 @@ function MainMenu() {
     },
     {
       name: 'Administration',
-      path: '/administration',
+      path: '/administration'
     }
   ]
 
@@ -43,7 +43,7 @@ function MainMenu() {
           borderBottom: 0
         }}
       >
-        {listMenus.map(menu =>  {
+        {listMenus.map(menu => {
           return menu.submenus && menu.submenus[0] ?
             (<SubMenu key={menu.path} title={menu.name}>
               {menu.submenus.map(submenu => (

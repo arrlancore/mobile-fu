@@ -1,5 +1,5 @@
 import React from 'react'
-import { array } from 'prop-types'
+import { array, any } from 'prop-types'
 import { Table } from 'antd'
 import './style.css'
 
@@ -16,16 +16,16 @@ function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
     const conditions = columnProperty
     const titles = Object.keys(arr[0]).filter(title => excludeColumns.includes(title) === false)
     return titles.map(title => {
-      let column =  {
+      let column = {
         title: toCapitalize(title),
         key: title,
-        dataIndex: title,
+        dataIndex: title
       }
       for (let i = 0; i < conditions.length; i++) {
         let condition = conditions[i]
         if (condition.dataIndex === title) {
           column = { ...column, ...condition }
-        } 
+        }
       }
       return column
     })
@@ -33,6 +33,7 @@ function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
   const columns = getColumn(data)
   return (
     <Table
+      rowKey={(data) => data.id || data._id}
       columns={columns}
       dataSource={data}
       {...rest}
@@ -43,11 +44,13 @@ function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
 MainTable.propTypes = {
   data: array,
   excludeColumns: array,
-  columnProperty: array
+  columnProperty: array,
+  title: any
 }
 
 MainTable.defaultProps = {
   data: [],
+  title: 'Result',
   excludeColumns: []
 }
 

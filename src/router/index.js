@@ -5,7 +5,8 @@ import Login from 'dashboard/login'
 import Home from 'dashboard/home'
 import KpiCalculation from 'dashboard/kpi/calculation'
 import KpiAchivement from 'dashboard/kpi/achivement'
-import User from 'dashboard/managementUser'
+import Administration from 'dashboard/administration'
+import NotFoundPage from 'dashboard/notfound'
 
 function ReactRouter() {
   return (
@@ -14,7 +15,8 @@ function ReactRouter() {
       <Route exact path="/home" component={Home} />
       <Route exact path="/kpi-calculation" component={KpiCalculation} />
       <Route exact path="/kpi-achivement" component={KpiAchivement} />
-      <Route exact path="/user" component={User} />
+      <Route exact path="/administration" component={Administration} />
+      <Route component={NotFoundPage} />
     </Router>
   )
 }

@@ -29,77 +29,77 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form
     return (
       <Layout>
-        <Helmet>
-          <title>KPI Login</title>
-        </Helmet>
-        <Row
-          type="flex"
-          justify="center"
-          align="middle"
-          style={{ height: '100%' }}
-        >
-          <div style={{ height: '100%' }} />
-          <Col span={6} xl={4}>
-            <div className="logo_company">
-              <img src={Logo} alt="ati-logo" />
-            </div>
-            <Form onSubmit={this.handleSubmit} className="login-form">
-              <label
-                style={{ marginBottom: '6px' }}
-                htmlFor="normal_login_userName"
-              >
-                Username
-              </label>
-              <Form.Item>
-                {getFieldDecorator('userName', {
-                  rules: [
-                    { required: true, message: 'Please input your username!' }
-                  ]
-                })(
-                  <Input
-                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="johnys"
-                  />
-                )}
-              </Form.Item>
-              <label
-                style={{ marginBottom: '6px' }}
-                htmlFor="normal_login_password"
-              >
-                Password
-              </label>
-              <Form.Item>
-                {getFieldDecorator('password', {
-                  rules: [
-                    { required: true, message: 'Please input your Password!' }
-                  ]
-                })(
-                  <Input
-                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    type="password"
-                    placeholder="******"
-                    onPressEnter={this.handleSubmit}
-                  />
-                )}
-              </Form.Item>
-              <Col span={24}>
-                <Button type="primary" htmlType="submit">
-                  LOGIN
-                </Button>
-                <div
-                  style={{
-                    textAlign: 'center',
-                    color: '#383838',
-                    fontSize: '12px',
-                    margin: ' 15px 0px'
-                  }}
+        <div className="root-login">
+          <Helmet>
+            <title>KPI Login</title>
+          </Helmet>
+          <Row
+            type="flex"
+            justify="center"
+            align="middle"
+          >
+            <Col span={6} xl={4}>
+              <div className="logo_company">
+                <img src={Logo} alt="ati-logo" />
+              </div>
+              <Form onSubmit={this.handleSubmit} className="login-form">
+                <label
+                  style={{ marginBottom: '6px' }}
+                  htmlFor="normal_login_userName"
                 >
-                  <a href="/">Forgot your password ?</a>
-                </div>
-              </Col>
-            </Form>
-          </Col>
-        </Row>
+                Username
+                </label>
+                <Form.Item>
+                  {getFieldDecorator('userName', {
+                    rules: [
+                      { required: true, message: 'Please input your username!' }
+                    ]
+                  })(
+                    <Input
+                      prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder="johnys"
+                    />
+                  )}
+                </Form.Item>
+                <label
+                  style={{ marginBottom: '6px' }}
+                  htmlFor="normal_login_password"
+                >
+                Password
+                </label>
+                <Form.Item>
+                  {getFieldDecorator('password', {
+                    rules: [
+                      { required: true, message: 'Please input your Password!' }
+                    ]
+                  })(
+                    <Input
+                      prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      type="password"
+                      placeholder="******"
+                      onPressEnter={this.handleSubmit}
+                    />
+                  )}
+                </Form.Item>
+                <Col span={24}>
+                  <Button type="primary" htmlType="submit">
+                  LOGIN
+                  </Button>
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      color: '#383838',
+                      fontSize: '12px',
+                      margin: ' 15px 0px'
+                    }}
+                  >
+                    <a href="/">Forgot your password ?</a>
+                  </div>
+                </Col>
+              </Form>
+            </Col>
+          </Row>
+        </div>
       </Layout>
     )
   }

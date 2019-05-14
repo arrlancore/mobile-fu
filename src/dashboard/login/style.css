@@ -4,3 +4,6 @@
   padding-top: 15px;
   margin: 0 10px 20px;
 }
+.root-login .ant-row-flex{
+  height: 94vh;
+}

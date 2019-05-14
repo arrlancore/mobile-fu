@@ -90,11 +90,13 @@ function KpiCalculationPage () {
     {
       dataIndex: 'id',
       width: 50,
-      fixed: 'left'
+      fixed: 'left',
+      sorter: (a, b) => a.id - b.id
     },
     {
       dataIndex: 'first_name',
       width: 100,
+      sorter: (a,b) => (a.first_name > b.first_name) ? 1 : ((b.first_name > a.first_name) ? -1 : 0)
     },
     {
       dataIndex: 'performance',
@@ -108,7 +110,7 @@ function KpiCalculationPage () {
               width: `${score * 10}%`,
               background: '#F39C12',
               position: 'absolute',
-              left: 0,
+              left: 0
             }} />
             <span style={{ position: 'relative' }}>{score} / 10</span>
           </div>
@@ -116,7 +118,7 @@ function KpiCalculationPage () {
       }
     }
   ]
-  
+
   return (
     <LayoutPage withHeader>
       <Helmet>
