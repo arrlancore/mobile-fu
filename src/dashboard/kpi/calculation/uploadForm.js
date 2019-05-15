@@ -1,4 +1,4 @@
-import {  Col, Upload } from 'antd'
+import { Col, Upload } from 'antd'
 import React from 'react'
 import { bool } from 'prop-types'
 import LargeCheckbox from 'components/checkbox/large'
@@ -6,15 +6,14 @@ import Input from 'components/input'
 import Button from 'components/button'
 
 
-
 function UploadForm ({ checkDefault }) {
-  const [checked, setChecked] = React.useState(checkDefault)
+  const [ checked, setChecked ] = React.useState(checkDefault)
   const onCLicked = () => {
     setChecked(!checked)
   }
   return (
     <div className="upload-forms">
-      <Col span={10}>
+      <Col span={10} lg={13} xl={13} xxl={10}>
         <Input
           value="File A.xlsx"
           style={{ maxWidth: 300, width: '100%' }}
@@ -27,7 +26,7 @@ function UploadForm ({ checkDefault }) {
           </Button>
         </Upload>
       </Col>
-      <Col span={8} style={{ marginLeft: 26, display: 'flex', alignItems: 'center' }}>
+      <Col span={9} lg={9} xl={7} xxl={9} style={{ marginLeft: 26, display: 'flex', alignItems: 'center' }}>
         <Input
           value="File A.xlsx"
           style={{ maxWidth: 300, width: '100%' }}
@@ -41,7 +40,6 @@ function UploadForm ({ checkDefault }) {
             disabled={false}
             onChange={(e) => console.log(e)}
             onClick={onCLicked}
-          
           />
         </span>
       </Col>

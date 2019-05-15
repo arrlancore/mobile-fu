@@ -97,7 +97,22 @@ function KpiCalculationPage () {
                 onSearch={onSearch}
               />
             </Col>
-            <Col span={12}>
+            <Col span={6}>
+              <Select
+                type="secondary"
+                label="Group"
+                optionList={listQuarter}
+                showSearch
+                style={{ maxWidth: 300, width: '100%' }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={onChange}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                onSearch={onSearch}
+              />
+            </Col>
+            <Col span={6}>
               <div style={{ marginLeft: '14%' }}>
                 <Input
                   value="Uploaded"
@@ -116,16 +131,16 @@ function KpiCalculationPage () {
           </Row>
         </div>
 
-        <div className="section-row">
+        <div className="section-row upload">
           <Title bold level={3}>Upload File</Title>
-          <Row gutter={16}>
-            <Col span={16}>
+          <Row type="flex" justify="center" align="middle" gutter={16}>
+            <Col span={16} lg={24} xl={20} xxl={19}>
               <UploadForm checkDefault={true} />
               <UploadForm checkDefault={false} />
               <UploadForm checkDefault={false} />
             </Col>
-            <Col span={8}>
-              <div style={{ marginLeft: '14%', maxWidth: 300 }}>
+            <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
+              <div className="wrap-action-button">
                 <Button style={{ marginBottom: 64 }} type="secondary">
                  Process File
                 </Button>
