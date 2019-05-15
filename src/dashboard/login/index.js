@@ -1,34 +1,55 @@
 import React from 'react'
-import { Form, Icon, Col, Row } from 'antd'
+import { Form, Icon, Col, Row, message } from 'antd'
 import * as actions from 'actions/index'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { func, object } from 'prop-types'
+import { isLogin } from 'utils/userData'
 import Logo from 'assets/image/logo/logo1x.png'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
 import Input from 'components/input'
 import Layout from 'components/layout'
-import { func, object, bool } from 'prop-types'
 import './style.css'
 
 class NormalLoginForm extends React.Component {
+  state = {
+    nextPath: '/home'
+  }
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
-        this.props.loginMember(values)
+        this.props.loginUser(values)
       }
     })
   };
 
-  render() {
-    if (this.props.isLogin) {
-      return <Redirect to={'/home'} />
+  componentDidMount() {
+    this.setPathRedirect()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.data.error !== this.props.data.error) {
+      message.error(this.props.data.error)
     }
+  }
+
+  setPathRedirect() {
+    const url = new URL(window.location.href)
+    const path = url.searchParams.get('from')
+    if (path) {
+      this.setState({ nextPath: path })
+    }
+  }
+
+  render() {
     const { getFieldDecorator } = this.props.form
+    const { history } = this.props
     return (
       <Layout>
+        {isLogin() && <Redirect to={this.state.nextPath} />}
         <div className="root-login">
           <Helmet>
             <title>KPI Login</title>
@@ -57,7 +78,7 @@ class NormalLoginForm extends React.Component {
                   })(
                     <Input
                       prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                      placeholder="johnys"
+                      placeholder="01.01.01.1001"
                     />
                   )}
                 </Form.Item>
@@ -82,7 +103,7 @@ class NormalLoginForm extends React.Component {
                   )}
                 </Form.Item>
                 <Col span={24}>
-                  <Button type="primary" htmlType="submit">
+                  <Button loading={this.props.data.loading} type="primary" htmlType="submit">
                   LOGIN
                   </Button>
                   <div
@@ -93,7 +114,12 @@ class NormalLoginForm extends React.Component {
                       margin: ' 15px 0px'
                     }}
                   >
-                    <a href="/">Forgot your password ?</a>
+                    <span
+                      onClick={() => history.push('/#forget')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Forgot your password ?
+                    </span>
                   </div>
                 </Col>
               </Form>
@@ -106,9 +132,10 @@ class NormalLoginForm extends React.Component {
 }
 
 NormalLoginForm.propTypes = {
-  loginMember: func,
-  isLogin: bool,
-  form: object
+  loginUser: func,
+  form: object,
+  history: object,
+  data: object
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
@@ -116,15 +143,13 @@ const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
 )
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
-    data: state.data_members,
-    isLogin: state.data_members.formSuccess
+    data: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  loginMember: form => dispatch(actions.loginMember(form))
+  loginUser: form => dispatch(actions.loginUser(form))
 })
 
 export default connect(

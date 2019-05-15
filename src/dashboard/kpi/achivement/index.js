@@ -58,7 +58,7 @@ function KpiCalculationPage () {
   ]
 
   const CheckboxGroup = Checkbox.Group
-  const filterOption = ['CRM', 'CPC', 'CTR']
+  const filterOption = [ 'CRM', 'CPC', 'CTR' ]
   const ColumnHeader = () => (
     <>
       <Row gutter={24} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 28 }}>

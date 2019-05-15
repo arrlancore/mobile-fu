@@ -6,24 +6,30 @@ import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
 import ImageIcon from 'components/image-icon'
 import MainMenu from './menu'
+import userData from 'utils/userData'
 import './style.css'
 
 const { Header } = Layout
 
 function handleMenuClick(e) {
   console.log('click', e)
+  if (e.key === '3' && window) {
+    window.localStorage.removeItem('isLogin')
+    window.location.reload()
+  }
 }
 
 const header = props => {
   const { user } = props
   const menu = (
-    <Menu mode="horizontal" onClick={handleMenuClick}>
+    <Menu onClick={handleMenuClick}>
       <Menu.Item key="1">My Profile</Menu.Item>
       <Menu.Item key="2">Setting</Menu.Item>
       <Menu.Item key="3">Logout</Menu.Item>
     </Menu>
   )
   const showBadge = true
+  const userProfile = userData() || {}
   return (
     <>
       <Header {...props} className="header-base header-font">
@@ -35,16 +41,16 @@ const header = props => {
           justify="center"
           style={{ height: '100%' }}
         >
-          <Col span={5}>
+          <Col xs={7} xl={5}>
             <Avatar
               src={user.imageProfile}
               size="large"
-              style={{ width: 72, height: 72, marginRight: 12 }}
+              className="header-avatar"
             />
             <div style={{ display: 'inline' }}>Hello, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
-                {user.firstName}
+                {userProfile.firstName}
                 <Icon
                   style={{
                     marginLeft: 14,
@@ -58,7 +64,8 @@ const header = props => {
             </Dropdown>
           </Col>
           <Col
-            span={7}
+            xs={5}
+            xl={7}
             style={{
               height: '100%',
               display: 'flex',
@@ -70,7 +77,7 @@ const header = props => {
             {showBadge && <Badge color="#DC5667" dot={true} />}
             <ImageIcon onClick={ () => { }} src={IconMessages} alt="Messages" />
           </Col>
-          <Col span={12}>
+          <Col xs={12} xl={12}>
             <MainMenu />
           </Col>
         </Row>

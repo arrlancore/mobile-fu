@@ -1,5 +1,7 @@
 import React from 'react'
-import { Route, BrowserRouter as Router } from 'react-router-dom'
+import { Switch, BrowserRouter, Route } from 'react-router-dom'
+import ProtectedRoute from './protectedRoute'
+// import Route from './routeWithProgress'
 
 import Login from 'dashboard/login'
 import Home from 'dashboard/home'
@@ -10,14 +12,16 @@ import NotFoundPage from 'dashboard/notfound'
 
 function ReactRouter() {
   return (
-    <Router>
-      <Route exact path="/" component={Login} />
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/kpi-calculation" component={KpiCalculation} />
-      <Route exact path="/kpi-achivement" component={KpiAchivement} />
-      <Route exact path="/administration" component={Administration} />
-      <Route component={NotFoundPage} />
-    </Router>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <ProtectedRoute exact path="/home" component={Home} />
+        <ProtectedRoute exact path="/kpi-calculation" component={KpiCalculation} />
+        <ProtectedRoute exact path="/kpi-achivement" component={KpiAchivement} />
+        <ProtectedRoute exact path="/administration" component={Administration} />
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
+    </BrowserRouter>
   )
 }
 

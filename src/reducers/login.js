@@ -3,16 +3,17 @@ import { updateObject } from 'utils/updateObject'
 
 const initialState = {
   loading: false,
-  formSuccess: false,
-  data: []
+  data: null,
+  error: null,
+  formError: null
 }
 
-const storeDataMember = (state, action) => updateObject(state, action.data)
+const storeDataUSer = (state, action) => updateObject(state, action.data)
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-  case actionTypes.DATA_MEMBER:
-    return storeDataMember(state, action)
+  case actionTypes.DATA_USER:
+    return storeDataUSer(state, action)
 
   default:
     return state
