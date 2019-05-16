@@ -27,11 +27,9 @@ export const loginUser = data => dispatch => {
         loading: false,
         data: data
       }
-      setTimeout(() => {
-        Cookies.set('user', JSON.stringify(data))
-        localStorage.setItem('isLogin', 'true')
-        dispatch(storeDataUser(dataSuccess))
-      }, 2000)
+      Cookies.set('user', JSON.stringify(data))
+      localStorage.setItem('isLogin', 'true')
+      dispatch(storeDataUser(dataSuccess))
     } else {
       let message = response.data && response.data.message
       const dataError = {

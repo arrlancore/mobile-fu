@@ -73,7 +73,7 @@ class NormalLoginForm extends React.Component {
                 <Form.Item>
                   {getFieldDecorator('userName', {
                     rules: [
-                      { required: true, message: 'Please input your username!' }
+                      { required: true, message: 'Please input your username!', max: 13 }
                     ]
                   })(
                     <Input

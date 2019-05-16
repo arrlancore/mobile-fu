@@ -28,7 +28,34 @@ function onSearch(val) {
   console.log('search:', val)
 }
 
+function getMonthByQuarter (quarter) {
+  if (!quarter) return null
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
+  const end = quarter * 3
+  const start = end - 3
+  return months.slice(start, end)
+}
+
 function KpiCalculationPage () {
+  const [ quarter, setQuarter ] = React.useState(0)
+  const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
+  const onStateChange = (set, value) => {
+    setQuarter(value)
+    setMonthByQuarter(getMonthByQuarter((value)))
+  }
   const listYear = [
     {
       name: 2019,
@@ -70,16 +97,17 @@ function KpiCalculationPage () {
             <Col span={6}>
               <Select
                 type="secondary"
+                devaultValue={quarter}
                 label="Year"
                 optionList={listYear}
                 showSearch
                 style={{ maxWidth: 300, width: '100%' }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={onChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
+                onChange={(e) => onStateChange('setYear', e)}
               />
             </Col>
             <Col span={6}>
@@ -91,7 +119,7 @@ function KpiCalculationPage () {
                 style={{ maxWidth: 300, width: '100%' }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={onChange}
+                onChange={(e) => onStateChange('setQuarter', e)}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
@@ -132,24 +160,28 @@ function KpiCalculationPage () {
         </div>
 
         <div className="section-row upload">
-          <Title bold level={3}>Upload File</Title>
-          <Row type="flex" justify="center" align="middle" gutter={16}>
-            <Col span={16} lg={24} xl={20} xxl={19}>
-              <UploadForm checkDefault={true} />
-              <UploadForm checkDefault={false} />
-              <UploadForm checkDefault={false} />
-            </Col>
-            <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
-              <div className="wrap-action-button">
-                <Button style={{ marginBottom: 64 }} type="secondary">
-                 Process File
-                </Button>
-                <Button type="secondary">
-                 Calculate KPI
-                </Button>
-              </div>
-            </Col>
-          </Row>
+          {monthByQuarter &&
+          <>
+            <Title bold level={3}>Upload File</Title>
+            <Row type="flex" justify="center" align="middle" gutter={16}>
+              <Col span={16} lg={24} xl={20} xxl={19}>
+                {monthByQuarter.map((month, i) => (
+                  <UploadForm key={i} month={month} checkDefault={false} />
+                ))}
+              </Col>
+              <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
+                <div className="wrap-action-button">
+                  <Button style={{ marginBottom: 64 }} type="secondary">
+                  Process File
+                  </Button>
+                  <Button type="secondary">
+                  Calculate KPI
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </>
+          }
         </div>
       </Content>
     </LayoutPage>
