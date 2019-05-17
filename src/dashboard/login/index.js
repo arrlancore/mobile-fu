@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Icon, Col, Row, message } from 'antd'
-import * as actions from 'actions/index'
+import * as actions from 'store/action'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { func, object } from 'prop-types'

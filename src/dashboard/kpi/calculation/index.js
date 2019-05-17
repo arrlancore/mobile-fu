@@ -28,8 +28,9 @@ function onSearch(val) {
   console.log('search:', val)
 }
 
-function getMonthByQuarter (quarter) {
-  if (!quarter) return null
+function getMonthByQuarter (quarter, year) {
+  if (!quarter || !year) return null
+  console.log('set months')
   const months = [
     'January',
     'February',
@@ -49,41 +50,46 @@ function getMonthByQuarter (quarter) {
   return months.slice(start, end)
 }
 
+const listYear = [
+  {
+    name: 2019,
+    value: 2019
+  },
+  {
+    name: 2018,
+    value: 2018
+  }
+]
+const listQuarter = [
+  {
+    name: 1,
+    value: 1
+  },
+  {
+    name: 2,
+    value: 2
+  },
+  {
+    name: 3,
+    value: 3
+  },
+  {
+    name: 4,
+    value: 4
+  }
+]
+
 function KpiCalculationPage () {
   const [ quarter, setQuarter ] = React.useState(0)
+  const [ year, setYear ] = React.useState(null)
   const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
-  const onStateChange = (set, value) => {
-    setQuarter(value)
-    setMonthByQuarter(getMonthByQuarter((value)))
+
+  const setMonths = () => {
+    if (quarter && year) {
+      setMonthByQuarter(getMonthByQuarter(quarter, year))
+    }
   }
-  const listYear = [
-    {
-      name: 2019,
-      value: 2019
-    },
-    {
-      name: 2018,
-      value: 2018
-    }
-  ]
-  const listQuarter = [
-    {
-      name: 1,
-      value: 1
-    },
-    {
-      name: 2,
-      value: 2
-    },
-    {
-      name: 3,
-      value: 3
-    },
-    {
-      name: 4,
-      value: 4
-    }
-  ]
+
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -107,7 +113,7 @@ function KpiCalculationPage () {
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
-                onChange={(e) => onStateChange('setYear', e)}
+                onChange={(e) => setYear(e)}
               />
             </Col>
             <Col span={6}>
@@ -119,7 +125,10 @@ function KpiCalculationPage () {
                 style={{ maxWidth: 300, width: '100%' }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={(e) => onStateChange('setQuarter', e)}
+                onChange={(e) => {
+                  setQuarter(e)
+                  setMonths()
+                }}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
