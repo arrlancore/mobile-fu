@@ -1,0 +1,17 @@
+.card--wrapper {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+
+.card_small {
+
+}
+
+
+.card_small--left .title_bottom {
+  font-size: 18px;
+  font-weight: 800;
+  color: #8288ac;
+}
