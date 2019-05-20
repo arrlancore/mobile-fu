@@ -8,21 +8,12 @@ import Immutable from 'seamless-immutable'
 import { actionTypes } from './action'
 // import { updateObject } from 'utils/updateObject'
 
-const initialState = Immutable({
-  loading: false,
-  data: null,
-  error: null,
-  formError: null
-})
-
-const storeDataUser = (state, action) => {
-  return { ...state, ...action.data }
-}
+const initialState = Immutable({ data: null })
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-  case actionTypes.DATA_USER:
-    return storeDataUser(state, action)
+  case actionTypes.LOGIN_SUCCESS:
+    return { ...state, data: action.data }
 
   default:
     return state

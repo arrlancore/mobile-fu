@@ -1,9 +1,11 @@
 import React from 'react'
 import { Form, Icon, Col, Row, message } from 'antd'
-import * as actions from 'store/action'
+import { actionLogin } from 'store/login/action'
+import { createLoadingSelector, createErrorSelector } from 'store/default/selector'
+// import { selectDataLogin } from 'store/login/selector'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { func, object } from 'prop-types'
+import { func, object, bool, string } from 'prop-types'
 import { isLogin } from 'utils/userData'
 import Logo from 'assets/image/logo/logo1x.png'
 import Helmet from 'components/helmet'
@@ -20,7 +22,6 @@ class NormalLoginForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         this.props.loginUser(values)
       }
     })
@@ -31,8 +32,8 @@ class NormalLoginForm extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data.error !== this.props.data.error) {
-      message.error(this.props.data.error)
+    if (this.props.error && prevProps.error !== this.props.error) {
+      message.error(this.props.error)
     }
   }
 
@@ -46,7 +47,7 @@ class NormalLoginForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { history } = this.props
+    const { history, loading } = this.props
     return (
       <Layout>
         {isLogin() && <Redirect to={this.state.nextPath} />}
@@ -103,7 +104,7 @@ class NormalLoginForm extends React.Component {
                   )}
                 </Form.Item>
                 <Col span={24}>
-                  <Button loading={this.props.data.loading} type="primary" htmlType="submit">
+                  <Button loading={loading} type="primary" htmlType="submit">
                   LOGIN
                   </Button>
                   <div
@@ -135,21 +136,27 @@ NormalLoginForm.propTypes = {
   loginUser: func,
   form: object,
   history: object,
-  data: object
+  loading: bool,
+  error: string
 }
 
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(
   NormalLoginForm
 )
 
+const loadingSelector = createLoadingSelector(['LOGIN'])
+const errorSelector = createErrorSelector(['LOGIN'])
+
 const mapStateToProps = state => {
   return {
-    data: state.user
+    // login: selectDataLogin(state),
+    loading: loadingSelector(state),
+    error: errorSelector(state)
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: form => dispatch(actions.loginUser(form))
+  loginUser: form => dispatch(actionLogin(form))
 })
 
 export default connect(

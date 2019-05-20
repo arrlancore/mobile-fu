@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux'
-import user from './login/reducer'
+import login from './login/reducer'
+import { loadingReducer, errorReducer } from './default/reducer'
 
 export default combineReducers({
-  user
+  loading: loadingReducer,
+  error: errorReducer,
+  login
 })

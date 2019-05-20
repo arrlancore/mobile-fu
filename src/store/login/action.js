@@ -1,11 +1,14 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import config from 'config'
+import { onActionFailure, onActionRequest } from 'store/default/action'
 
 // action type strings should be unique across reducers so namespace them with the reducer name
-const DATA_USER = 'DATA_USER'
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+const LOGIN_REQUEST = 'LOGIN_REQUEST'
+const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const actionTypes = {
-  DATA_USER
+  LOGIN_SUCCESS
 }
 
 // actions are where most of the business logic takes place
@@ -15,54 +18,28 @@ export const actionTypes = {
 //  sync thunks - when you have substantial business logic but it's not async
 //  plain object actions - when you just send a plain action to the reducer
 
-export const loginUser = data => dispatch => {
+export const actionLogin = data => async dispatch => {
   // Start
-  const dataStart = {
-    loading: true
-  }
-  dispatch(storeDataUser(dataStart))
-  axios({
-    url: 'login',
-    method: 'post',
-    baseURL: config.baseUrl,
-    data,
-    timeout: 10000
-  }).then(response => {
+  dispatch(onActionRequest(LOGIN_REQUEST))
+  const url = config.baseUrl + '/login'
+  try {
+    const response = await axios.post(url, data, { timeout: 10000 })
     if (response.data.status === 200 && response.status <= 201) {
       let { data } = response.data
       data.token = `Basic ${btoa(`${data.userName}:${data.password}`)}`
       data.password = undefined
       data.status = undefined
-      const dataSuccess = {
-        loading: false,
-        data: data
-      }
       Cookies.set('user', JSON.stringify(data))
       localStorage.setItem('isLogin', 'true')
-      dispatch(storeDataUser(dataSuccess))
+      dispatch({
+        type: LOGIN_SUCCESS,
+        data
+      })
     } else {
-      let message = response.data && response.data.message
-      const dataError = {
-        loading: false,
-        formError: true,
-        error: message || 'unknown error'
-      }
-      dispatch(storeDataUser(dataError))
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
     }
-  })
-    .catch(error => {
-      console.error(error)
-      const dataError = {
-        loading: false,
-        formError: true,
-        error: error.message
-      }
-
-      dispatch(storeDataUser(dataError))
-    })
+  } catch (error) {
+    dispatch(onActionFailure(error, LOGIN_FAILURE))
+  }
 }
-
-export const storeDataUser = data => ({
-  type: DATA_USER,
-  data
-})
