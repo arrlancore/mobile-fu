@@ -1,10 +1,20 @@
 import axios from 'axios'
-import * as actionTypes from './actionTypes'
 import Cookies from 'js-cookie'
 import config from 'config'
 
-/**
- */
+// action type strings should be unique across reducers so namespace them with the reducer name
+const DATA_USER = 'DATA_USER'
+export const actionTypes = {
+  DATA_USER
+}
+
+// actions are where most of the business logic takes place
+// they are dispatched by views or by other actions
+// there are 3 types of actions:
+//  async thunks - when doing asynchronous business logic like accessing a service
+//  sync thunks - when you have substantial business logic but it's not async
+//  plain object actions - when you just send a plain action to the reducer
+
 export const loginUser = data => dispatch => {
   // Start
   const dataStart = {
@@ -53,6 +63,6 @@ export const loginUser = data => dispatch => {
 }
 
 export const storeDataUser = data => ({
-  type: actionTypes.DATA_USER,
+  type: DATA_USER,
   data
 })
