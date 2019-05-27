@@ -1,5 +1,7 @@
 import React from 'react'
-import { Row, Col, Checkbox, Icon, Tooltip } from 'antd'
+import {
+  Row, Col, Checkbox, Icon, Tooltip
+} from 'antd'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
@@ -61,7 +63,9 @@ function KpiCalculationPage () {
   const filterOption = [ 'CRM', 'CPC', 'CTR' ]
   const ColumnHeader = () => (
     <>
-      <Row gutter={24} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 28 }}>
+      <Row gutter={24} style={{
+        display: 'flex', justifyContent: 'flex-end', marginBottom: 28
+      }}>
         <Button style={{ maxWidth: 300 }} type="secondary">
           Export
         </Button>
@@ -104,7 +108,9 @@ function KpiCalculationPage () {
       align: 'center',
       render: function scoreBar(score) {
         return (
-          <div style={{ width: '100%', display: 'block', background: '#E2E2E4', position: 'relative' }}>
+          <div style={{
+            width: '100%', display: 'block', background: '#E2E2E4', position: 'relative'
+          }}>
             <span style={{
               height: '100%',
               width: `${score * 10}%`,
@@ -134,7 +140,9 @@ function KpiCalculationPage () {
                 label="Year"
                 optionList={listYear}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onChange}
@@ -149,7 +157,9 @@ function KpiCalculationPage () {
                 label="Quarter"
                 optionList={listQuarter}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onChange}
@@ -164,7 +174,9 @@ function KpiCalculationPage () {
                 label="Team"
                 optionList={listYear}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onChange}
@@ -179,7 +191,9 @@ function KpiCalculationPage () {
                 label="Group"
                 optionList={listQuarter}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onChange}

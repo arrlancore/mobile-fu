@@ -1,5 +1,7 @@
 import React from 'react'
-import { Switch, BrowserRouter, Route } from 'react-router-dom'
+import {
+  Switch, BrowserRouter, Route
+} from 'react-router-dom'
 import ProtectedRoute from './protectedRoute'
 // import Route from './routeWithProgress'
 

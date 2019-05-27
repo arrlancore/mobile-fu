@@ -1,6 +1,8 @@
-import {userReducer} from './user/reducer'
-import {kpiCalculationReducer} from './kpi/reducer'
-import {errorReducer, loadingReducer} from './default/reducer'
+import { userReducer } from './user/reducer'
+import { kpiCalculationReducer } from './kpi/reducer'
+import {
+  errorReducer, loadingReducer
+} from './default/reducer'
 
 const combineReducers = reducer => {
   return (state = {}, action) => {

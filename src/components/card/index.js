@@ -1,9 +1,13 @@
 import React from 'react'
 import { Card } from 'antd'
-import { node, string } from 'prop-types'
+import {
+  node, string
+} from 'prop-types'
 
 
-const index = ({children, title}) => {
+const index = ({
+  children, title
+}) => {
   return (
     <Card title={title}>
       {children}

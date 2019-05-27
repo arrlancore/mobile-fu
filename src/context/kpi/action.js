@@ -6,9 +6,7 @@ import getUser from 'utils/userData'
 const PROCESS_FILE_SUCCESS = 'PROCESS_FILE_SUCCESS'
 const PROCESS_FILE_REQUEST = 'PROCESS_FILE_REQUEST'
 const PROCESS_FILE_FAILURE = 'PROCESS_FILE_FAILURE'
-export const actionTypes = {
-  PROCESS_FILE_SUCCESS
-}
+export const actionTypes = { PROCESS_FILE_SUCCESS }
 
 // actions are where most of the business logic takes place
 // they are dispatched by views or by other actions
@@ -19,18 +17,14 @@ export const actionTypes = {
 
 export const actionProcessFile = async (dispatch, data) => {
   // Start
-  dispatch({
-    type: PROCESS_FILE_REQUEST
-  })
+  dispatch({ type: PROCESS_FILE_REQUEST })
   const user = getUser()
   const url = config.baseUrl + '/googledocs/error'
   console.log('TCL: user', user.token)
   try {
     const response = await axios.post(url, data, {
       timeout: 10000,
-      headers: {
-        'Authorization' : user.token
-      }
+      headers: { 'Authorization' : user.token }
     })
     if (response.data.status === 200 && response.status <= 201) {
       let { data } = response.data

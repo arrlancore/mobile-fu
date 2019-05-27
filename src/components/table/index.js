@@ -1,5 +1,7 @@
 import React from 'react'
-import { array, any } from 'prop-types'
+import {
+  array, any
+} from 'prop-types'
 import { Table } from 'antd'
 import './style.css'
 
@@ -11,7 +13,9 @@ const toCapitalize = (text) => {
     ''
 }
 
-function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
+function MainTable ({
+  data, excludeColumns, columnProperty, ...rest
+}) {
   const getColumn = (arr) => {
     const conditions = columnProperty
     const titles = Object.keys(arr[0]).filter(title => excludeColumns.includes(title) === false)
@@ -24,7 +28,9 @@ function MainTable ({ data, excludeColumns, columnProperty, ...rest}) {
       for (let i = 0; i < conditions.length; i++) {
         let condition = conditions[i]
         if (condition.dataIndex === title) {
-          column = { ...column, ...condition }
+          column = {
+            ...column, ...condition
+          }
         }
       }
       return column

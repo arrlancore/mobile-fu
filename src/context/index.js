@@ -1,8 +1,14 @@
-import React, {useContext, useState, useReducer, useEffect} from 'react'
-import {node, func} from 'prop-types'
+import React, {
+  useContext, useState, useReducer, useEffect
+} from 'react'
+import {
+  node, func
+} from 'prop-types'
 import Context from './Context'
 
-export const Provider = ({ children, reducer }) => {
+export const Provider = ({
+  children, reducer
+}) => {
   const [ store, dispatch ] = useReducer(reducer)
   const [ state, setState ] = useState({ isLoaded: false })
   useEffect(() => {
@@ -10,7 +16,9 @@ export const Provider = ({ children, reducer }) => {
     setState({ isLoaded: true })
   }, [])
   return (
-    <Context.Provider value={{ dispatch, store }}>
+    <Context.Provider value={{
+      dispatch, store
+    }}>
       {state.isLoaded ? children : false}
     </Context.Provider>
   )
@@ -26,7 +34,9 @@ Provider.propTypes = {
  * if key provided it'll return only property required
  */
 export const useStateValue = (key) => {
-  const {store, dispatch} = useContext(Context)
+  const {
+    store, dispatch
+  } = useContext(Context)
   return key ? [ store[key] || {}, dispatch ] : [ store, dispatch ]
 }
 
@@ -35,8 +45,12 @@ export const useStateValue = (key) => {
  * @param {string} key is required
  */
 export const useStateDefault = (key) => {
-  const { store, dispatch } = useContext(Context)
-  const { error, loading } = store
+  const {
+    store, dispatch
+  } = useContext(Context)
+  const {
+    error, loading
+  } = store
   return [
     error[key],
     loading[key],

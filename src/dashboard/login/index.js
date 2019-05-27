@@ -1,8 +1,12 @@
 import React from 'react'
-import { Form, Icon, Col, Row, message } from 'antd'
+import {
+  Form, Icon, Col, Row, message
+} from 'antd'
 import { actionLogin } from 'context/user/action'
 import { Redirect } from 'react-router-dom'
-import { func, object } from 'prop-types'
+import {
+  func, object
+} from 'prop-types'
 import { isLogin } from 'utils/userData'
 import usePrevious from 'utils/usePrevious'
 import Logo from 'assets/image/logo/logo1x.png'
@@ -71,11 +75,11 @@ function LoginPage(props) {
                 Username
               </label>
               <Form.Item>
-                {getFieldDecorator('userName', {
-                  rules: [
-                    { required: true, message: 'Please input your username!', max: 13 }
-                  ]
-                })(
+                {getFieldDecorator('userName', { rules: [
+                  {
+                    required: true, message: 'Please input your username!', max: 13
+                  }
+                ] })(
                   <Input
                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     placeholder="01.01.01.1001"
@@ -89,11 +93,11 @@ function LoginPage(props) {
                 Password
               </label>
               <Form.Item>
-                {getFieldDecorator('password', {
-                  rules: [
-                    { required: true, message: 'Please input your Password!' }
-                  ]
-                })(
+                {getFieldDecorator('password', { rules: [
+                  {
+                    required: true, message: 'Please input your Password!'
+                  }
+                ] })(
                   <Input
                     prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     type="password"

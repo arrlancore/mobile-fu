@@ -1,18 +1,26 @@
 import React from 'react'
-import { string, object } from 'prop-types'
+import {
+  string, object
+} from 'prop-types'
 import { Input } from 'antd'
 import './style.css'
 
 class InputText extends React.Component{
   render() {
-    const { type, label, style } = this.props
+    const {
+      type, label, style
+    } = this.props
     const primary = type === 'primary'
     const color = primary ? '#D5D6DB' : '#2699FB'
     return (
-      <div style={{...style, display: 'inline'}}>
+      <div style={{
+        ...style, display: 'inline'
+      }}>
         {label && <label
           htmlFor={`select ${label}`}
-          style={{ display: 'block', color: color, fontWeight: 'bold', ...style }}
+          style={{
+            display: 'block', color: color, fontWeight: 'bold', ...style
+          }}
         >
           {label}
         </label>}
@@ -25,6 +33,8 @@ class InputText extends React.Component{
   }
 }
 
-InputText.propTypes = { type: string, label: string, style: object }
+InputText.propTypes = {
+  type: string, label: string, style: object
+}
 
 export default InputText

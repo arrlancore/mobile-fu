@@ -1,19 +1,25 @@
 import React from 'react'
-import { array, string } from 'prop-types'
+import {
+  array, string
+} from 'prop-types'
 import './style.css'
 
 import { Select } from 'antd'
 
 const Option = Select.Option
 
-function select ({ optionList, type, label, ...rest }) {
+function select ({
+  optionList, type, label, ...rest
+}) {
   const primary = type === 'primary'
   const color = primary ? '#D5D6DB' : '#2699FB'
   return (
     <>
       <label
         htmlFor={`select ${label}`}
-        style={{ display: 'block', color: color, fontWeight: 'bold' }}
+        style={{
+          display: 'block', color: color, fontWeight: 'bold'
+        }}
       >
         {label}
       </label>
@@ -30,7 +36,11 @@ function select ({ optionList, type, label, ...rest }) {
   )
 }
 
-select.propTypes = { optionList: array, label:string, type: string }
-select.defaultProps = { optionList: [{ value: 1, name: 'Choose me please' }] }
+select.propTypes = {
+  optionList: array, label:string, type: string
+}
+select.defaultProps = { optionList: [{
+  value: 1, name: 'Choose me please'
+}] }
 
 export default select

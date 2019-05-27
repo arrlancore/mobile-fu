@@ -5,8 +5,6 @@ import { node } from 'prop-types'
 function Head({ children }) {
   return <Helmet> {children} </Helmet>
 }
-Head.propTypes = {
-  children: node
-}
+Head.propTypes = { children: node }
 
 export default Head

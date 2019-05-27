@@ -1,10 +1,14 @@
 import React from 'react'
-import { Card, Row, Col } from 'antd'
+import {
+  Card, Row, Col
+} from 'antd'
 import './style.css'
 import { string } from 'prop-types'
 
 
-const small = ({icon, link, name}) => {
+const small = ({
+  icon, link, name
+}) => {
   return (
     <Card
       className="card_small"

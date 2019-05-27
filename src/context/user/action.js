@@ -11,14 +11,14 @@ export const actionTypes = {
 export const actionLogin = async (dispatch, data) => {
   // Start
   const url = config.baseUrl + '/login'
-  dispatch({
-    type: actionTypes.USER_LOGIN_REQUEST
-  })
+  dispatch({ type: actionTypes.USER_LOGIN_REQUEST })
   try {
     const response = await axios.post(url, data, { timeout: 10000 })
     if (response.data.status === 200 && response.status <= 201) {
       let { data } = response.data
-      data.token = `Basic ${btoa(`${data.userName}:${data.password}`)}`
+      console.log('TCL: actionLogin -> data', data)
+      data.token = 'Basic ' + btoa(data.userName + ':' + data.userName)
+      console.log('TCL: actionLogin -> data.password', data.password)
       data.password = undefined
       data.status = undefined
       Cookies.set('user', JSON.stringify(data))

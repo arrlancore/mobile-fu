@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { Row, Col } from 'antd'
+import {
+  Row, Col
+} from 'antd'
 
 import LayoutPage from 'components/layout'
 import Helmet from 'components/helmet'
@@ -35,7 +37,9 @@ const mapping = () => {
       align: 'center',
       render: function scoreBar(score) {
         return (
-          <div style={{ width: '100%', display: 'block', background: '#E2E2E4', position: 'relative' }}>
+          <div style={{
+            width: '100%', display: 'block', background: '#E2E2E4', position: 'relative'
+          }}>
             <span style={{
               height: '100%',
               width: `${score * 10}%`,
@@ -63,7 +67,9 @@ const mapping = () => {
               type="secondary"
               label="Team"
               showSearch
-              style={{ maxWidth: 300, width: '100%' }}
+              style={{
+                maxWidth: 300, width: '100%'
+              }}
               placeholder="select"
               optionFilterProp="children"
             />
@@ -73,7 +79,9 @@ const mapping = () => {
               type="secondary"
               label="Group"
               showSearch
-              style={{ maxWidth: 300, width: '100%' }}
+              style={{
+                maxWidth: 300, width: '100%'
+              }}
               placeholder="select"
               optionFilterProp="children"
             />
@@ -83,7 +91,9 @@ const mapping = () => {
               type="secondary"
               label="Position"
               showSearch
-              style={{ maxWidth: 300, width: '100%' }}
+              style={{
+                maxWidth: 300, width: '100%'
+              }}
               placeholder="select"
               optionFilterProp="children"
             />
@@ -93,7 +103,9 @@ const mapping = () => {
               type="secondary"
               label="Name"
               showSearch
-              style={{ maxWidth: 300, width: '100%' }}
+              style={{
+                maxWidth: 300, width: '100%'
+              }}
               placeholder="select"
               optionFilterProp="children"
             />
@@ -114,7 +126,9 @@ const mapping = () => {
           </Row>
         </div>
         {/* <div className="section-row mapping-button"> */}
-        <div className="section-row mapping-button" style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <div className="section-row mapping-button" style={{
+          display: 'flex', justifyContent: 'flex-end'
+        }}>
           {/* <Row type="flex" justify="end">
             <Col> */}
           <Link to="/create-mapping">

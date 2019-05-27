@@ -35,7 +35,7 @@
   "rules": {
     "no-console": "off",
     "max-len": [
-      1,
+      2,
       120,
       2,
       {
@@ -131,6 +131,8 @@
     "no-trailing-spaces": "error",
     "eol-last": ["error", "always"],
     "array-bracket-spacing": ["error", "always", { "singleValue": false }],
+    "object-curly-spacing": ["error", "always", { "arraysInObjects": true }],
+    "curly": ["error", "multi-line"],
     "no-restricted-properties": ["error", {
       "object": "arguments",
       "property": "callee",

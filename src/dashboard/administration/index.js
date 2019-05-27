@@ -1,7 +1,11 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import {
+  Row, Col
+} from 'antd'
 
-import { RadialBarChart, RadialBar, Legend } from 'recharts'
+import {
+  RadialBarChart, RadialBar, Legend
+} from 'recharts'
 
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
@@ -52,7 +56,7 @@ class AdministrationPage extends React.Component {
           <Row gutter={24}>
             <Col span={16}>
               <Title level={4}>Master Data </Title>
-              <Row gutter={128} style={{marginBottom: 24}}>
+              <Row gutter={128} style={{ marginBottom: 24 }}>
                 <Col span={8}>
                   <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
                 </Col>
@@ -63,7 +67,7 @@ class AdministrationPage extends React.Component {
                   <CardSmall icon={require('assets/icon/heart.png')} name="Module" />
                 </Col>
               </Row>
-              <Row gutter={128} style={{marginBottom: 24}}>
+              <Row gutter={128} style={{ marginBottom: 24 }}>
                 <Col span={8}>
                   <CardSmall icon={require('assets/icon/pill.png')} name="User has Role" />
                 </Col>
@@ -74,7 +78,7 @@ class AdministrationPage extends React.Component {
                   <CardSmall icon={require('assets/icon/dollar.png')} name="Other"/>
                 </Col>
               </Row>
-              <Row gutter={128} style={{marginBottom: 24}}>
+              <Row gutter={128} style={{ marginBottom: 24 }}>
                 <Col span={8}>
                   <CardSmall icon={require('assets/icon/scissor.png')} name="Other"/>
                 </Col>
@@ -105,7 +109,9 @@ class AdministrationPage extends React.Component {
                     >
                       <RadialBar
                         minAngle={15}
-                        label={{ position: 'insideStart', fill: '#fff' }}
+                        label={{
+                          position: 'insideStart', fill: '#fff'
+                        }}
                         background clockWise dataKey="uv"
                       />
                       <Legend
@@ -122,7 +128,9 @@ class AdministrationPage extends React.Component {
                 <hr />
                 <div style={wrapper}>
                   <h2>Quarter Budget</h2>
-                  <h2 style={{color: '#4AD991', fontWeight: 'bold'}}>$35,604.00</h2>
+                  <h2 style={{
+                    color: '#4AD991', fontWeight: 'bold'
+                  }}>$35,604.00</h2>
                 </div>
               </Card>
             </Col>
@@ -145,7 +153,9 @@ class AdministrationPage extends React.Component {
                     >
                       <RadialBar
                         minAngle={15}
-                        label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv"
+                        label={{
+                          position: 'insideStart', fill: '#fff'
+                        }} background clockWise dataKey="uv"
                       />
                       <Legend
                         iconSize={10}
@@ -170,7 +180,9 @@ class AdministrationPage extends React.Component {
                     >
                       <RadialBar
                         minAngle={15}
-                        label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv"
+                        label={{
+                          position: 'insideStart', fill: '#fff'
+                        }} background clockWise dataKey="uv"
                       />
                       <Legend
                         iconSize={10}

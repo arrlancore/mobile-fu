@@ -13,7 +13,9 @@ const initialState = Immutable({ data: null })
 export const kpiCalculationReducer = (state = initialState, action) => {
   switch (action.type) {
   case actionTypes.PROCESS_FILE_SUCCESS:
-    return { ...state, data: action.data }
+    return {
+      ...state, data: action.data
+    }
 
   default:
     return state

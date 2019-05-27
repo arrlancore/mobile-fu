@@ -18,7 +18,9 @@ export const loadingReducer = (state = Immutable({}), action) => {
 }
 
 export const errorReducer = (state = Immutable({}), action) => {
-  const { type, error } = action
+  const {
+    type, error
+  } = action
   const matches = /(.*)_(REQUEST|FAILURE)/.exec(type)
 
   // not a *_REQUEST / *_FAILURE actions, so we ignore them

@@ -1,5 +1,7 @@
 import React from 'react'
-import { Typography, Icon } from 'antd'
+import {
+  Typography, Icon
+} from 'antd'
 import Helmet from 'components/helmet'
 
 import './style.css'

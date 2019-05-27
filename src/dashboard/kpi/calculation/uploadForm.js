@@ -1,12 +1,18 @@
-import { Col, Upload } from 'antd'
+import {
+  Col, Upload
+} from 'antd'
 import React from 'react'
-import { bool, string, func } from 'prop-types'
+import {
+  bool, string, func
+} from 'prop-types'
 import LargeCheckbox from 'components/checkbox/large'
 import Input from 'components/input'
 import Button from 'components/button'
 
 
-function UploadForm ({ checkDefault, month, onReceiveFile }) {
+function UploadForm ({
+  checkDefault, month, onReceiveFile
+}) {
   const [ checked, setChecked ] = React.useState(checkDefault)
   const [ fileName, setFileName ] = React.useState('')
   const [ originFileName, setOriginFileName ] = React.useState('')
@@ -16,7 +22,9 @@ function UploadForm ({ checkDefault, month, onReceiveFile }) {
   const onFileSelected = ({ file }) => {
     setOriginFileName(file.name)
     setChecked(!checked)
-    onReceiveFile({file, month})
+    onReceiveFile({
+      file, month
+    })
     var reader = new window.FileReader()
     reader.readAsDataURL(file)
     reader.onload = (...args) => {
@@ -38,7 +46,9 @@ function UploadForm ({ checkDefault, month, onReceiveFile }) {
       <Col span={10} lg={13} xl={13} xxl={10}>
         <Input
           placeholder="File_Example.xlsx"
-          style={{ maxWidth: 300, width: '100%' }}
+          style={{
+            maxWidth: 300, width: '100%'
+          }}
           label="Formatted File Name"
           type="secondary"
           value={fileName}
@@ -54,10 +64,14 @@ function UploadForm ({ checkDefault, month, onReceiveFile }) {
           </Button>
         </Upload>
       </Col>
-      <Col span={9} lg={9} xl={7} xxl={9} style={{ marginLeft: 26, display: 'flex', alignItems: 'center' }}>
+      <Col span={9} lg={9} xl={7} xxl={9} style={{
+        marginLeft: 26, display: 'flex', alignItems: 'center'
+      }}>
         <Input
           placeholder="File_Example.xlsx"
-          style={{ maxWidth: 300, width: '100%' }}
+          style={{
+            maxWidth: 300, width: '100%'
+          }}
           label={`Origin File Name (${month})`}
           type="secondary"
           value={originFileName}

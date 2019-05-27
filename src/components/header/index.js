@@ -1,6 +1,10 @@
 import React from 'react'
-import { node, object } from 'prop-types'
-import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge } from 'antd'
+import {
+  node, object
+} from 'prop-types'
+import {
+  Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge
+} from 'antd'
 import PhotoTemp from 'assets/image/temp/Photo.png'
 import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
@@ -87,9 +91,11 @@ const header = props => {
   )
 }
 
-header.propTypes = { children: node, user: object }
-header.defaultProps = {
-  user: { firstName: 'Jaine', imageProfile: PhotoTemp }
+header.propTypes = {
+  children: node, user: object
 }
+header.defaultProps = { user: {
+  firstName: 'Jaine', imageProfile: PhotoTemp
+} }
 
 export default header

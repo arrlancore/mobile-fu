@@ -1,5 +1,7 @@
 import React from 'react'
-import { Row, Col, message } from 'antd'
+import {
+  Row, Col, message
+} from 'antd'
 import { actionProcessFile } from 'context/kpi/action'
 import { useStateDefault } from 'context'
 
@@ -111,7 +113,7 @@ function KpiCalculationPage ({ processFileUpload }) {
   const onProcessFile = () => {
     const payload = {
       docId: 1,
-      errorFiles: fileList[0].file,
+      errorFiles: [fileList[0].file],
       groupId: 2,
       month: 'January',
       quarter: quarter,
@@ -142,7 +144,9 @@ function KpiCalculationPage ({ processFileUpload }) {
                 label="Year"
                 optionList={listYear}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onFocus={onFocus}
@@ -157,7 +161,9 @@ function KpiCalculationPage ({ processFileUpload }) {
                 label="Quarter"
                 optionList={listQuarter}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onQuarterChange}
@@ -172,7 +178,9 @@ function KpiCalculationPage ({ processFileUpload }) {
                 label="Group"
                 optionList={listQuarter}
                 showSearch
-                style={{ maxWidth: 300, width: '100%' }}
+                style={{
+                  maxWidth: 300, width: '100%'
+                }}
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={onChange}
@@ -185,13 +193,17 @@ function KpiCalculationPage ({ processFileUpload }) {
               <div style={{ marginLeft: '14%' }}>
                 <Input
                   value="Uploaded"
-                  style={{ maxWidth: 300, width: '100%' }}
+                  style={{
+                    maxWidth: 300, width: '100%'
+                  }}
                   label="Status Uploaded"
                   type="secondary"
                 />
                 <Input
                   value="Not calculated yet"
-                  style={{ maxWidth: 300, width: '100%' }}
+                  style={{
+                    maxWidth: 300, width: '100%'
+                  }}
                   label="Status Calculated"
                   type="secondary"
                 />
@@ -207,7 +219,13 @@ function KpiCalculationPage ({ processFileUpload }) {
             <Row type="flex" justify="center" align="middle" gutter={16}>
               <Col span={16} lg={24} xl={20} xxl={19}>
                 {monthByQuarter.map((month, i) => (
-                  <UploadForm loading={uploadLoading} key={i} onReceiveFile={onReceiveFile} month={month} checkDefault={false} />
+                  <UploadForm
+                    loading={uploadLoading}
+                    key={i}
+                    onReceiveFile={onReceiveFile}
+                    month={month}
+                    checkDefault={false}
+                  />
                 ))}
               </Col>
               <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
@@ -220,6 +238,9 @@ function KpiCalculationPage ({ processFileUpload }) {
                   </Button>
                 </div>
               </Col>
+              <form encType="multipart/form-data" action="/upload/image" method="post">
+                <input id="image-file" type="file" />
+              </form>
             </Row>
           </>
           }
