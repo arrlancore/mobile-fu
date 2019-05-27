@@ -54,35 +54,35 @@ class AdministrationPage extends React.Component {
               <Title level={4}>Master Data </Title>
               <Row gutter={128} style={{marginBottom: 24}}>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/Intersection.png')}/>
+                  <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
                 </Col>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/injection.png')}/>
+                  <CardSmall icon={require('assets/icon/injection.png')} name="Role"/>
                 </Col>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/heart.png')}/>
-                </Col>
-              </Row>
-              <Row gutter={128} style={{marginBottom: 24}}>
-                <Col span={8}>
-                  <CardSmall icon={require('assets/icon/pill.png')}/>
-                </Col>
-                <Col span={8}>
-                  <CardSmall icon={require('assets/icon/balloon.png')}/>
-                </Col>
-                <Col span={8}>
-                  <CardSmall icon={require('assets/icon/dollar.png')}/>
+                  <CardSmall icon={require('assets/icon/heart.png')} name="Module" />
                 </Col>
               </Row>
               <Row gutter={128} style={{marginBottom: 24}}>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/scissor.png')}/>
+                  <CardSmall icon={require('assets/icon/pill.png')} name="User has Role" />
                 </Col>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/feet.png')}/>
+                  <CardSmall icon={require('assets/icon/balloon.png')} name="Role Has Module" />
                 </Col>
                 <Col span={8}>
-                  <CardSmall icon={require('assets/icon/rip.png')}/>
+                  <CardSmall icon={require('assets/icon/dollar.png')} name="Other"/>
+                </Col>
+              </Row>
+              <Row gutter={128} style={{marginBottom: 24}}>
+                <Col span={8}>
+                  <CardSmall icon={require('assets/icon/scissor.png')} name="Other"/>
+                </Col>
+                <Col span={8}>
+                  <CardSmall icon={require('assets/icon/feet.png')} name="Other"/>
+                </Col>
+                <Col span={8}>
+                  <CardSmall icon={require('assets/icon/rip.png')} name="Other"/>
                 </Col>
               </Row>
             </Col>
@@ -93,9 +93,29 @@ class AdministrationPage extends React.Component {
                 <hr />
                 <Row>
                   <Col span={12}>
-                    <RadialBarChart width={500} height={300} cx={150} cy={150} innerRadius={20} outerRadius={140} barSize={5} data={data}>
-                      <RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv" />
-                      <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+                    <RadialBarChart
+                      width={500}
+                      height={300}
+                      cx={150}
+                      cy={150}
+                      innerRadius={20}
+                      outerRadius={140}
+                      barSize={5}
+                      data={data}
+                    >
+                      <RadialBar
+                        minAngle={15}
+                        label={{ position: 'insideStart', fill: '#fff' }}
+                        background clockWise dataKey="uv"
+                      />
+                      <Legend
+                        iconSize={10}
+                        width={120}
+                        height={140}
+                        layout="vertical"
+                        verticalAlign="middle"
+                        wrapperStyle={style}
+                      />
                     </RadialBarChart>
                   </Col>
                 </Row>
@@ -113,15 +133,53 @@ class AdministrationPage extends React.Component {
               <Card>
                 <Row>
                   <Col span={12}>
-                    <RadialBarChart width={500} height={300} cx={150} cy={150} innerRadius={20} outerRadius={140} barSize={5} data={data}>
-                      <RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv" />
-                      <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+                    <RadialBarChart
+                      width={500}
+                      height={300}
+                      cx={150}
+                      cy={150}
+                      innerRadius={20}
+                      outerRadius={140}
+                      barSize={5}
+                      data={data}
+                    >
+                      <RadialBar
+                        minAngle={15}
+                        label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv"
+                      />
+                      <Legend
+                        iconSize={10}
+                        width={120}
+                        height={140}
+                        layout="vertical"
+                        verticalAlign="middle"
+                        wrapperStyle={style}
+                      />
                     </RadialBarChart>
                   </Col>
                   <Col span={12}>
-                    <RadialBarChart width={500} height={300} cx={150} cy={150} innerRadius={20} outerRadius={140} barSize={5} data={data}>
-                      <RadialBar minAngle={15} label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv" />
-                      <Legend iconSize={10} width={120} height={140} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+                    <RadialBarChart
+                      width={500}
+                      height={300}
+                      cx={150}
+                      cy={150}
+                      innerRadius={20}
+                      outerRadius={140}
+                      barSize={5}
+                      data={data}
+                    >
+                      <RadialBar
+                        minAngle={15}
+                        label={{ position: 'insideStart', fill: '#fff' }} background clockWise dataKey="uv"
+                      />
+                      <Legend
+                        iconSize={10}
+                        width={120}
+                        height={140}
+                        layout="vertical"
+                        verticalAlign="middle"
+                        wrapperStyle={style}
+                      />
                     </RadialBarChart>
                   </Col>
                 </Row>

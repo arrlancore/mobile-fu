@@ -1,9 +1,10 @@
 import React from 'react'
 import { Card, Row, Col } from 'antd'
 import './style.css'
+import { string } from 'prop-types'
 
 
-const index = ({icon, link}) => {
+const small = ({icon, link, name}) => {
   return (
     <Card
       className="card_small"
@@ -13,15 +14,12 @@ const index = ({icon, link}) => {
         <Col span={18}>
           <div className="card_small--left">
             <p>Manage</p>
-            <a className="title_bottom" href={link}>User</a>
+            <a className="title_bottom" href={link}>{name}</a>
           </div>
         </Col>
         <Col span={6}>
           <div className="card_small--right">
-
             { icon ? <img src={icon} alt="icon"></img> : ''}
-
-
           </div>
         </Col>
       </Row>
@@ -29,5 +27,11 @@ const index = ({icon, link}) => {
   )
 }
 
+small.propTypes = {
+  icon: string,
+  link: string,
+  name: string
+}
 
-export default index
+
+export default small

@@ -22,6 +22,10 @@ function MainMenu() {
         {
           name: 'KPI Achivement',
           path: '/kpi-achivement'
+        },
+        {
+          name: 'Mapping',
+          path: '/mapping'
         }
       ]
     },
