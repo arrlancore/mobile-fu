@@ -1,15 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import configureStore from './store'
+import reducers from 'context/reducers'
+import {Provider} from 'context'
 import './index.css'
 import App from 'dashboard/app'
 import * as serviceWorker from './serviceWorker'
 
-ReactDOM.render(
-  <Provider store={configureStore()}>
+
+const Root = () => (
+  <Provider reducer={reducers}>
     <App />
-  </Provider>,
+  </Provider>
+)
+
+ReactDOM.render(
+  <Root />,
   document.getElementById('root')
 )
 serviceWorker.unregister()

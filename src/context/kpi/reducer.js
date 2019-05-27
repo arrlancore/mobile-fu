@@ -10,14 +10,12 @@ import { actionTypes } from './action'
 
 const initialState = Immutable({ data: null })
 
-const reducer = (state = initialState, action) => {
+export const kpiCalculationReducer = (state = initialState, action) => {
   switch (action.type) {
-  case actionTypes.LOGIN_SUCCESS:
+  case actionTypes.PROCESS_FILE_SUCCESS:
     return { ...state, data: action.data }
 
   default:
     return state
   }
 }
-
-export default reducer

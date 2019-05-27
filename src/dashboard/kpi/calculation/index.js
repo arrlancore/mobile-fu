@@ -1,5 +1,8 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, message } from 'antd'
+import { actionProcessFile } from 'context/kpi/action'
+import { useStateDefault } from 'context'
+
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
@@ -8,6 +11,7 @@ import Input from 'components/input'
 import Button from 'components/button'
 import Title from 'components/text/title'
 import UploadForm from './uploadForm'
+import usePrevious from 'utils/usePrevious'
 
 import './style.css'
 
@@ -30,7 +34,6 @@ function onSearch(val) {
 
 function getMonthByQuarter (quarter, year) {
   if (!quarter || !year) return null
-  console.log('set months')
   const months = [
     'January',
     'February',
@@ -79,15 +82,47 @@ const listQuarter = [
   }
 ]
 
-function KpiCalculationPage () {
+function KpiCalculationPage ({ processFileUpload }) {
+  console.log('TCL: KpiCalculationPage -> processFileUpload', processFileUpload)
   const [ quarter, setQuarter ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
+  const [ fileList, setFileList ] = React.useState([])
   const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
-
-  const setMonths = () => {
-    if (quarter && year) {
-      setMonthByQuarter(getMonthByQuarter(quarter, year))
+  const [ uploadError, uploadLoading, dispatch ] = useStateDefault('PROCESS_FILE')
+  const prevError = usePrevious(uploadError)
+  React.useEffect(() => {
+    if (uploadError && uploadError !== prevError) {
+      message.error(uploadError)
     }
+  })
+
+  const onYearChange = setYear
+
+  const onQuarterChange = (quarter) => {
+    setQuarter(quarter)
+    setMonths(year, quarter)
+  }
+
+  const setMonths = (year, quarter) => {
+    const months = getMonthByQuarter(quarter, year)
+    setMonthByQuarter(months)
+  }
+
+  const onProcessFile = () => {
+    const payload = {
+      docId: 1,
+      errorFiles: fileList[0].file,
+      groupId: 2,
+      month: 'January',
+      quarter: quarter,
+      year: year
+    }
+    actionProcessFile(dispatch, payload)
+  }
+
+  const onReceiveFile = (file) => {
+    let files = [ ...fileList, file ]
+    setFileList(files)
   }
 
   return (
@@ -113,7 +148,7 @@ function KpiCalculationPage () {
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
-                onChange={(e) => setYear(e)}
+                onChange={onYearChange}
               />
             </Col>
             <Col span={6}>
@@ -125,10 +160,7 @@ function KpiCalculationPage () {
                 style={{ maxWidth: 300, width: '100%' }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={(e) => {
-                  setQuarter(e)
-                  setMonths()
-                }}
+                onChange={onQuarterChange}
                 onFocus={onFocus}
                 onBlur={onBlur}
                 onSearch={onSearch}
@@ -175,12 +207,12 @@ function KpiCalculationPage () {
             <Row type="flex" justify="center" align="middle" gutter={16}>
               <Col span={16} lg={24} xl={20} xxl={19}>
                 {monthByQuarter.map((month, i) => (
-                  <UploadForm key={i} month={month} checkDefault={false} />
+                  <UploadForm loading={uploadLoading} key={i} onReceiveFile={onReceiveFile} month={month} checkDefault={false} />
                 ))}
               </Col>
               <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
                 <div className="wrap-action-button">
-                  <Button style={{ marginBottom: 64 }} type="secondary">
+                  <Button onClick={onProcessFile} style={{ marginBottom: 64 }} type="secondary">
                   Process File
                   </Button>
                   <Button type="secondary">

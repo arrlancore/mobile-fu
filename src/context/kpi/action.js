@@ -1,14 +1,13 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 import config from 'config'
-import { onActionFailure, onActionRequest } from 'store/default/action'
+import getUser from 'utils/userData'
 
 // action type strings should be unique across reducers so namespace them with the reducer name
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-const LOGIN_REQUEST = 'LOGIN_REQUEST'
-const LOGIN_FAILURE = 'LOGIN_FAILURE'
+const PROCESS_FILE_SUCCESS = 'PROCESS_FILE_SUCCESS'
+const PROCESS_FILE_REQUEST = 'PROCESS_FILE_REQUEST'
+const PROCESS_FILE_FAILURE = 'PROCESS_FILE_FAILURE'
 export const actionTypes = {
-  LOGIN_SUCCESS
+  PROCESS_FILE_SUCCESS
 }
 
 // actions are where most of the business logic takes place
@@ -18,21 +17,25 @@ export const actionTypes = {
 //  sync thunks - when you have substantial business logic but it's not async
 //  plain object actions - when you just send a plain action to the reducer
 
-export const actionLogin = data => async dispatch => {
+export const actionProcessFile = async (dispatch, data) => {
   // Start
-  dispatch(onActionRequest(LOGIN_REQUEST))
-  const url = config.baseUrl + '/login'
+  dispatch({
+    type: PROCESS_FILE_REQUEST
+  })
+  const user = getUser()
+  const url = config.baseUrl + '/googledocs/error'
+  console.log('TCL: user', user.token)
   try {
-    const response = await axios.post(url, data, { timeout: 10000 })
+    const response = await axios.post(url, data, {
+      timeout: 10000,
+      headers: {
+        'Authorization' : user.token
+      }
+    })
     if (response.data.status === 200 && response.status <= 201) {
       let { data } = response.data
-      data.token = `Basic ${btoa(`${data.userName}:${data.password}`)}`
-      data.password = undefined
-      data.status = undefined
-      Cookies.set('user', JSON.stringify(data))
-      localStorage.setItem('isLogin', 'true')
       dispatch({
-        type: LOGIN_SUCCESS,
+        type: PROCESS_FILE_SUCCESS,
         data
       })
     } else {
@@ -40,6 +43,9 @@ export const actionLogin = data => async dispatch => {
       throw new Error(message || 'An error has been occured')
     }
   } catch (error) {
-    dispatch(onActionFailure(error, LOGIN_FAILURE))
+    dispatch({
+      type: PROCESS_FILE_FAILURE,
+      error
+    })
   }
 }

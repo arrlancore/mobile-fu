@@ -1,21 +1,22 @@
 import { Col, Upload } from 'antd'
 import React from 'react'
-import { bool, string } from 'prop-types'
+import { bool, string, func } from 'prop-types'
 import LargeCheckbox from 'components/checkbox/large'
 import Input from 'components/input'
 import Button from 'components/button'
 
 
-function UploadForm ({ checkDefault, month }) {
+function UploadForm ({ checkDefault, month, onReceiveFile }) {
   const [ checked, setChecked ] = React.useState(checkDefault)
   const [ fileName, setFileName ] = React.useState('')
   const [ originFileName, setOriginFileName ] = React.useState('')
-  const onCLicked = () => {
-    setChecked(!checked)
-  }
+  // const onCLicked = () => {
+  //   setChecked(!checked)
+  // }
   const onFileSelected = ({ file }) => {
     setOriginFileName(file.name)
     setChecked(!checked)
+    onReceiveFile({file, month})
     var reader = new window.FileReader()
     reader.readAsDataURL(file)
     reader.onload = (...args) => {
@@ -66,8 +67,8 @@ function UploadForm ({ checkDefault, month }) {
             type="secondary"
             checked={checked}
             disabled={false}
-            onChange={console.log}
-            onClick={onCLicked}
+            // onChange={console.log}
+            // onClick={onCLicked}
           />
         </span>
       </Col>
@@ -75,6 +76,11 @@ function UploadForm ({ checkDefault, month }) {
   )
 }
 
-UploadForm.propTypes = { checkDefault: bool, onSelected: bool, month: string }
+UploadForm.propTypes = {
+  checkDefault: bool,
+  onSelected: bool,
+  month: string,
+  onReceiveFile: func
+}
 
 export default UploadForm
