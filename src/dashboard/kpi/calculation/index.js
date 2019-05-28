@@ -127,6 +127,9 @@ function KpiCalculationPage ({ processFileUpload }) {
     setFileList(files)
   }
 
+  const loadingWhenUpload = uploadLoading
+  const loadingWhenCalculate = uploadLoading
+
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -220,7 +223,6 @@ function KpiCalculationPage ({ processFileUpload }) {
               <Col span={16} lg={24} xl={20} xxl={19}>
                 {monthByQuarter.map((month, i) => (
                   <UploadForm
-                    loading={uploadLoading}
                     key={i}
                     onReceiveFile={onReceiveFile}
                     month={month}
@@ -230,17 +232,19 @@ function KpiCalculationPage ({ processFileUpload }) {
               </Col>
               <Col span={8} lg={24} xl={4} xxl={5} className="action-button">
                 <div className="wrap-action-button">
-                  <Button onClick={onProcessFile} style={{ marginBottom: 64 }} type="secondary">
-                  Process File
+                  <Button
+                    onClick={onProcessFile}
+                    style={{ marginBottom: 64 }}
+                    type="secondary"
+                    loading={loadingWhenUpload}
+                  >
+                    Process File
                   </Button>
-                  <Button type="secondary">
-                  Calculate KPI
+                  <Button loading={loadingWhenCalculate} type="secondary">
+                    Calculate KPI
                   </Button>
                 </div>
               </Col>
-              <form encType="multipart/form-data" action="/upload/image" method="post">
-                <input id="image-file" type="file" />
-              </form>
             </Row>
           </>
           }

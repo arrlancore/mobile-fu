@@ -11,6 +11,7 @@ import IconMessages from 'assets/icon/Messages.svg'
 import ImageIcon from 'components/image-icon'
 import MainMenu from './menu'
 import userData from 'utils/userData'
+import NotoficationPopOver from './notification'
 import './style.css'
 
 const { Header } = Layout
@@ -77,8 +78,10 @@ const header = props => {
               borderLeft: '1px solid #efefef'
             }}
           >
-            <ImageIcon onClick={ () => { }} src={IconBell} alt="Notification" />
-            {showBadge && <Badge color="#DC5667" dot={true} />}
+            <NotoficationPopOver>
+              <ImageIcon onClick={ () => { }} src={IconBell} alt="Notification" />
+              {showBadge && <Badge style={{ height: 24 }} color="#DC5667" dot={true} />}
+            </NotoficationPopOver>
             <ImageIcon onClick={ () => { }} src={IconMessages} alt="Messages" />
           </Col>
           <Col xs={12} xl={12}>

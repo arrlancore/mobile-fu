@@ -27,7 +27,7 @@ export const errorReducer = (state = Immutable({}), action) => {
   if (!matches) return state
 
   const [ , requestName, requestState ] = matches
-  console.log('errorReducer:', error)
+  console.error('errorReducer:', error)
   return {
     ...state,
     // Store errorMessage

@@ -60,6 +60,10 @@
   margin-right: 12px;
 }
 
+.header-base .ant-popover .ant-popover-placement-bottom{
+  width: 300px;
+}
+
 @media (min-width: 1200px) {
   .header-avatar {
     width: 72px;
