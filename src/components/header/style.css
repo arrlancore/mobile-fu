@@ -33,6 +33,10 @@
   margin-right: 20px;
 }
 
+.header-base .ant-menu-horizontal{
+display: flex;
+justify-content: flex-end;
+}
 .root-menu li a {
   width: auto;
 }
