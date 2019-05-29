@@ -81,8 +81,9 @@ function LoginPage(props) {
                   }
                 ] })(
                   <Input
-                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={<Icon type="user"style={{ color: 'rgba(0,0,0,.25)' }} />}
                     placeholder="01.01.01.1001"
+                    autoFocus
                   />
                 )}
               </Form.Item>
