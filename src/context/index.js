@@ -9,16 +9,15 @@ import Context from './Context'
 export const Provider = ({
   children, reducer
 }) => {
-  const [ store, dispatch ] = useReducer(reducer)
+  const [ store, dispatch ] = useReducer(reducer, {})
   const [ state, setState ] = useState({ isLoaded: false })
   useEffect(() => {
     dispatch({ type: '@init' })
     setState({ isLoaded: true })
   }, [])
+  console.info('[context]:', store)
   return (
-    <Context.Provider value={{
-      dispatch, store
-    }}>
+    <Context.Provider value={{ dispatch, store }}>
       {state.isLoaded ? children : false}
     </Context.Provider>
   )

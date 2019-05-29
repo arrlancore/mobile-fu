@@ -1,9 +1,7 @@
 import React from 'react'
-import {
-  Switch, BrowserRouter, Route
-} from 'react-router-dom'
+import { Switch, BrowserRouter } from 'react-router-dom'
 import ProtectedRoute from './protectedRoute'
-// import Route from './routeWithProgress'
+import CustomRoute from './customRoute'
 
 import Login from 'dashboard/login'
 import Home from 'dashboard/home'
@@ -13,17 +11,57 @@ import Mapping from 'dashboard/kpi/mapping'
 import Administration from 'dashboard/administration'
 import NotFoundPage from 'dashboard/notfound'
 
+const routes = [
+  {
+    path: '/',
+    exact: true,
+    component: Login
+  },
+  {
+    path: '/home',
+    exact: true,
+    component: Home,
+    isProtected: true
+  },
+  {
+    path: '/kpi-calculation',
+    exact: true,
+    component: KpiCalculation,
+    isProtected: true
+  },
+  {
+    path: '/kpi-achivement',
+    exact: true,
+    component: KpiAchivement,
+    isProtected: true
+  },
+  {
+    path: '/mapping',
+    exact: true,
+    component: Mapping,
+    isProtected: true
+  },
+  {
+    path: '/administration',
+    exact: true,
+    component: Administration,
+    isProtected: true
+  },
+  {
+    path: '*',
+    component: NotFoundPage
+  }
+]
+
 function ReactRouter() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Login} />
-        <ProtectedRoute exact path="/home" component={Home} />
-        <ProtectedRoute exact path="/kpi-calculation" component={KpiCalculation} />
-        <ProtectedRoute exact path="/kpi-achivement" component={KpiAchivement} />
-        <ProtectedRoute exact path="/mapping" component={Mapping} />
-        <ProtectedRoute exact path="/administration" component={Administration} />
-        <Route path="*" component={NotFoundPage} />
+        {routes.map(({ isProtected, ...rest }, i) => (
+          isProtected
+            ? <ProtectedRoute key={i} {...rest} />
+            : <CustomRoute key={i} {...rest} />
+        ))}
       </Switch>
     </BrowserRouter>
   )

@@ -1,6 +1,6 @@
-import Immutable from 'seamless-immutable'
+import Nprogress from 'nprogress'
 
-export const loadingReducer = (state = Immutable({}), action) => {
+export const loadingReducer = (state = {}, action) => {
   const { type } = action
   const matches = /(.*)_(REQUEST|SUCCESS|FAILURE)/.exec(type)
 
@@ -8,16 +8,20 @@ export const loadingReducer = (state = Immutable({}), action) => {
   if (!matches) return state
 
   const [ , requestName, requestState ] = matches
+  const load = requestState === 'REQUEST'
+  const done = requestState === 'SUCCESS'
+  if (load) Nprogress.set(0.3)
+  if (done) Nprogress.done()
   return {
     ...state,
     // Store whether a request is happening at the moment or not
     // e.g. will be true when receiving GET_TODOS_REQUEST
     //      and false when receiving GET_TODOS_SUCCESS / GET_TODOS_FAILURE
-    [requestName]: requestState === 'REQUEST'
+    [requestName]: load
   }
 }
 
-export const errorReducer = (state = Immutable({}), action) => {
+export const errorReducer = (state = {}, action) => {
   const {
     type, error
   } = action

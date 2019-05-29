@@ -4,20 +4,24 @@
 // the other exports in this file are selectors, which is business logic that digests parts of the store's state
 // for easier consumption by views
 
-import Immutable from 'seamless-immutable'
 import { actionTypes } from './action'
-// import { updateObject } from 'utils/updateObject'
 
-const initialState = Immutable({ data: null })
+const initialState = { data: null }
 
 export const kpiCalculationReducer = (state = initialState, action) => {
-  switch (action.type) {
-  case actionTypes.PROCESS_FILE_SUCCESS:
+  if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
     return {
-      ...state, data: action.data
+      data: action.data
     }
-
-  default:
-    return state
   }
+  return state
+}
+
+export const listGroupReducer = (state = { data: [{ name: 1, value: 1 }] }, action) => {
+  if (action.type === actionTypes.LIST_GROUP_SUCCESS) {
+    return {
+      data: action.data
+    }
+  }
+  return state
 }

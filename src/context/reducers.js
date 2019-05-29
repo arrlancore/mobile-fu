@@ -1,5 +1,5 @@
 import { userReducer } from './user/reducer'
-import { kpiCalculationReducer } from './kpi/reducer'
+import { kpiCalculationReducer, listGroupReducer } from './kpi/reducer'
 import {
   errorReducer, loadingReducer
 } from './default/reducer'
@@ -20,7 +20,8 @@ const reducer = combineReducers({
   loading: loadingReducer,
   error: errorReducer,
   user: userReducer,
-  kpiCalculation: kpiCalculationReducer
+  kpiCalculation: kpiCalculationReducer,
+  listGroup: listGroupReducer
 })
 
 export default reducer

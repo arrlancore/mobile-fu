@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import { Route } from 'react-router-dom'
 import Nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+import './progress.css'
 
 function CustomRoute(props) {
+  Nprogress.start()
+
   useEffect(() => {
-    Nprogress.start()
-    return function cleanProgress() {
-      console.log('clear')
-      setTimeout(() => {
-        Nprogress.done()
-      }, 1000)
-    }
+    Nprogress.done()
   })
   return(
     <Route {...props} />

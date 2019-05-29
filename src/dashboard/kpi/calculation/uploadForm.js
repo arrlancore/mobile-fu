@@ -22,20 +22,17 @@ function UploadForm ({
   const onFileSelected = ({ file }) => {
     setOriginFileName(file.name)
     setChecked(!checked)
-    onReceiveFile({
-      file, month
-    })
-    var reader = new window.FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = (...args) => {
-      console.log('TCL: reader.onload -> args', args)
+    onReceiveFile({ file, month })
+    // const reader = new window.FileReader()
+    // reader.readAsDataURL(file)
+    // reader.onload = (...args) => {
 
-      // let fileContents = reader.result
+    // let fileContents = reader.result
 
-      // Do some file processing (perhaps converting an image to base 64?)
+    // Do some file processing (perhaps converting an image to base 64?)
 
-      // Show that you have to call onSuccess with `<some string>, file`
-    }
+    // Show that you have to call onSuccess with `<some string>, file`
+    // }
   }
   const setFormatedFileName = (name) => {
     setFileName(name)

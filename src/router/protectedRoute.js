@@ -1,8 +1,7 @@
 import React from 'react'
-import {
-  Redirect, Route
-} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { isLogin } from 'utils/userData'
+import Route from './customRoute'
 // import Route from './routeWithProgress'
 
 

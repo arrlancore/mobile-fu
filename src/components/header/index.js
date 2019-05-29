@@ -55,7 +55,7 @@ const header = props => {
             <div style={{ display: 'inline' }}>Hello, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
-                {userProfile.firstName}
+                {userProfile.fullname}
                 <Icon
                   style={{
                     marginLeft: 14,

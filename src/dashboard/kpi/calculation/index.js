@@ -84,8 +84,7 @@ const listQuarter = [
   }
 ]
 
-function KpiCalculationPage ({ processFileUpload }) {
-  console.log('TCL: KpiCalculationPage -> processFileUpload', processFileUpload)
+function KpiCalculationPage () {
   const [ quarter, setQuarter ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
   const [ fileList, setFileList ] = React.useState([])
@@ -96,6 +95,7 @@ function KpiCalculationPage ({ processFileUpload }) {
     if (uploadError && uploadError !== prevError) {
       message.error(uploadError)
     }
+    // return actionGetListGroup(dispatch)
   })
 
   const onYearChange = setYear
@@ -110,16 +110,19 @@ function KpiCalculationPage ({ processFileUpload }) {
     setMonthByQuarter(months)
   }
 
-  const onProcessFile = () => {
-    const payload = {
-      docId: 1,
-      errorFiles: [fileList[0].file],
-      groupId: 2,
-      month: 'January',
-      quarter: quarter,
-      year: year
+  const onProcessFile = async () => {
+    for(let i=0; i < fileList.length; i++) {
+      let sourceFile = fileList[i]
+      const payload = {
+        docId: 1,
+        errorFiles: sourceFile.file,
+        groupId: 2,
+        month: 'January',
+        quarter: quarter,
+        year: year
+      }
+      await actionProcessFile(dispatch, payload)
     }
-    actionProcessFile(dispatch, payload)
   }
 
   const onReceiveFile = (file) => {
