@@ -3,48 +3,48 @@ import {
   Row, Col
 } from 'antd'
 
-import {
-  RadialBarChart, RadialBar, Legend
-} from 'recharts'
+// import {
+//   RadialBarChart, RadialBar, Legend
+// } from 'recharts'
 
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Title from 'components/text/title'
 import CardSmall from 'components/card/small'
-import Card from 'components/card/'
+// import Card from 'components/card/'
 
 
 class AdministrationPage extends React.Component {
 
   render() {
 
-    const data = [
-      {
-        name: 'Qatar', uv: 36.600, fill: '#C4C3FF'
-      },
-      {
-        name: 'Brazil', uv: 15.6000, fill: '#FFE2A0'
-      },
+    // const data = [
+    //   {
+    //     name: 'Qatar', uv: 36.600, fill: '#C4C3FF'
+    //   },
+    //   {
+    //     name: 'Brazil', uv: 15.6000, fill: '#FFE2A0'
+    //   },
 
-      {
-        name: 'Canada', uv: 25.5000, fill: '#FFA195'
-      },
-      {
-        name: 'France', uv: 42.9000, fill: '#95E7FF'
-      }
-    ]
+    //   {
+    //     name: 'Canada', uv: 25.5000, fill: '#FFA195'
+    //   },
+    //   {
+    //     name: 'France', uv: 42.9000, fill: '#95E7FF'
+    //   }
+    // ]
 
-    const style = {
-      top: 0,
-      left: 350,
-      lineHeight: '24px'
-    }
+    // const style = {
+    //   top: 0,
+    //   left: 350,
+    //   lineHeight: '24px'
+    // }
 
-    const wrapper = {
-      display: 'flex',
-      justifyContent: 'space-between'
-    }
+    // const wrapper = {
+    //   display: 'flex',
+    //   justifyContent: 'space-between'
+    // }
 
 
     return (
@@ -54,43 +54,43 @@ class AdministrationPage extends React.Component {
         </Helmet>
         <Content>
           <Row gutter={24}>
-            <Col span={16}>
+            <Col span={24}>
               <Title level={4}>Master Data </Title>
               <Row gutter={128} style={{ marginBottom: 24 }}>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/injection.png')} name="Role"/>
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/heart.png')} name="Module" />
                 </Col>
-              </Row>
-              <Row gutter={128} style={{ marginBottom: 24 }}>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/pill.png')} name="User has Role" />
                 </Col>
-                <Col span={8}>
+              </Row>
+              <Row gutter={128} style={{ marginBottom: 24 }}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/balloon.png')} name="Role Has Module" />
                 </Col>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/dollar.png')} name="Other"/>
+                </Col>
+                <Col span={6}>
+                  <CardSmall icon={require('assets/icon/scissor.png')} name="Other"/>
+                </Col>
+                <Col span={6}>
+                  <CardSmall icon={require('assets/icon/feet.png')} name="Other"/>
                 </Col>
               </Row>
               <Row gutter={128} style={{ marginBottom: 24 }}>
-                <Col span={8}>
-                  <CardSmall icon={require('assets/icon/scissor.png')} name="Other"/>
-                </Col>
-                <Col span={8}>
-                  <CardSmall icon={require('assets/icon/feet.png')} name="Other"/>
-                </Col>
-                <Col span={8}>
+                <Col span={6}>
                   <CardSmall icon={require('assets/icon/rip.png')} name="Other"/>
                 </Col>
               </Row>
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
               <Title level={4}>Other </Title>
               <Card>
                 <Title level={4}>Other </Title>
@@ -133,14 +133,14 @@ class AdministrationPage extends React.Component {
                   }}>$35,604.00</h2>
                 </div>
               </Card>
-            </Col>
+            </Col> */}
           </Row>
-          <Row>
+          {/* <Row>
             <Col span={16}>
               <Title level={4}>Other </Title>
               <Card>
-                <Row>
-                  <Col span={12}>
+                <Row> */}
+          {/* <Col span={12}>
                     <RadialBarChart
                       width={500}
                       height={300}
@@ -193,11 +193,11 @@ class AdministrationPage extends React.Component {
                         wrapperStyle={style}
                       />
                     </RadialBarChart>
-                  </Col>
-                </Row>
+                  </Col> */}
+          {/* </Row>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
         </Content>
       </LayoutPage>
     )

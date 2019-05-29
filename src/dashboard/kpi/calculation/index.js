@@ -195,26 +195,33 @@ function KpiCalculationPage () {
                 onSearch={onSearch}
               />
             </Col>
-            <Col span={6}>
-              <div style={{ marginLeft: '14%' }}>
-                <Input
-                  value="Uploaded"
-                  style={{
-                    maxWidth: 300, width: '100%'
-                  }}
-                  label="Status Uploaded"
-                  type="secondary"
-                />
-                <Input
-                  value="Not calculated yet"
-                  style={{
-                    maxWidth: 300, width: '100%'
-                  }}
-                  label="Status Calculated"
-                  type="secondary"
-                />
+          </Row>
+          <Row>
+            {monthByQuarter &&
+
+              <div style={{ marginTop: 20 }}>
+                <Col span={6}>
+                  <Input
+                    value="Uploaded"
+                    style={{
+                      maxWidth: 300, width: '100%'
+                    }}
+                    label="Status Uploaded"
+                    type="secondary"
+                  />
+                </Col>
+                <Col span={6}>
+                  <Input
+                    value="Not calculated yet"
+                    style={{
+                      maxWidth: 300, width: '100%'
+                    }}
+                    label="Status Calculated"
+                    type="secondary"
+                  />
+                </Col>
               </div>
-            </Col>
+            }
           </Row>
         </div>
 

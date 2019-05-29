@@ -10,6 +10,7 @@ import KpiAchivement from 'dashboard/kpi/achivement'
 import Mapping from 'dashboard/kpi/mapping'
 import Administration from 'dashboard/administration'
 import NotFoundPage from 'dashboard/notfound'
+import User from 'dashboard/user'
 
 const routes = [
   {
@@ -24,19 +25,19 @@ const routes = [
     isProtected: true
   },
   {
-    path: '/kpi-calculation',
+    path: '/kpi/calculation',
     exact: true,
     component: KpiCalculation,
     isProtected: true
   },
   {
-    path: '/kpi-achivement',
+    path: '/kpi/achivement',
     exact: true,
     component: KpiAchivement,
     isProtected: true
   },
   {
-    path: '/mapping',
+    path: '/management/mapping',
     exact: true,
     component: Mapping,
     isProtected: true
@@ -45,6 +46,12 @@ const routes = [
     path: '/administration',
     exact: true,
     component: Administration,
+    isProtected: true
+  },
+  {
+    path: '/administration/user',
+    exact: true,
+    component: User,
     isProtected: true
   },
   {

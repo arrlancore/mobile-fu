@@ -17,15 +17,21 @@ function MainMenu() {
       submenus: [
         {
           name: 'KPI Calculation',
-          path: '/kpi-calculation'
+          path: '/kpi/calculation'
         },
         {
           name: 'KPI Achivement',
-          path: '/kpi-achivement'
-        },
+          path: '/kpi/achivement'
+        }
+      ]
+    },
+    {
+      name: 'Management',
+      path: '/management',
+      submenus: [
         {
           name: 'Mapping',
-          path: '/mapping'
+          path: '/management/mapping'
         }
       ]
     },

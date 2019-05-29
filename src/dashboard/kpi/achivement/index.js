@@ -9,7 +9,7 @@ import Select from 'components/select'
 import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
-import exData from './data-achivement.json'
+import exData from './data.json'
 
 import './style.css'
 
