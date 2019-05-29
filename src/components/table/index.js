@@ -7,7 +7,7 @@ import './style.css'
 
 const toCapitalize = (text) => {
   return typeof text === 'string' ?
-    text.replace('_', ' ').split(' ').reduce((acc, txt, index, arr) => {
+    text.split('_').reduce((acc, txt, index, arr) => {
       return acc + txt.charAt(0).toUpperCase() + txt.slice(1) + (index !== arr.length - 1 ? ' ' : '')
     }, '') :
     ''
