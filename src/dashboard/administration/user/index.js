@@ -1,37 +1,29 @@
 import React from 'react'
-import {
-  Row, Col, Checkbox, Icon, Tooltip
-} from 'antd'
+import { Row } from 'antd'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
-
+import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
 import exData from './data.json'
 
 import './style.css'
 
-function onChange(value) {
-  console.log(`selected ${value}`)
-}
-
 function UserPage () {
 
-  const CheckboxGroup = Checkbox.Group
-  const filterOption = [ 'CRM', 'CPC', 'CTR' ]
   const ColumnHeader = () => (
     <>
       <Row gutter={24} style={{
         display: 'flex', justifyContent: 'flex-end', marginBottom: 28
       }}>
-        {/* <Button style={{ maxWidth: 280, margin: '0 14px' }} type="secondary">
+        <Button style={{ maxWidth: 280, margin: '0 14px' }} type="secondary">
           Export
         </Button>
         <Button style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }} type="secondary">
           Create
-        </Button> */}
-        <span className="action-title">
+        </Button>
+        {/* <span className="action-title">
           <Tooltip title="Export to file">
             <Icon type="export" />
           </Tooltip>
@@ -40,22 +32,7 @@ function UserPage () {
           <Tooltip title="Create new record">
             <Icon type="plus-circle" />
           </Tooltip>
-        </span>
-      </Row>
-      <Row gutter={24}>
-        <Col span={12}>
-          Result
-        </Col>
-        <Col span={12} style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end'
-        }}>
-          <CheckboxGroup options={filterOption} defaultValue={[]} onChange={onChange} />
-          <Tooltip title="You can do some filter">
-            <Icon type="question-circle" />
-          </Tooltip>
-        </Col>
+        </span> */}
       </Row>
     </>
   )

@@ -10,7 +10,7 @@ import KpiAchivement from 'dashboard/kpi/achivement'
 import Mapping from 'dashboard/kpi/mapping'
 import Administration from 'dashboard/administration'
 import NotFoundPage from 'dashboard/notfound'
-import User from 'dashboard/user'
+import User from 'dashboard/administration/user'
 
 const routes = [
   {

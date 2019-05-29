@@ -46,6 +46,11 @@ justify-content: flex-end;
   border-bottom: 4px solid #5570E3;
 }
 
+.root-menu .ant-menu-submenu {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .header-base .ant-badge-status-dot {
   width: 12px;
   height: 12px;

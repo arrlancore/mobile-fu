@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'components/link'
 import {
   Row, Col
 } from 'antd'
@@ -58,7 +59,9 @@ class AdministrationPage extends React.Component {
               <Title level={4}>Master Data </Title>
               <Row gutter={128} style={{ marginBottom: 24 }}>
                 <Col span={6}>
-                  <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
+                  <Link to="/administration/user">
+                    <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
+                  </Link>
                 </Col>
                 <Col span={6}>
                   <CardSmall icon={require('assets/icon/injection.png')} name="Role"/>
