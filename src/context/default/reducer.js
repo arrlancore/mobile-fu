@@ -28,7 +28,6 @@ export const errorReducer = (state = {}, action) => {
   if (!matches) return state
 
   const [ , requestName, requestState ] = matches
-  console.error('errorReducer:', error)
   return {
     ...state,
     // Store errorMessage

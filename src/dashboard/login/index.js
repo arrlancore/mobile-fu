@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Form, Icon, Col, Row, message
 } from 'antd'
-import { actionLogin } from 'context/user/action'
+import { actionLogin, actionTypes } from 'context/user/action'
 import { Redirect } from 'react-router-dom'
 import {
   func, object
@@ -21,7 +21,7 @@ import './style.css'
 function LoginPage(props) {
   const [ nextPath, setnextPath ] = React.useState('/home')
   const { history } = props
-  const [ errorUserLogin, loadingUserLogin, dispatch ] = useStateDefault('USER_LOGIN')
+  const [ errorUserLogin, loadingUserLogin, dispatch ] = useStateDefault(actionTypes.USER_LOGIN)
   const prevError = usePrevious(errorUserLogin)
   const loading = loadingUserLogin
   const handleSubmit = e => {

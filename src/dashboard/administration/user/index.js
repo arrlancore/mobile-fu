@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row } from 'antd'
+// import { useStateValue } from 'context'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
@@ -11,6 +12,9 @@ import exData from './data.json'
 import './style.css'
 
 function UserPage () {
+  // const [ page, setPage ] = React.useState(1)
+  // const [ pageSize, setPageSize ] = React.useState(10)
+  // const [ data, dispatch ] = React.useMemo(() => (useStateValue('users', page, pageSize)))
 
   const ColumnHeader = () => (
     <>
@@ -63,6 +67,13 @@ function UserPage () {
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
             excludeColumns={[ 'emp_id', 'group_id', 'doc_id', 'data_source' ]}
+            pagination={{
+              // onChange: (page, size) => {
+              //   setPage(page)
+              //   setPageSize(size)
+              // },
+              total: 20
+            }}
           />
         </div>
       </Content>

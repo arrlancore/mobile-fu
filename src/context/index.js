@@ -4,8 +4,11 @@ import React, {
 import {
   node, func
 } from 'prop-types'
-import Context from './Context'
 
+// create a global context
+const Context = React.createContext()
+
+// Provider to be wrapped on the root of application
 export const Provider = ({
   children, reducer
 }) => {

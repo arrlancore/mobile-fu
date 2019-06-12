@@ -6,10 +6,8 @@ import './progress.css'
 
 function CustomRoute(props) {
   Nprogress.start()
-  console.log('TCL: CustomRoute -> Nprogress', Nprogress.isStarted())
   useEffect(() => {
     Nprogress.done()
-    console.log('TCL: CustomRoute -> Nprogress', Nprogress)
   })
   return(
     <Route {...props} />
