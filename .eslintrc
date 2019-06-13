@@ -1,7 +1,8 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "react"
+    "react",
+    "react-hooks"
   ],
   "settings": {
     "import/resolver": {
@@ -171,6 +172,8 @@
       "object": "Math",
       "property": "pow",
       "message": "Use the exponentiation operator (**) instead."
-    }]
+    }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
