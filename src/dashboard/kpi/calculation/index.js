@@ -116,15 +116,20 @@ function KpiCalculationPage () {
   const onProcessFile = async () => {
     for(let i=0; i < fileList.length; i++) {
       let sourceFile = fileList[i]
-      const payload = {
-        docId: 1,
-        errorFiles: sourceFile.file,
-        groupId: 2,
-        month: 'January',
-        quarter: quarter,
-        year: year
-      }
-      await actionProcessFile(dispatch, payload)
+      let formData = new FormData()
+      formData.append(
+        'uploadFile', new Blob(
+          [sourceFile.file]
+        )
+      )
+      formData.append('docId', 1558675988612)
+      formData.append('groupId', 2)
+      formData.append('month', 'January')
+      formData.append('quarter', quarter)
+      formData.append('year', year)
+      formData.append('username', 'admin123')
+
+      await actionProcessFile(dispatch, formData)
     }
   }
 

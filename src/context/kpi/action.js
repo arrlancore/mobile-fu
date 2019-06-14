@@ -8,7 +8,8 @@ export const actionTypes = {
   PROCESS_FILE_SUCCESS: 'PROCESS_FILE_SUCCESS',
   PROCESS_FILE: 'PROCESS_FILE',
   LIST_GROUP_SUCCESS: 'LIST_GROUP_SUCCESS',
-  LIST_GROUP: 'LIST_GROUP'
+  LIST_GROUP: 'LIST_GROUP',
+  UPLOAD_PROGRESS: 'UPLOAD_PROGRESS'
 }
 
 // actions are where most of the business logic takes place
@@ -24,7 +25,14 @@ export const actionProcessFile = (dispatch, payload) => {
   const processFile = async () => {
     const response = await axios.post(url, payload, {
       timeout: 10000,
-      headers: { 'Authorization' : user.token }
+      headers: { 'Authorization' : user.token },
+      onUploadProgress : function(progressEvent) {
+        const percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+        dispatch({
+          type: actionTypes.UPLOAD_PROGRESS,
+          data: percentCompleted
+        })
+      }
     })
     if (response.data.status === 200 && response.status <= 201) {
       let { data } = response.data
@@ -47,12 +55,11 @@ export const actionProcessFile = (dispatch, payload) => {
  * @param {object} payload
  */
 export const actionGetListGroup = (dispatch, payload) => {
-  const user = getUser()
   const url = config.baseUrl + '/googledocs/group'
   const listGroup = async () => {
     const response = await axios.get(url, payload, {
       timeout: 10000,
-      headers: { 'Authorization' : user.token }
+      headers: { 'Authorization' : getUser().token }
     })
     if (response.status <= 201) {
       let { data } = response.data

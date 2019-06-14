@@ -1,8 +1,14 @@
-import { userReducer } from './user/reducer'
+import { userReducer } from './auth/reducer'
 import { kpiCalculationReducer, listGroupReducer } from './kpi/reducer'
-import {
-  errorReducer, loadingReducer
-} from './default/reducer'
+import { errorReducer, loadingReducer } from './default/reducer'
+
+export const reducers = {
+  loading: loadingReducer,
+  error: errorReducer,
+  user: userReducer,
+  kpiCalculation: kpiCalculationReducer,
+  listGroup: listGroupReducer
+}
 
 const combineReducers = reducer => {
   return (state = {}, action) => {
@@ -14,14 +20,6 @@ const combineReducers = reducer => {
     }
     return nextReducers
   }
-}
-
-export const reducers = {
-  loading: loadingReducer,
-  error: errorReducer,
-  user: userReducer,
-  kpiCalculation: kpiCalculationReducer,
-  listGroup: listGroupReducer
 }
 
 export default combineReducers(reducers)

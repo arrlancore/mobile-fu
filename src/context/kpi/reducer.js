@@ -6,12 +6,17 @@
 
 import { actionTypes } from './action'
 
-const initialState = { data: null }
+const initialState = { data: null, progress: 0 }
 
 export const kpiCalculationReducer = (state = initialState, action) => {
   if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
     return {
       data: action.data
+    }
+  }
+  if (action.type === actionTypes.UPLOAD_PROGRESS) {
+    return {
+      progress: action.data
     }
   }
   return state
