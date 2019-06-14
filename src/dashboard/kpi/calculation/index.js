@@ -4,6 +4,7 @@ import {
 } from 'antd'
 import { actionProcessFile } from 'context/kpi/action'
 import { useStateDefault } from 'context'
+import { useTranslation } from 'react-i18next'
 
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
@@ -85,6 +86,8 @@ const listQuarter = [
 ]
 
 function KpiCalculationPage () {
+  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const tKey = 'dashboard.calculation.'
   const [ quarter, setQuarter ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
   const [ fileList, setFileList ] = React.useState([])
@@ -136,7 +139,7 @@ function KpiCalculationPage () {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>KPI Calculation</title>
+        <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
         <Title bold level={2}>Calculation</Title>

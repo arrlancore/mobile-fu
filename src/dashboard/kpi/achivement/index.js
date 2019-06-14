@@ -10,6 +10,7 @@ import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
 import exData from './data.json'
+import { useTranslation } from 'react-i18next'
 
 import './style.css'
 
@@ -28,8 +29,12 @@ function onFocus() {
 function onSearch(val) {
   console.log('search:', val)
 }
-
+/**
+ * KPI Calculation page
+ */
 function KpiCalculationPage () {
+  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const tKey = 'dashboard.achivement.'
   const listYear = [
     {
       name: 2019,
@@ -128,7 +133,7 @@ function KpiCalculationPage () {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>KPI Achivement</title>
+        <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
         <Title bold level={2}>Achivement</Title>

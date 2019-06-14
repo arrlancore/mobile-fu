@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row } from 'antd'
+import { useTranslation } from 'react-i18next'
 // import { useStateValue } from 'context'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
@@ -12,6 +13,8 @@ import exData from './data.json'
 import './style.css'
 
 function UserPage () {
+  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const tKey = 'dashboard.user.'
   // const [ page, setPage ] = React.useState(1)
   // const [ pageSize, setPageSize ] = React.useState(10)
   // const [ data, dispatch ] = React.useMemo(() => (useStateValue('users', page, pageSize)))
@@ -55,7 +58,7 @@ function UserPage () {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>Users</title>
+        <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
         <Title bold level={2}>User</Title>

@@ -5,9 +5,12 @@
   "components": {
     "header": {
       "wellcome": "Hello"
-  }
+    }
   },
   "dashboard": {
+    "home": {
+      "pageTitle": "KPI Dashboard - ATI Business Group"
+    },
     "login": {
       "pageTitle": "KPI Login - ATI Business Group",
       "username": "username",
@@ -18,6 +21,21 @@
         "usernameMessageRequired": "Please input your username!",
         "passwordMessageRequired": "Please input your password!"
       }
+    },
+    "calculation": {
+      "pageTitle": "Calculation | KPI - ATI Business Group"
+    },
+    "achivement": {
+      "pageTitle": "Achivement | KPI - ATI Business Group"
+    },
+    "administration": {
+      "pageTitle": "Administration - ATI Business Group"
+    },
+    "user": {
+      "pageTitle": "User | Administration - ATI Business Group"
+    },
+    "mapping": {
+      "pageTitle": "Mapping | Management - ATI Business Group"
     }
   }
 }

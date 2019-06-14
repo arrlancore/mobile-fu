@@ -13,11 +13,15 @@ import Button from 'components/button'
 import Title from 'components/text/title'
 import Select from 'components/select'
 import exData from './data.json'
+import { useTranslation } from 'react-i18next'
 
 import './mapping.css'
 
 
-const mapping = () => {
+const MappingPage = () => {
+  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const tKey = 'dashboard.mapping.'
+
   let columnProperty = [
     // add special condition for one or each column here
     {
@@ -57,7 +61,7 @@ const mapping = () => {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>Master Data EMP Doc name</title>
+        <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
         <Title bold level={2}>Mapping Name</Title>
@@ -153,4 +157,4 @@ const mapping = () => {
   )
 }
 
-export default mapping
+export default MappingPage
