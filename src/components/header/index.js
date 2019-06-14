@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-  node, object
+  node, object, func, bool
 } from 'prop-types'
 import {
   Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge
@@ -12,6 +12,7 @@ import ImageIcon from 'components/image-icon'
 import MainMenu from './menu'
 import userData from 'utils/userData'
 import NotoficationPopOver from './notification'
+import { withTranslation } from 'react-i18next'
 import './style.css'
 
 const { Header } = Layout
@@ -25,7 +26,7 @@ function handleMenuClick(e) {
 }
 
 const header = props => {
-  const { user } = props
+  const { user, t, tReady, ...rest } = props
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="1">My Profile</Menu.Item>
@@ -37,7 +38,7 @@ const header = props => {
   const userProfile = userData() || {}
   return (
     <>
-      <Header {...props} className="header-base header-font">
+      <Header {...rest} className="header-base header-font">
         {/* {props.children} */}
         <Row
           gutter={8}
@@ -52,7 +53,7 @@ const header = props => {
               size="large"
               className="header-avatar"
             />
-            <div style={{ display: 'inline' }}>Hello, </div>
+            <div style={{ display: 'inline' }}>{tReady && t('components.header.wellcome')}, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
                 {userProfile.fullname}
@@ -95,10 +96,13 @@ const header = props => {
 }
 
 header.propTypes = {
-  children: node, user: object
+  children: node,
+  user: object,
+  t: func,
+  tReady: bool
 }
 header.defaultProps = { user: {
   firstName: 'Jaine', imageProfile: PhotoTemp
 } }
 
-export default header
+export default withTranslation()(header)

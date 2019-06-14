@@ -1,0 +1,23 @@
+{
+  "default": {
+    "formRequired": "Please complete your form before submitted"
+  },
+  "components": {
+    "header": {
+      "wellcome": "Hello"
+  }
+  },
+  "dashboard": {
+    "login": {
+      "pageTitle": "KPI Login - ATI Business Group",
+      "username": "username",
+      "password": "password",
+      "forgot" : "Forgot your password?",
+      "login": "login",
+      "form": {
+        "usernameMessageRequired": "Please input your username!",
+        "passwordMessageRequired": "Please input your password!"
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import {
 } from 'antd'
 import { actionLogin, actionTypes } from 'context/user/action'
 import { Redirect } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   func, object
 } from 'prop-types'
@@ -19,6 +20,8 @@ import './style.css'
 
 
 function LoginPage(props) {
+  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const tKey = 'dashboard.login.'
   const [ nextPath, setnextPath ] = React.useState('/home')
   const { history } = props
   const [ errorUserLogin, loadingUserLogin, dispatch ] = useStateDefault(actionTypes.USER_LOGIN)
@@ -30,7 +33,7 @@ function LoginPage(props) {
       if (!err) {
         actionLogin(dispatch, values)
       } else {
-        message.error(err.message)
+        message.error(t('default.formRequired'))
       }
     })
   }
@@ -56,7 +59,7 @@ function LoginPage(props) {
       {isLogin() && <Redirect to={nextPath} />}
       <div className="root-login">
         <Helmet>
-          <title>KPI Login</title>
+          <title>{t(tKey + 'pageTitle')}</title>
         </Helmet>
         <Row
           type="flex"
@@ -69,15 +72,15 @@ function LoginPage(props) {
             </div>
             <Form onSubmit={handleSubmit} className="login-form">
               <label
-                style={{ marginBottom: '6px' }}
+                style={{ marginBottom: '6px', textTransform: 'capitalize' }}
                 htmlFor="normal_login_userName"
               >
-                Username
+                {t(tKey + 'username')}
               </label>
               <Form.Item>
                 {getFieldDecorator('userName', { rules: [
                   {
-                    required: true, message: 'Please input your username!', max: 13
+                    required: true, message: t(tKey + 'form.usernameMessageRequired'), max: 13
                   }
                 ] })(
                   <Input
@@ -88,15 +91,15 @@ function LoginPage(props) {
                 )}
               </Form.Item>
               <label
-                style={{ marginBottom: '6px' }}
+                style={{ marginBottom: '6px', textTransform: 'capitalize' }}
                 htmlFor="normal_login_password"
               >
-                Password
+                {t(tKey + 'password')}
               </label>
               <Form.Item>
                 {getFieldDecorator('password', { rules: [
                   {
-                    required: true, message: 'Please input your Password!'
+                    required: true, message: t(tKey + 'form.passwordMessageRequired')
                   }
                 ] })(
                   <Input
@@ -109,7 +112,7 @@ function LoginPage(props) {
               </Form.Item>
               <Col span={24}>
                 <Button loading={loading} type="primary" htmlType="submit">
-                  LOGIN
+                  {t(tKey + 'login').toUpperCase()}
                 </Button>
                 <div
                   style={{
@@ -123,7 +126,7 @@ function LoginPage(props) {
                     onClick={() => history.push('/#forget')}
                     style={{ cursor: 'pointer' }}
                   >
-                      Forgot your password ?
+                    {t(tKey + 'forgot')}
                   </span>
                 </div>
               </Col>
