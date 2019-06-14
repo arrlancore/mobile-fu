@@ -16,12 +16,12 @@ const combineReducers = reducer => {
   }
 }
 
-const reducer = combineReducers({
+export const reducers = {
   loading: loadingReducer,
   error: errorReducer,
   user: userReducer,
   kpiCalculation: kpiCalculationReducer,
   listGroup: listGroupReducer
-})
+}
 
-export default reducer
+export default combineReducers(reducers)

@@ -1,10 +1,8 @@
 import React, {
   useContext, useState, useReducer, useEffect
 } from 'react'
-import {
-  node, func
-} from 'prop-types'
-
+import { node, func } from 'prop-types'
+import devTool from './reduxDevTool'
 // create a global context
 const Context = React.createContext()
 
@@ -18,7 +16,7 @@ export const Provider = ({
     dispatch({ type: '@init' })
     setState({ isLoaded: true })
   }, [])
-  console.info('[context]:', store)
+  devTool(store)
   return (
     <Context.Provider value={{ dispatch, store }}>
       {state.isLoaded ? children : false}
