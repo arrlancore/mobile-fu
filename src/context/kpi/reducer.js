@@ -11,19 +11,30 @@ const initialState = { data: null, progress: 0 }
 export const kpiCalculationReducer = (state = initialState, action) => {
   if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
     return {
+      ...state,
       data: action.data
     }
   }
   if (action.type === actionTypes.UPLOAD_PROGRESS) {
     return {
-      progress: action.data
+      ...state,
+      progress: action.progress
     }
   }
   return state
 }
 
-export const listGroupReducer = (state = { data: [{ name: 1, value: 1 }] }, action) => {
+export const listGroupReducer = (state = null, action) => {
   if (action.type === actionTypes.LIST_GROUP_SUCCESS) {
+    return {
+      data: action.data
+    }
+  }
+  return state
+}
+
+export const listDocReducer = (state = null, action) => {
+  if (action.type === actionTypes.LIST_DOC_SUCCESS) {
     return {
       data: action.data
     }

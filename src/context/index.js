@@ -37,7 +37,7 @@ export const useStateValue = (key) => {
   const {
     store, dispatch
   } = useContext(Context)
-  return key ? [ store[key] || {}, dispatch ] : [ store, dispatch ]
+  return key ? [ store[key], dispatch ] : [ store, dispatch ]
 }
 
 /**

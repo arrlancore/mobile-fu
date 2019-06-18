@@ -11,8 +11,8 @@ export default function withDevTools(initialState, actionCreators) {
     const instanceID = id
     id += 1
     const name = `react-context: ${instanceID}`
-    const devTools = window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators })
-    devTools.subscribe((message) => {
+    const devTools = window ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators }) : null
+    devTools && devTools.subscribe((message) => {
       if (message.type === 'START') {
         devTools.init(initialState)
       }

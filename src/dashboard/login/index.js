@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Form, Icon, Col, Row, message
 } from 'antd'
-import { actionLogin, actionTypes } from 'context/user/action'
+import { actionLogin, actionTypes } from 'context/auth/action'
 import { Redirect } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {

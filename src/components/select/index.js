@@ -13,6 +13,7 @@ function select ({
 }) {
   const primary = type === 'primary'
   const color = primary ? '#D5D6DB' : '#2699FB'
+
   return (
     <>
       <label
@@ -39,8 +40,6 @@ function select ({
 select.propTypes = {
   optionList: array, label:string, type: string
 }
-select.defaultProps = { optionList: [{
-  value: 1, name: 'Choose me please'
-}] }
+select.defaultProps = { optionList: [] }
 
 export default select
