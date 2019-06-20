@@ -11,6 +11,7 @@ import IconMessages from 'assets/icon/Messages.svg'
 import ImageIcon from 'components/image-icon'
 import MainMenu from './menu'
 import userData from 'utils/userData'
+import logout from 'utils/logout'
 import NotoficationPopOver from './notification'
 import { withTranslation } from 'react-i18next'
 import './style.css'
@@ -20,8 +21,7 @@ const { Header } = Layout
 function handleMenuClick(e) {
   console.log('click', e)
   if (e.key === '3' && window) {
-    window.localStorage.removeItem('isLogin')
-    window.location.reload()
+    logout()
   }
 }
 
@@ -90,7 +90,7 @@ const header = props => {
           </Col>
         </Row>
       </Header>
-      <div className="header-shadow" />
+      {/* <div className="header-shadow" /> */}
     </>
   )
 }

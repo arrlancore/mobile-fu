@@ -8,7 +8,7 @@ import { actionTypes } from './action'
 
 const initialState = { data: null, progress: 0 }
 
-export const kpiCalculationReducer = (state = initialState, action) => {
+export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
     return {
       ...state,
@@ -35,6 +35,24 @@ export const listGroupReducer = (state = null, action) => {
 
 export const listDocReducer = (state = null, action) => {
   if (action.type === actionTypes.LIST_DOC_SUCCESS) {
+    return {
+      data: action.data
+    }
+  }
+  return state
+}
+
+export const calculateReducer = (state = null, action) => {
+  if (action.type === actionTypes.CALCULATE_KPI_SUCCESS) {
+    return {
+      data: action.data
+    }
+  }
+  return state
+}
+
+export const summaryReducer = (state = null, action) => {
+  if (action.type === actionTypes.GET_KPI_SUMMARY_SUCCESS) {
     return {
       data: action.data
     }

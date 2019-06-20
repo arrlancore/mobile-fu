@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, message } from 'antd'
+import { Row, Col } from 'antd'
 import { actionProcessFile, actionGetListGroup, actionGetListDocs } from 'context/kpi/action'
 import { useStateDefault, useStateValue } from 'context'
 import { useTranslation } from 'react-i18next'
@@ -70,7 +70,6 @@ function KpiCalculationPage () {
   const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
   const [ uploadError, uploadLoading, dispatch ] = useStateDefault('PROCESS_FILE')
   const [ fileUploaded, setFileUploaded ] = React.useState({})
-  console.log('TCL: KpiCalculationPage -> fileUploaded', fileUploaded)
   const [listGroup] = useStateValue('listGroup')
   const [listDoc] = useStateValue('listDoc')
 
@@ -79,7 +78,6 @@ function KpiCalculationPage () {
   const prevListDoc = usePrevious(listDoc)
   const prevListGroup = usePrevious(listGroup)
   React.useEffect(() => {
-  // getting some data from server
     if (!listGroup && prevListGroup !== listGroup) {
       actionGetListGroup(dispatch)
     }
@@ -129,10 +127,9 @@ function KpiCalculationPage () {
     onUploadFinished()
   }
 
-  const onUploadError = (err) => {
+  const onUploadError = () => {
     setOnUpload(false)
     setFileOnUpload('')
-    message.error(err)
   }
 
   const onUploadFinished = () => {

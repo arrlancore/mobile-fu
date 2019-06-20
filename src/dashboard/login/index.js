@@ -9,7 +9,7 @@ import {
   func, object
 } from 'prop-types'
 import { isLogin } from 'utils/userData'
-import usePrevious from 'utils/usePrevious'
+// import usePrevious from 'utils/usePrevious'
 import Logo from 'assets/image/logo/logo1x.png'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
@@ -24,8 +24,8 @@ function LoginPage(props) {
   const tKey = 'dashboard.login.'
   const [ nextPath, setnextPath ] = React.useState('/home')
   const { history } = props
-  const [ errorUserLogin, loadingUserLogin, dispatch ] = useStateDefault(actionTypes.USER_LOGIN)
-  const prevError = usePrevious(errorUserLogin)
+  const [ , loadingUserLogin, dispatch ] = useStateDefault(actionTypes.USER_LOGIN)
+  // const prevError = usePrevious(errorUserLogin)
   const loading = loadingUserLogin
   const handleSubmit = e => {
     e.preventDefault()
@@ -40,9 +40,9 @@ function LoginPage(props) {
 
   React.useEffect(() => {
     setPathRedirect()
-    if (errorUserLogin && errorUserLogin !== prevError) {
-      message.error(errorUserLogin)
-    }
+    // if (errorUserLogin && errorUserLogin !== prevError) {
+    // message.error(errorUserLogin)
+    // }
   })
 
   const setPathRedirect = () => {

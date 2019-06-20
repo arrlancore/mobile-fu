@@ -15,10 +15,18 @@ import './style.css'
 function UserPage () {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.user.'
+  const [ mockData, setMockData ] = React.useState([])
+  const [ collectionData, setCollectionData ] = React.useState({})
+  const [ loadingData, setLoadingData ] = React.useState(true)
+  // exData = exData.slice(0, 10)
   // const [ page, setPage ] = React.useState(1)
   // const [ pageSize, setPageSize ] = React.useState(10)
   // const [ data, dispatch ] = React.useMemo(() => (useStateValue('users', page, pageSize)))
-
+  React.useEffect(() => {
+    if (!mockData[0]) {
+      loadPage(1, 10, exData)
+    }
+  })
   const ColumnHeader = () => (
     <>
       <Row gutter={24} style={{
@@ -55,6 +63,22 @@ function UserPage () {
     }
   ]
 
+  const loadPage = (page, pageSize, data = exData) => {
+    let start = (page - 1) * pageSize
+    let end = page * pageSize
+    if (collectionData[page]) {
+      return setMockData(collectionData[page])
+    }
+    setLoadingData(true)
+    setTimeout(() => {
+      const newData = data.slice(start, end)
+      setMockData(newData)
+      setCollectionData({ ...collectionData, [page]: newData })
+      setLoadingData(false)
+    }, 300)
+
+  }
+
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -66,17 +90,15 @@ function UserPage () {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={exData}
+            data={mockData}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
             excludeColumns={[ 'emp_id', 'group_id', 'doc_id', 'data_source' ]}
             pagination={{
-              // onChange: (page, size) => {
-              //   setPage(page)
-              //   setPageSize(size)
-              // },
+              onChange: loadPage,
               total: 20
             }}
+            loading={loadingData}
           />
         </div>
       </Content>

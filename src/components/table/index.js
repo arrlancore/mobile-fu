@@ -17,24 +17,26 @@ function MainTable ({
   data, excludeColumns, columnProperty, ...rest
 }) {
   const getColumn = (arr) => {
-    const conditions = columnProperty
-    const titles = Object.keys(arr[0]).filter(title => excludeColumns.includes(title) === false)
-    return titles.map(title => {
-      let column = {
-        title: toCapitalize(title),
-        key: title,
-        dataIndex: title
-      }
-      for (let i = 0; i < conditions.length; i++) {
-        let condition = conditions[i]
-        if (condition.dataIndex === title) {
-          column = {
-            ...column, ...condition
+    if (arr[0]) {
+      const conditions = columnProperty
+      const titles = Object.keys(arr[0]).filter(title => excludeColumns.includes(title) === false)
+      return titles.map(title => {
+        let column = {
+          title: toCapitalize(title),
+          key: title,
+          dataIndex: title
+        }
+        for (let i = 0; i < conditions.length; i++) {
+          let condition = conditions[i]
+          if (condition.dataIndex === title) {
+            column = {
+              ...column, ...condition
+            }
           }
         }
-      }
-      return column
-    })
+        return column
+      })
+    }
   }
 
   const columns = getColumn(data)

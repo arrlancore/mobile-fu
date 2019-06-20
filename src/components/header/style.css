@@ -4,9 +4,10 @@
   overflow: hidden;
   height: 100px;
   background: #fff;
+  box-shadow: 0 0px 6px rgba(0,0,0,0.01), 0 12px 16px rgba(0,0,0,0.04);
 }
 
-.header-shadow {
+/* .header-shadow {
   width: 95%;
   margin: 0 auto;
   display: block;
@@ -14,7 +15,7 @@
   box-shadow: -5px 14px 19px -4px #a0a0a0;
   position: relative;
   top: -10px;
-}
+} */
 
 .header-font {
   font-family: Nunito, "Open Sans", "Helvetica Neue", sans-serif;

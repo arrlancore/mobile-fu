@@ -6,13 +6,17 @@ import { message } from 'antd'
 
 // action type strings should be unique across reducers so namespace them with the reducer name
 export const actionTypes = {
+  UPLOAD_PROGRESS: 'UPLOAD_PROGRESS',
   PROCESS_FILE_SUCCESS: 'PROCESS_FILE_SUCCESS',
   PROCESS_FILE: 'PROCESS_FILE',
   LIST_GROUP_SUCCESS: 'LIST_GROUP_SUCCESS',
   LIST_GROUP: 'LIST_GROUP',
   LIST_DOC_SUCCESS: 'LIST_DOC_SUCCESS',
   LIST_DOC: 'LIST_DOC',
-  UPLOAD_PROGRESS: 'UPLOAD_PROGRESS'
+  CALCULATE_KPI:'CALCULATE_KPI',
+  CALCULATE_KPI_SUCCESS:'CALCULATE_KPI_SUCCESS',
+  GET_KPI_SUMMARY:'GET_KPI_SUMMARY',
+  GET_KPI_SUMMARY_SUCCESS:'GET_KPI_SUMMARY_SUCCESS'
 }
 
 // actions are where most of the business logic takes place
@@ -25,7 +29,7 @@ export const actionTypes = {
 export const actionProcessFile = async (dispatch, payload) => {
   const user = getUser()
   const url = config.baseUrl + payload.get('url')
-  const processFile = async () => {
+  const action = async () => {
     const response = await axios.post(url, payload, {
       timeout: 10000,
       headers: { 'Authorization' : user.token },
@@ -49,7 +53,7 @@ export const actionProcessFile = async (dispatch, payload) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  await dispatchAction(dispatch, actionTypes.PROCESS_FILE, processFile )
+  await dispatchAction(dispatch, actionTypes.PROCESS_FILE, action )
 }
 
 
@@ -60,7 +64,7 @@ export const actionProcessFile = async (dispatch, payload) => {
  */
 export const actionGetListGroup = (dispatch) => {
   const url = config.baseUrl + '/falcon/group'
-  const listGroup = async () => {
+  const action = async () => {
     const response = await axios.get(url, {
       timeout: 10000,
       headers: { 'Authorization' : getUser().token }
@@ -76,7 +80,7 @@ export const actionGetListGroup = (dispatch) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_GROUP, listGroup )
+  dispatchAction(dispatch, actionTypes.LIST_GROUP, action )
 }
 
 /**
@@ -86,7 +90,7 @@ export const actionGetListGroup = (dispatch) => {
  */
 export const actionGetListDocs = (dispatch) => {
   const url = config.baseUrl + '/googledocs/doc'
-  const listGroup = async () => {
+  const action = async () => {
     const response = await axios.get(url, {
       timeout: 10000,
       headers: { 'Authorization' : getUser().token }
@@ -102,5 +106,61 @@ export const actionGetListDocs = (dispatch) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_DOC, listGroup )
+  dispatchAction(dispatch, actionTypes.LIST_DOC, action )
+}
+
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionCalculate = (dispatch, params) => {
+  const url = config.baseUrl + '/googledocs/monthly/calculation'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 10000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.CALCULATE_KPI_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.CALCULATE_KPI, action )
+}
+
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionGetSummary = (dispatch, params) => {
+  const url = config.baseUrl + '/googledocs/summary'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 10000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.GET_KPI_SUMMARY_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.GET_KPI_SUMMARY, action )
 }

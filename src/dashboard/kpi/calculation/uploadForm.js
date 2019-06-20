@@ -23,7 +23,7 @@ function UploadForm ({
     setOriginFileName(file.name)
     onReceiveFile({ file, docId: doc.id, docName: doc.name })
   }
-
+  const onChecked = checked || getChecked
   return (
     <div className="upload-forms">
       <Col span={10} lg={13} xl={13} xxl={10}>
@@ -63,7 +63,7 @@ function UploadForm ({
         <span style={{ marginTop: 20 }}>
           <LargeCheckbox
             type="secondary"
-            checked={checked || getChecked}
+            checked={onChecked}
             disabled={false}
           />
         </span>

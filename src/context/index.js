@@ -34,9 +34,7 @@ Provider.propTypes = {
  * if key provided it'll return only property required
  */
 export const useStateValue = (key) => {
-  const {
-    store, dispatch
-  } = useContext(Context)
+  const { store, dispatch } = useContext(Context)
   return key ? [ store[key], dispatch ] : [ store, dispatch ]
 }
 
@@ -45,9 +43,7 @@ export const useStateValue = (key) => {
  * @param {string} key is required
  */
 export const useStateDefault = (key) => {
-  const {
-    store, dispatch
-  } = useContext(Context)
+  const { store, dispatch } = useContext(Context)
   const {
     error, loading
   } = store
