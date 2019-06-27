@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  node, object, func, bool
-} from 'prop-types'
+import { node, func, bool } from 'prop-types'
 import {
   Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge
 } from 'antd'
@@ -9,8 +7,8 @@ import PhotoTemp from 'assets/image/temp/Photo.png'
 import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
 import ImageIcon from 'components/image-icon'
+import { useStateValue } from 'context'
 import MainMenu from './menu'
-import userData from 'utils/userData'
 import logout from 'utils/logout'
 import NotoficationPopOver from './notification'
 import { withTranslation } from 'react-i18next'
@@ -20,26 +18,26 @@ const { Header } = Layout
 
 function handleMenuClick(e) {
   console.log('click', e)
-  if (e.key === '3' && window) {
+  if (e.key === 'logout') {
     logout()
   }
 }
 
-const header = props => {
-  const { user, t, tReady, ...rest } = props
+function Headers(props) {
+  const { t, tReady, ...rest } = props
+  const [user] = useStateValue('user')
+  const firstName = user.data && user.data.fullname.split(' ')[0]
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">My Profile</Menu.Item>
-      <Menu.Item key="2">Setting</Menu.Item>
-      <Menu.Item key="3">Logout</Menu.Item>
+      <Menu.Item key="myprofile">My Profile</Menu.Item>
+      <Menu.Item key="setting">Setting</Menu.Item>
+      <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>
   )
   const showBadge = true
-  const userProfile = userData() || {}
   return (
     <>
       <Header {...rest} className="header-base header-font">
-        {/* {props.children} */}
         <Row
           gutter={8}
           align="middle"
@@ -49,14 +47,14 @@ const header = props => {
         >
           <Col xs={7} xl={5}>
             <Avatar
-              src={user.imageProfile}
+              src={user.data.photoProfile || PhotoTemp}
               size="large"
               className="header-avatar"
             />
             <div style={{ display: 'inline' }}>{tReady && t('components.header.wellcome')}, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
-                {userProfile.fullname}
+                {firstName}
                 <Icon
                   style={{
                     marginLeft: 14,
@@ -90,19 +88,14 @@ const header = props => {
           </Col>
         </Row>
       </Header>
-      {/* <div className="header-shadow" /> */}
     </>
   )
 }
 
-header.propTypes = {
+Headers.propTypes = {
   children: node,
-  user: object,
   t: func,
   tReady: bool
 }
-header.defaultProps = { user: {
-  firstName: 'Jaine', imageProfile: PhotoTemp
-} }
 
-export default withTranslation()(header)
+export default withTranslation()(Headers)
