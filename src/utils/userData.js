@@ -1,8 +1,10 @@
 import Cookies from 'js-cookie'
 
-const getUser = () => {
+const getUser = (short) => {
   const userData = Cookies.get('user')
-  return userData ? JSON.parse(userData) : null
+  const data = userData ? JSON.parse(userData) : null
+  const { sub, role, fullname, employeeid } = data || {}
+  return data && short ? { sub, role, fullname, employeeid } : data
 }
 export default getUser
 

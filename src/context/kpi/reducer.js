@@ -6,7 +6,7 @@
 
 import { actionTypes } from './action'
 
-const initialState = { data: null, progress: 0 }
+const initialState = { data: null, progress: [] }
 
 export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
@@ -18,7 +18,7 @@ export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.UPLOAD_PROGRESS) {
     return {
       ...state,
-      progress: action.progress
+      progress: [ ...state.progress, { [action.progress.doc] : action.progress.percentCompleted } ]
     }
   }
   return state

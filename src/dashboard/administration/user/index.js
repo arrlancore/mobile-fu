@@ -96,7 +96,7 @@ function UserPage () {
             excludeColumns={[ 'emp_id', 'group_id', 'doc_id', 'data_source' ]}
             pagination={{
               onChange: loadPage,
-              total: 20
+              total: 45
             }}
             loading={loadingData}
           />

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import { actionProcessFile, actionGetListGroup, actionGetListDocs } from 'context/kpi/action'
+import { actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary } from 'context/kpi/action'
 import { useStateDefault, useStateValue } from 'context'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
@@ -12,49 +12,9 @@ import Button from 'components/button'
 import Title from 'components/text/title'
 import UploadForm from './uploadForm'
 import usePrevious from 'utils/usePrevious'
-import getUser from 'utils/userData'
+import UploadIcon from 'components/upload-icon'
+import { kpiEndpointUpload, getMonthByQuarter, getNumberOfMonth, listYear, listQuarter } from './helper'
 import './style.css'
-
-function getMonthByQuarter (quarter) {
-  if (!quarter) return null
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June', 'July',
-    'August', 'September', 'October', 'November', 'December'
-  ]
-  const end = quarter * 3
-  const start = end - 3
-  const monthByQuarters = months.slice(start, end)
-  return monthByQuarters.map(month => ({ value: month, name: month }))
-}
-
-const listYear = [
-  { name: 2019, value: 2019 },
-  { name: 2018, value: 2018 } ]
-const listQuarter = [
-  { name: 1, value: 1 },
-  { name: 2, value: 2 },
-  { name: 3, value: 3 },
-  { name: 4, value: 4 }
-]
-
-const kpiEndpointUpload = (key) => {
-  let list = [
-    {
-      name: 'GPN Error',
-      url: '/googledocs/error'
-    },
-    {
-      name: 'GPN Daily',
-      url: '/googledocs/daily'
-    },
-    {
-      name: 'GPN Monthly',
-      url: '/googledocs/monthly'
-    }
-  ]
-  const result = list.filter(file => file.name === key)
-  return result[0]
-}
 
 function KpiCalculationPage () {
   // initiation
@@ -64,6 +24,7 @@ function KpiCalculationPage () {
   const [ group, setGroup ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
   const [ month, setMonth ] = React.useState(null)
+  const [ percentageUpload, setPercentageUpload ] = React.useState(1)
   const [ fileList, setFileList ] = React.useState([])
   const [ onUpload, setOnUpload ] = React.useState(false)
   const [ fileOnUpload, setFileOnUpload ] = React.useState('')
@@ -72,14 +33,19 @@ function KpiCalculationPage () {
   const [ fileUploaded, setFileUploaded ] = React.useState({})
   const [listGroup] = useStateValue('listGroup')
   const [listDoc] = useStateValue('listDoc')
+  const [kpiUpload] = useStateValue('kpiUpload')
+  const [user] = useStateValue('user')
 
   // use side effect
+  const summaryParam = { groupId: group, year, quarter }
   const prevError = usePrevious(uploadError)
+  const prevProgress = usePrevious(kpiUpload.progress)
   const prevListDoc = usePrevious(listDoc)
   const prevListGroup = usePrevious(listGroup)
+  const prevSummaryParam = usePrevious(summaryParam)
   React.useEffect(() => {
     if (!listGroup && prevListGroup !== listGroup) {
-      actionGetListGroup(dispatch)
+      actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
     }
     if (!listDoc && prevListDoc !== listDoc) {
       actionGetListDocs(dispatch)
@@ -87,8 +53,26 @@ function KpiCalculationPage () {
     if (uploadError && uploadError !== prevError) {
       onUploadError(uploadError)
     }
-    // return actionGetListGroup(dispatch)
-  }, [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch ])
+    if (onUpload && percentageUpload < 99) {
+      const count = fileList.length
+      const totalBar = count * 100
+      const totalBarPerFile = 100 / totalBar
+      const liveProgressBar = Object.keys(fileUploaded).length * 100
+      const liveUpdate = liveProgressBar * totalBarPerFile || percentageUpload
+      const newProgress = liveUpdate
+      setPercentageUpload(Math.round(newProgress))
+    }
+    if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
+      const { groupId, year, quarter } = summaryParam
+      const hasInputAll = year && quarter && groupId
+      if(hasInputAll) {
+        actionGetSummary(dispatch, summaryParam)
+      }
+    }
+  },
+  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload, prevProgress,
+    fileList.length, percentageUpload, fileUploaded, onUpload, prevSummaryParam, summaryParam, user.data.employeeid ]
+  )
 
   const onYearChange = setYear
 
@@ -107,7 +91,7 @@ function KpiCalculationPage () {
     setOnUpload(true)
     for(let i=0; i < fileList.length; i++) {
       let sourceFile = fileList[i]
-      const username = getUser().sub
+      const username = user.data.sub
       const filename = sourceFile.file.name
       setFileOnUpload(filename)
       let formData = new FormData()
@@ -115,7 +99,7 @@ function KpiCalculationPage () {
       formData.append('docId', sourceFile.docId)
       formData.append('filename', filename)
       formData.append('groupId', group)
-      formData.append('month', month)
+      formData.append('month', getNumberOfMonth(month))
       formData.append('quarter', quarter)
       formData.append('year', year)
       formData.append('username', username)
@@ -135,6 +119,7 @@ function KpiCalculationPage () {
   const onUploadFinished = () => {
     setOnUpload(false)
     setFileOnUpload('')
+    setFileUploaded({})
     setFileList([])
   }
 
@@ -244,7 +229,6 @@ function KpiCalculationPage () {
             }
           </Row>
         </div>
-
         <div className="section-row upload">
           {monthByQuarter && group &&
           <>
@@ -269,9 +253,9 @@ function KpiCalculationPage () {
                     onClick={onProcessFile}
                     style={{ marginBottom: 64 }}
                     type="secondary"
-                    loading={loadingWhenUpload}
                     disabled={fileList && !fileList[0] ||loadingWhenUpload || loadingWhenCalculate}
                   >
+                    {loadingWhenUpload ? <UploadIcon /> : ''}
                     Process File
                   </Button>
                   <Button

@@ -37,7 +37,7 @@ export const actionProcessFile = async (dispatch, payload) => {
         const percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
         dispatch({
           type: actionTypes.UPLOAD_PROGRESS,
-          progress: percentCompleted
+          progress: { percentCompleted, doc: payload.get('docId') }
         })
       }
     })
@@ -62,10 +62,11 @@ export const actionProcessFile = async (dispatch, payload) => {
  * @param {function} dispatch
  * @param {object} payload
  */
-export const actionGetListGroup = (dispatch) => {
-  const url = config.baseUrl + '/falcon/group'
+export const actionGetListGroup = (dispatch, params) => {
+  const url = config.baseUrl + '/falcon/group/employee'
   const action = async () => {
     const response = await axios.get(url, {
+      params,
       timeout: 10000,
       headers: { 'Authorization' : getUser().token }
     })
@@ -144,7 +145,7 @@ export const actionCalculate = (dispatch, params) => {
  * @param {object} params
  */
 export const actionGetSummary = (dispatch, params) => {
-  const url = config.baseUrl + '/googledocs/summary'
+  const url = config.baseUrl + '/googledocs/summary/status'
   const action = async () => {
     const response = await axios.get(url, {
       params,

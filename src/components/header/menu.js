@@ -42,7 +42,7 @@ function MainMenu() {
   ]
 
   return (
-    <div className="root-menu">
+    <nav className="root-menu">
       <Menu
         selectedKeys={[path]}
         mode="horizontal"
@@ -68,7 +68,7 @@ function MainMenu() {
         }
         )}
       </Menu>
-    </div>
+    </nav>
   )
 }
 
