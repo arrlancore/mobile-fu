@@ -1,0 +1,35 @@
+.upload-icon {
+  position: relative;
+  display: inline;
+  margin: 0 8px;
+}
+.upload-icon .icon-cloud {
+  width: 32px;
+  animation: blinkOpacity 1.5s infinite ease-in-out; 
+}
+.upload-icon .icon-arrow {
+  width: 14px;
+  transform: rotate(-90deg);
+  position: relative;
+  right: 23px;
+  bottom: -6px;
+  opacity: 0.8;
+  animation: arrowMove 1.5s infinite ease-in-out; 
+}
+@keyframes arrowMove {
+  from {
+    bottom:-6px;
+  }
+  to {
+    bottom: -2px;
+  }
+}
+
+@keyframes blinkOpacity {
+  from {
+    opacity:0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
