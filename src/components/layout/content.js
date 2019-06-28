@@ -1,14 +1,16 @@
 import { Layout } from 'antd'
 import React from 'react'
 import { node } from 'prop-types'
-
+import './style.css'
 const { Content } = Layout
 
 function content({ children }) {
   return (
-    <Content style={{ padding: '50px 4%' }}>
-      {children}
-    </Content>
+    <section className="content-fade-in">
+      <Content style={{ padding: '50px 4%' }}>
+        {children}
+      </Content>
+    </section>
   )
 }
 

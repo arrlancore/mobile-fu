@@ -4,12 +4,14 @@ import { string } from 'prop-types'
 import './style.css'
 
 const checkboxLarge = (props) => (
-  <Checkbox
-    className={`checkbox-root ${props.type === 'secondary' ? 'checkbox-secondary' : ''}`}
-    {...props}
-  />
+  <span title={props.title}>
+    <Checkbox
+      className={`checkbox-root checkbox-${props.type}`}
+      {...props}
+    />
+  </span>
 )
 
-checkboxLarge.propTypes = { type: string }
+checkboxLarge.propTypes = { type: string, title: string }
 
 export default checkboxLarge

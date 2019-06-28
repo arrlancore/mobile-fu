@@ -1,10 +1,6 @@
-import {
-  Col, Upload
-} from 'antd'
+import { Col, Upload } from 'antd'
 import React from 'react'
-import {
-  bool, func, object, string
-} from 'prop-types'
+import { bool, func, object, string } from 'prop-types'
 import LargeCheckbox from 'components/checkbox/large'
 import Input from 'components/input'
 import Button from 'components/button'
@@ -60,11 +56,24 @@ function UploadForm ({
           type="secondary"
           value={originFileName}
         />
-        <span style={{ marginTop: 20 }}>
+        <span style={{ marginTop: 20, marginLeft: 10 }}>
           <LargeCheckbox
             type="secondary"
-            checked={onChecked}
+            checked={!onChecked}
             disabled={false}
+            title="All month"
+          />
+          <LargeCheckbox
+            type="red"
+            checked={!onChecked}
+            disabled={false}
+            title="All month"
+          />
+          <LargeCheckbox
+            type="green"
+            checked={!onChecked}
+            disabled={false}
+            title="All month"
           />
         </span>
       </Col>
