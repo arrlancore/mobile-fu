@@ -7,11 +7,12 @@ let id = 0
  * => tracking the diff state when changes. TODO: need to return new state
  */
 export default function withDevTools(initialState, actionCreators) {
-  if (window && process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development') {
     const instanceID = id
     id += 1
     const name = `react-context: ${instanceID}`
-    const devTools = window ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators }) : null
+    const isInstalled = window && window.__REDUX_DEVTOOLS_EXTENSION__
+    const devTools = isInstalled ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators }) : null
     devTools && devTools.subscribe((message) => {
       if (message.type === 'START') {
         devTools.init(initialState)
