@@ -60,7 +60,7 @@ function UploadForm ({
               type={data.color}
               checked={data.status === 'uploaded'}
               key={key}
-              title={data.monthName}
+              title={`File for ${data.monthName} is ${data.status}`}
             />
           ))}
         </span>
