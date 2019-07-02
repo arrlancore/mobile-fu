@@ -41,3 +41,42 @@ export const kpiEndpointUpload = (key) => {
   const result = list.filter(file => file.name === key)
   return result[0]
 }
+
+export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
+  const colors = [ 'red', 'yellow', 'green' ]
+  let colorsDescription = []
+  let colorsDescriptionIndex = []
+  const summaryUpload = () => {
+    return kpiSummary.data.reduce((acc, value) => {
+      let data = acc
+      data[value.doc_id] = data[value.doc_id] ? [ ...data[value.doc_id], value ] : [value]
+      return data
+    },{}) || []
+  }
+  const mergedDocs = listDoc.data.map((doc) => {
+    const newProperty = summaryUpload()[doc.id]
+    let newPropertyColored = newProperty
+    if (newProperty) {
+      newPropertyColored = newProperty.map((data, i, arr) => {
+        const perMonth = arr.length === 3
+        const color = perMonth ? colors[i] : 'secondary'
+        const monthName = perMonth ? listMonths[data.month - 1 ] : 'All month'
+        if (!colorsDescriptionIndex.includes(color)) {
+          colorsDescription = [ ...colorsDescription, { color, monthName } ]
+          colorsDescriptionIndex = [ ...colorsDescriptionIndex, color ]
+        }
+        return {
+          ...data,
+          monthName,
+          color
+        }
+      })
+    }
+    return {
+      ...doc,
+      summary: newPropertyColored
+    }
+  })
+
+  return [ mergedDocs, colorsDescription ] || [listDoc.data]
+}

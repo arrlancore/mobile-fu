@@ -1,6 +1,8 @@
 import React from 'react'
 import { Row, Col } from 'antd'
-import { actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary } from 'context/kpi/action'
+import {
+  actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary, actionCalculate
+} from 'context/kpi/action'
 import { useStateDefault, useStateValue } from 'context'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
@@ -13,7 +15,9 @@ import Title from 'components/text/title'
 import UploadForm from './uploadForm'
 import usePrevious from 'utils/usePrevious'
 import UploadIcon from 'components/upload-icon'
-import { kpiEndpointUpload, getMonthByQuarter, getNumberOfMonth, listYear, listQuarter } from './helper'
+import {
+  kpiEndpointUpload, getMonthByQuarter, getNumberOfMonth, listYear, listQuarter, mergeSummaryToDoc
+} from './helper'
 import './style.css'
 
 function KpiCalculationPage () {
@@ -24,43 +28,41 @@ function KpiCalculationPage () {
   const [ group, setGroup ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
   const [ month, setMonth ] = React.useState(null)
-  const [ percentageUpload, setPercentageUpload ] = React.useState(1)
   const [ fileList, setFileList ] = React.useState([])
   const [ onUpload, setOnUpload ] = React.useState(false)
   const [ fileOnUpload, setFileOnUpload ] = React.useState('')
   const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
   const [ uploadError, uploadLoading, dispatch ] = useStateDefault('PROCESS_FILE')
+  const [ , summaryLoading ] = useStateDefault('GET_KPI_SUMMARY')
   const [ fileUploaded, setFileUploaded ] = React.useState({})
+  const [user] = useStateValue('user')
   const [listGroup] = useStateValue('listGroup')
   const [listDoc] = useStateValue('listDoc')
   const [kpiUpload] = useStateValue('kpiUpload')
-  const [user] = useStateValue('user')
-
+  const [kpiSummary] = useStateValue('kpiSummary')
+  const [ summaryUploaded, setSummaryUploaded ] = React.useState([])
+  const [ listColor, setListColor ] = React.useState([])
   // use side effect
   const summaryParam = { groupId: group, year, quarter }
   const prevError = usePrevious(uploadError)
+  const prevKpiSummary = usePrevious(kpiSummary)
   const prevProgress = usePrevious(kpiUpload.progress)
   const prevListDoc = usePrevious(listDoc)
   const prevListGroup = usePrevious(listGroup)
   const prevSummaryParam = usePrevious(summaryParam)
   React.useEffect(() => {
-    if (!listGroup && prevListGroup !== listGroup) {
+    // group summary by the doc Id
+    if (!listGroup && listGroup !== prevListGroup) {
       actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
     }
-    if (!listDoc && prevListDoc !== listDoc) {
+    if (!listDoc && listDoc !== prevListDoc) {
       actionGetListDocs(dispatch)
+    }
+    if (listDoc && listDoc !== prevListDoc) {
+      setSummaryUploaded(listDoc.data)
     }
     if (uploadError && uploadError !== prevError) {
       onUploadError(uploadError)
-    }
-    if (onUpload && percentageUpload < 99) {
-      const count = fileList.length
-      const totalBar = count * 100
-      const totalBarPerFile = 100 / totalBar
-      const liveProgressBar = Object.keys(fileUploaded).length * 100
-      const liveUpdate = liveProgressBar * totalBarPerFile || percentageUpload
-      const newProgress = liveUpdate
-      setPercentageUpload(Math.round(newProgress))
     }
     if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
       const { groupId, year, quarter } = summaryParam
@@ -69,12 +71,16 @@ function KpiCalculationPage () {
         actionGetSummary(dispatch, summaryParam)
       }
     }
+    if (kpiSummary && kpiSummary !== prevKpiSummary) {
+      const [ dataSummary, dataColor ] = mergeSummaryToDoc(listDoc, kpiSummary)
+      setSummaryUploaded(dataSummary)
+      setListColor(dataColor)
+    }
   },
-  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload, prevProgress,
-    fileList.length, percentageUpload, fileUploaded, onUpload, prevSummaryParam, summaryParam, user.data.employeeid ]
+  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload,
+    prevProgress, fileList.length, fileUploaded, onUpload, prevSummaryParam, summaryParam,
+    user.data.employeeid, kpiSummary, prevKpiSummary ]
   )
-
-  const onYearChange = setYear
 
   const onQuarterChange = (quarter) => {
     setQuarter(quarter)
@@ -111,18 +117,22 @@ function KpiCalculationPage () {
     onUploadFinished()
   }
 
+  const onCalculate = () =>
+    actionCalculate(dispatch, {
+      year,
+      quarter,
+      groupId: group
+    })
   const onUploadError = () => {
     setOnUpload(false)
     setFileOnUpload('')
   }
-
   const onUploadFinished = () => {
     setOnUpload(false)
     setFileOnUpload('')
     setFileUploaded({})
     setFileList([])
   }
-
   const onReceiveFile = (file) => {
     let files = [ ...fileList, file ]
     setFileList(files)
@@ -130,6 +140,7 @@ function KpiCalculationPage () {
 
   const loadingWhenUpload = uploadLoading
   const loadingWhenCalculate = uploadLoading
+  const showAction = monthByQuarter && group && !summaryLoading
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -180,7 +191,7 @@ function KpiCalculationPage () {
                 }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={onYearChange}
+                onChange={setYear}
               />
             </Col>
             <Col span={6}>
@@ -202,7 +213,7 @@ function KpiCalculationPage () {
             </Col>
           </Row>
           <Row>
-            {monthByQuarter && group &&
+            {showAction &&
               <div style={{ marginTop: 20 }}>
                 <Col span={6}>
                   <Input
@@ -230,12 +241,11 @@ function KpiCalculationPage () {
           </Row>
         </div>
         <div className="section-row upload">
-          {monthByQuarter && group &&
-          <>
-            <Title bold level={3}>Upload File</Title>
+          {showAction &&
+          <><Title bold level={3}>Upload File</Title>
             <Row type="flex" justify="center" align="middle" gutter={16}>
               <Col span={16} lg={24} xl={20} xxl={19}>
-                {listDoc && listDoc.data.map((doc, i) => (
+                {summaryUploaded.map((doc, i) => (
                   <UploadForm
                     key={i}
                     onReceiveFile={onReceiveFile}
@@ -259,6 +269,7 @@ function KpiCalculationPage () {
                     Process File
                   </Button>
                   <Button
+                    onClick={onCalculate}
                     loading={loadingWhenCalculate}
                     type="secondary"
                     disabled={loadingWhenUpload || loadingWhenCalculate}
@@ -268,9 +279,12 @@ function KpiCalculationPage () {
                 </div>
               </Col>
             </Row>
-          </>
-          || ''
-          }
+            <ul className="color-description">
+              {listColor.map((data, key) => (
+                <li key={key}><span className={`circle-description circle-${data.color}`}></span>{data.monthName}</li>
+              ))}
+            </ul></>
+          || ''}
         </div>
       </Content>
     </LayoutPage>

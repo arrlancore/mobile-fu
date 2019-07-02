@@ -11,6 +11,10 @@
   height: 12.142857px;
 }
 
+.checkbox-root .ant-checkbox-input{
+  cursor: help
+}
+
 .checkbox-secondary .ant-checkbox-inner {
   border: 1px solid #2699FB;
 }

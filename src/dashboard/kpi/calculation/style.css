@@ -7,6 +7,42 @@
   max-width: 300px;
 }
 
+.color-description{
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  margin-left: 0;
+}
+.color-description li{
+  float: left;
+  margin: 8px 14px;
+  font-weight: 500;
+}
+
+.circle-description {
+  position: relative;
+  top: 6px;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.circle-red {
+  background-color: #f24545;
+}
+.circle-green {
+  background-color: #34b443;
+}
+.circle-yellow {
+  background-color: #fb8b00;
+}
+.circle-blue {
+  background-color: #2699FB;
+}
+
 @media (max-width: 1520px) {
   .upload .ant-row-flex{
     flex-direction: column;

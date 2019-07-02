@@ -7,19 +7,17 @@ import Button from 'components/button'
 
 
 function UploadForm ({
-  checkDefault, doc, onReceiveFile, onUpload, fileOnUpload, fileUploaded
+  doc, onReceiveFile, onUpload, fileOnUpload
 }) {
 
-  const [checked] = React.useState(checkDefault)
   const [ originFileName, setOriginFileName ] = React.useState(null)
   const loading = fileOnUpload === originFileName
-  const getChecked = fileUploaded[originFileName]
+  console.log('TCL: fileUploaded', doc)
 
   const onFileSelected = ({ file }) => {
     setOriginFileName(file.name)
     onReceiveFile({ file, docId: doc.id, docName: doc.name })
   }
-  const onChecked = checked || getChecked
   return (
     <div className="upload-forms">
       <Col span={10} lg={13} xl={13} xxl={10}>
@@ -57,24 +55,14 @@ function UploadForm ({
           value={originFileName}
         />
         <span style={{ marginTop: 20, marginLeft: 10 }}>
-          <LargeCheckbox
-            type="secondary"
-            checked={!onChecked}
-            disabled={false}
-            title="All month"
-          />
-          <LargeCheckbox
-            type="red"
-            checked={!onChecked}
-            disabled={false}
-            title="All month"
-          />
-          <LargeCheckbox
-            type="green"
-            checked={!onChecked}
-            disabled={false}
-            title="All month"
-          />
+          {doc.summary && doc.summary.map((data, key) => (
+            <LargeCheckbox
+              type={data.color}
+              checked={data.status === 'uploaded'}
+              key={key}
+              title={data.monthName}
+            />
+          ))}
         </span>
       </Col>
     </div>
@@ -82,12 +70,10 @@ function UploadForm ({
 }
 
 UploadForm.propTypes = {
-  checkDefault: bool,
   onSelected: bool,
   doc: object,
   onReceiveFile: func,
   onUpload: bool,
-  fileUploaded: object,
   fileOnUpload: string
 }
 
