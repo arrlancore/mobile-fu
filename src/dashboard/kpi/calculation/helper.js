@@ -46,15 +46,24 @@ export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
   const colors = [ 'red', 'yellow', 'green' ]
   let colorsDescription = []
   let colorsDescriptionIndex = []
-  const summaryUpload = () => {
-    return kpiSummary.data.reduce((acc, value) => {
-      let data = acc
-      data[value.doc_id] = data[value.doc_id] ? [ ...data[value.doc_id], value ] : [value]
-      return data
-    },{}) || []
+  let uploaded = false
+  let notCompleted = false
+  let uploadedCount = 0
+  const summaryUploads = {}
+
+  for (let i = 0; i < kpiSummary.data.length; i++) {
+    const summary = kpiSummary.data
+    const value = summary[i]
+    if (value.status === 'uploaded') {
+      uploadedCount++
+    }
+    summaryUploads[value.doc_id] = summaryUploads[value.doc_id] ? [ ...summaryUploads[value.doc_id], value ] : [value]
   }
+  notCompleted = uploadedCount && uploadedCount !== kpiSummary.data.length
+  uploaded = uploadedCount === kpiSummary.data.length
+
   const mergedDocs = listDoc.data.map((doc) => {
-    const newProperty = summaryUpload()[doc.id]
+    const newProperty = summaryUploads[doc.id]
     let newPropertyColored = newProperty
     if (newProperty) {
       newPropertyColored = newProperty.map((data, i, arr) => {
@@ -77,6 +86,8 @@ export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
       summary: newPropertyColored
     }
   })
-
-  return [ mergedDocs, colorsDescription ] || [listDoc.data]
+  const result = [
+    mergedDocs, colorsDescription, { uploaded, notCompleted, totalUpload: uploadedCount }
+  ] || [listDoc.data]
+  return result
 }

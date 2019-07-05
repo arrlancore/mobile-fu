@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col } from 'antd'
+import { Row, Col, message } from 'antd' // @TODO: this is need to be fixed to optimize bundle size
 import {
   actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary, actionCalculate
 } from 'context/kpi/action'
@@ -11,29 +11,30 @@ import Helmet from 'components/helmet'
 import Select from 'components/select'
 import Input from 'components/input'
 import Button from 'components/button'
+import Spinner from 'components/loader/spinner'
 import Title from 'components/text/title'
 import UploadForm from './uploadForm'
 import usePrevious from 'utils/usePrevious'
-import UploadIcon from 'components/upload-icon'
 import {
   kpiEndpointUpload, getMonthByQuarter, getNumberOfMonth, listYear, listQuarter, mergeSummaryToDoc
 } from './helper'
 import './style.css'
 
 function KpiCalculationPage () {
-  // initiation
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.calculation.'
   const [ quarter, setQuarter ] = React.useState(0)
   const [ group, setGroup ] = React.useState(0)
   const [ year, setYear ] = React.useState(null)
-  const [ month, setMonth ] = React.useState(null)
+  const [ month, setMonth ] = React.useState(2)
+  const [ uploadStatus, setUploadedStatus ] = React.useState(false)
   const [ fileList, setFileList ] = React.useState([])
   const [ onUpload, setOnUpload ] = React.useState(false)
   const [ fileOnUpload, setFileOnUpload ] = React.useState('')
   const [ monthByQuarter, setMonthByQuarter ] = React.useState(getMonthByQuarter())
   const [ uploadError, uploadLoading, dispatch ] = useStateDefault('PROCESS_FILE')
   const [ , summaryLoading ] = useStateDefault('GET_KPI_SUMMARY')
+  const [ calculateError, calculateLoading ] = useStateDefault('CALCULATE_KPI')
   const [ fileUploaded, setFileUploaded ] = React.useState({})
   const [user] = useStateValue('user')
   const [listGroup] = useStateValue('listGroup')
@@ -50,6 +51,7 @@ function KpiCalculationPage () {
   const prevListDoc = usePrevious(listDoc)
   const prevListGroup = usePrevious(listGroup)
   const prevSummaryParam = usePrevious(summaryParam)
+  const prevCalculateLoading = usePrevious(calculateLoading)
   React.useEffect(() => {
     // group summary by the doc Id
     if (!listGroup && listGroup !== prevListGroup) {
@@ -72,14 +74,16 @@ function KpiCalculationPage () {
       }
     }
     if (kpiSummary && kpiSummary !== prevKpiSummary) {
-      const [ dataSummary, dataColor ] = mergeSummaryToDoc(listDoc, kpiSummary)
+      const [ dataSummary, dataColor, uploaded ] = mergeSummaryToDoc(listDoc, kpiSummary)
       setSummaryUploaded(dataSummary)
       setListColor(dataColor)
+      setUploadedStatus(uploaded)
+    }
+    if (prevCalculateLoading && calculateLoading === false && !calculateError) {
+      message.info('Calculate has been finished')
     }
   },
-  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload,
-    prevProgress, fileList.length, fileUploaded, onUpload, prevSummaryParam, summaryParam,
-    user.data.employeeid, kpiSummary, prevKpiSummary ]
+  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload, prevProgress, fileList.length, fileUploaded, onUpload, prevSummaryParam, summaryParam, user.data.employeeid, kpiSummary, prevKpiSummary ] //eslint-disable-line
   )
 
   const onQuarterChange = (quarter) => {
@@ -117,12 +121,21 @@ function KpiCalculationPage () {
     onUploadFinished()
   }
 
-  const onCalculate = () =>
+  const onCalculate = () => {
+    message.info('Prepare calculate...').then(() => {
+      if (!calculateError) {
+        message.info('Calculating...')
+      }
+    })
     actionCalculate(dispatch, {
       year,
       quarter,
-      groupId: group
+      groupId: group,
+      username: user.data.sub,
+      itemId: 1558674252026,
+      docId: 1558666944435
     })
+  }
   const onUploadError = () => {
     setOnUpload(false)
     setFileOnUpload('')
@@ -132,6 +145,7 @@ function KpiCalculationPage () {
     setFileOnUpload('')
     setFileUploaded({})
     setFileList([])
+    actionGetSummary(dispatch, summaryParam)
   }
   const onReceiveFile = (file) => {
     let files = [ ...fileList, file ]
@@ -139,8 +153,18 @@ function KpiCalculationPage () {
   }
 
   const loadingWhenUpload = uploadLoading
-  const loadingWhenCalculate = uploadLoading
+  const loadingWhenCalculate = calculateLoading
   const showAction = monthByQuarter && group && !summaryLoading
+  let uploadStatuses = () => {
+    if (uploadStatus.uploaded) {
+      return 'Uploaded'
+    }
+    if (uploadStatus.notCompleted) {
+      return 'Not Completed'
+    }
+    return 'Not Uploaded'
+
+  }
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -177,12 +201,12 @@ function KpiCalculationPage () {
                 placeholder="select"
                 optionFilterProp="children"
                 onChange={setMonth}
+                devaultValue={month}
               />
             </Col>
             <Col span={6}>
               <Select
                 type="secondary"
-                devaultValue={quarter}
                 label="Year"
                 optionList={listYear}
                 showSearch
@@ -217,7 +241,7 @@ function KpiCalculationPage () {
               <div style={{ marginTop: 20 }}>
                 <Col span={6}>
                   <Input
-                    value="Uploaded"
+                    value={uploadStatuses()}
                     style={{
                       maxWidth: 300, width: '100%'
                     }}
@@ -265,15 +289,15 @@ function KpiCalculationPage () {
                     type="secondary"
                     disabled={fileList && !fileList[0] ||loadingWhenUpload || loadingWhenCalculate}
                   >
-                    {loadingWhenUpload ? <UploadIcon /> : ''}
+                    {loadingWhenUpload ? <Spinner size="default" style={{ marginRight: 10 }} /> : ''}
                     Process File
                   </Button>
                   <Button
                     onClick={onCalculate}
-                    loading={loadingWhenCalculate}
                     type="secondary"
-                    disabled={loadingWhenUpload || loadingWhenCalculate}
+                    disabled={loadingWhenUpload || loadingWhenCalculate || !uploadStatus.uploaded}
                   >
+                    {loadingWhenCalculate ? <Spinner size="default" style={{ marginRight: 10 }} /> : ''}
                     Calculate KPI
                   </Button>
                 </div>
@@ -286,6 +310,7 @@ function KpiCalculationPage () {
             </ul></>
           || ''}
         </div>
+        {summaryLoading && <Spinner center tip="Loading..." top="10%" /> || ''}
       </Content>
     </LayoutPage>
   )
