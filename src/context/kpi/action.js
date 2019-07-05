@@ -121,7 +121,7 @@ export const actionCalculate = (dispatch, params) => {
   const action = async () => {
     const response = await axios.get(url, {
       params,
-      timeout: 10000,
+      timeout: 20000,
       headers: { 'Authorization' : getUser().token }
     })
     if (response.status <= 201) {
