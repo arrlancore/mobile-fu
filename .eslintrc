@@ -68,7 +68,7 @@
       "error",
       "never"
     ],
-    "max-lines": ["error"],
+    "max-lines": ["warn"],
     "complexity": ["off", 11],
     "eqeqeq": ["error", "always"],
     "max-classes-per-file": ["off", 1],
