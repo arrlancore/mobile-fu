@@ -3,12 +3,14 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import common_en from 'translations/en/common.json'
 
+const dev = process.env.NODE_ENV === 'development'
+
 const options = {
   interpolation: {
     escapeValue: false // not needed for react!!
   },
 
-  debug: true,
+  debug: dev && true,
 
   resources: {
     en: {
