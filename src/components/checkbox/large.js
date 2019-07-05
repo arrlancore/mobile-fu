@@ -3,6 +3,7 @@ import React from 'react'
 import { string } from 'prop-types'
 import './style.css'
 
+
 const checkboxLarge = (props) => (
   <span title={props.title}>
     <Checkbox
