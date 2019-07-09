@@ -16,7 +16,9 @@ export const actionTypes = {
   CALCULATE_KPI:'CALCULATE_KPI',
   CALCULATE_KPI_SUCCESS:'CALCULATE_KPI_SUCCESS',
   GET_KPI_SUMMARY:'GET_KPI_SUMMARY',
-  GET_KPI_SUMMARY_SUCCESS:'GET_KPI_SUMMARY_SUCCESS'
+  GET_KPI_SUMMARY_SUCCESS:'GET_KPI_SUMMARY_SUCCESS',
+  GET_CALCULATION_STATUS:'GET_CALCULATION_STATUS',
+  GET_CALCULATION_STATUS_SUCCESS:'GET_CALCULATION_STATUS_SUCCESS'
 }
 
 // actions are where most of the business logic takes place
@@ -31,7 +33,7 @@ export const actionProcessFile = async (dispatch, payload) => {
   const url = config.baseUrl + payload.get('url')
   const action = async () => {
     const response = await axios.post(url, payload, {
-      timeout: 10000,
+      timeout: 20000,
       headers: { 'Authorization' : user.token },
       onUploadProgress : function(progressEvent) {
         const percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
@@ -67,7 +69,7 @@ export const actionGetListGroup = (dispatch, params) => {
   const action = async () => {
     const response = await axios.get(url, {
       params,
-      timeout: 10000,
+      timeout: 20000,
       headers: { 'Authorization' : getUser().token }
     })
     if (response.status <= 201) {
@@ -93,7 +95,7 @@ export const actionGetListDocs = (dispatch) => {
   const url = config.baseUrl + '/googledocs/doc'
   const action = async () => {
     const response = await axios.get(url, {
-      timeout: 10000,
+      timeout: 20000,
       headers: { 'Authorization' : getUser().token }
     })
     if (response.status <= 201) {
@@ -145,11 +147,13 @@ export const actionCalculate = (dispatch, params) => {
  * @param {object} params
  */
 export const actionGetSummary = (dispatch, params) => {
+  console.log('summary')
+
   const url = config.baseUrl + '/googledocs/summary/status'
   const action = async () => {
     const response = await axios.get(url, {
       params,
-      timeout: 10000,
+      timeout: 20000,
       headers: { 'Authorization' : getUser().token }
     })
     if (response.status <= 201) {
@@ -164,4 +168,32 @@ export const actionGetSummary = (dispatch, params) => {
     }
   }
   dispatchAction(dispatch, actionTypes.GET_KPI_SUMMARY, action )
+}
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionCalculationStatus = (dispatch, params) => {
+  console.log('status')
+  const url = config.baseUrl + '/googledocs/summary/status/calculation'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.GET_CALCULATION_STATUS_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.GET_CALCULATION_STATUS, action )
 }

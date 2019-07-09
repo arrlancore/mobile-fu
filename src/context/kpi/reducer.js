@@ -8,6 +8,19 @@ import { actionTypes } from './action'
 
 const initialState = { data: null, progress: [] }
 
+/**
+ * default set reducer that will be always return data
+ * @param {object} state
+ * @param {object} action
+ * @param {string} actionType
+ */
+function setDataReducer (state, action, actionType) {
+  if (action.type === actionType) {
+    return { data: action.data }
+  }
+  return state
+}
+
 export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.PROCESS_FILE_SUCCESS) {
     return {
@@ -24,38 +37,19 @@ export const kpiUploadReducer = (state = initialState, action) => {
   return state
 }
 
-export const listGroupReducer = (state = null, action) => {
-  if (action.type === actionTypes.LIST_GROUP_SUCCESS) {
-    return {
-      data: action.data
-    }
-  }
-  return state
-}
+export const listGroupReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.LIST_GROUP_SUCCESS)
 
-export const listDocReducer = (state = null, action) => {
-  if (action.type === actionTypes.LIST_DOC_SUCCESS) {
-    return {
-      data: action.data
-    }
-  }
-  return state
-}
 
-export const calculateReducer = (state = null, action) => {
-  if (action.type === actionTypes.CALCULATE_KPI_SUCCESS) {
-    return {
-      data: action.data
-    }
-  }
-  return state
-}
+export const listDocReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.LIST_DOC_SUCCESS)
 
-export const summaryReducer = (state = null, action) => {
-  if (action.type === actionTypes.GET_KPI_SUMMARY_SUCCESS) {
-    return {
-      data: action.data
-    }
-  }
-  return state
-}
+
+export const calculateReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.CALCULATE_KPI_SUCCESS)
+
+export const summaryReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.GET_KPI_SUMMARY_SUCCESS)
+
+export const calculationStatusReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.GET_CALCULATION_STATUS_SUCCESS)
