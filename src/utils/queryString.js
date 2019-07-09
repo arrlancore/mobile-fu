@@ -19,4 +19,11 @@ export function encode(obj) {
   }
   return str.join('&')
 }
-
+export function setQueryUrl(newQueries) {
+  const search = window.history.location.search
+  const query = decode(search)
+  newQueries.forEach(({ key, value }) => {
+    query[key] = value
+  })
+  window.history.replace(`${window.history.location.pathname}?${encode(query)}`)
+}
