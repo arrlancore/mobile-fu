@@ -16,12 +16,16 @@ function MainMenu() {
       path: '/kpi',
       submenus: [
         {
-          name: 'KPI Calculation',
+          name: 'Calculation',
           path: '/kpi/calculation'
         },
         {
-          name: 'KPI Achivement',
+          name: 'Achivement',
           path: '/kpi/achivement'
+        },
+        {
+          name: 'Report',
+          path: '/kpi/report'
         }
       ]
     },
