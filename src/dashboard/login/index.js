@@ -20,7 +20,7 @@ import './style.css'
 
 
 function LoginPage(props) {
-  const { t } = useTranslation() // t is translate function to show a message by language chosen
+  const { t } = useTranslation() // t ->> translate function to show a message by language chosen
   const tKey = 'dashboard.login.'
   const [ nextPath, setnextPath ] = React.useState('/home')
   const { history } = props

@@ -1,0 +1,29 @@
+.section-row {
+  margin-top: 40px;
+}
+
+.score-bar{
+  width: 100%;
+  display: block;
+  background: #E2E2E4;
+  position: relative
+}
+.score-bar-progress{
+  height: 100%;
+  position: absolute;
+  left: 0;
+  animation: progressScore 0.2s ease-in-out;
+}
+.score-bar-value{
+  position: relative;
+}
+
+@keyframes progressScore{
+  from {
+    width: 0;
+    background: #ff4d4f;
+  }
+  to {
+    width: 50%;
+  }
+}

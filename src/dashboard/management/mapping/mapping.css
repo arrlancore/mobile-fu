@@ -1,0 +1,12 @@
+.mapping-table .ant-table-wrapper {
+  box-shadow: -1px 0px 16px 6px rgba(226,226,228,1)
+}
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 520px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .mapping-button {
+      justify-content: center !important;
+    }
+}
