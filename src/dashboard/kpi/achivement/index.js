@@ -112,18 +112,19 @@ function KpiCalculationPage () {
       width: 120,
       align: 'center',
       render: function scoreBar(score) {
+        const getColor = (score) => {
+          if (score > 5 && score <= 10) {
+            return '#52c41a'
+          }
+          return '#F39C12'
+        }
         return (
-          <div style={{
-            width: '100%', display: 'block', background: '#E2E2E4', position: 'relative'
-          }}>
-            <span style={{
-              height: '100%',
+          <div className="score-bar">
+            <span className="score-bar-progress" style={{
               width: `${score * 10}%`,
-              background: '#F39C12',
-              position: 'absolute',
-              left: 0
+              background: getColor(score)
             }} />
-            <span style={{ position: 'relative' }}>{score} / 10</span>
+            <span className="score-bar-value">{score} / 10</span>
           </div>
         )
       }

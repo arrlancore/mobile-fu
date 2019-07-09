@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, message } from 'antd' // @TODO: this is need to be fixed to optimize bundle size
 import {
-  actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary, actionCalculate
+  actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary, actionCalculate, actionCalculationStatus
 } from 'context/kpi/action'
 import { useStateDefault, useStateValue } from 'context'
 import { useTranslation } from 'react-i18next'
@@ -41,6 +41,7 @@ function KpiCalculationPage () {
   const [listDoc] = useStateValue('listDoc')
   const [kpiUpload] = useStateValue('kpiUpload')
   const [kpiSummary] = useStateValue('kpiSummary')
+  const [kpiCalculationStatus] = useStateValue('kpiCalculationStatus')
   const [ summaryUploaded, setSummaryUploaded ] = React.useState([])
   const [ listColor, setListColor ] = React.useState([])
   // use side effect
@@ -71,6 +72,7 @@ function KpiCalculationPage () {
       const hasInputAll = year && quarter && groupId
       if(hasInputAll) {
         actionGetSummary(dispatch, summaryParam)
+        actionCalculationStatus(dispatch, summaryParam)
       }
     }
     if (kpiSummary && kpiSummary !== prevKpiSummary) {
@@ -85,7 +87,6 @@ function KpiCalculationPage () {
   },
   [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload, prevProgress, fileList.length, fileUploaded, onUpload, prevSummaryParam, summaryParam, user.data.employeeid, kpiSummary, prevKpiSummary ] //eslint-disable-line
   )
-
   const onQuarterChange = (quarter) => {
     setQuarter(quarter)
     setMonths(year, quarter)
@@ -154,6 +155,7 @@ function KpiCalculationPage () {
 
   const loadingWhenUpload = uploadLoading
   const loadingWhenCalculate = calculateLoading
+  const { data } = kpiCalculationStatus || {}
   const showAction = monthByQuarter && group && !summaryLoading
   let uploadStatuses = () => {
     if (uploadStatus.uploaded) {
@@ -243,7 +245,7 @@ function KpiCalculationPage () {
                   <Input
                     value={uploadStatuses()}
                     style={{
-                      maxWidth: 300, width: '100%'
+                      maxWidth: 300, width: '100%', textTransform: 'capitalize'
                     }}
                     label="Status Upload"
                     type="secondary"
@@ -251,9 +253,9 @@ function KpiCalculationPage () {
                 </Col>
                 <Col span={6}>
                   <Input
-                    value="Not calculated yet"
+                    value={data && data.status}
                     style={{
-                      maxWidth: 300, width: '100%'
+                      maxWidth: 300, width: '100%', textTransform: 'capitalize'
                     }}
                     label="Status Calculate"
                     type="secondary"

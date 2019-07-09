@@ -69,7 +69,7 @@ export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
       newPropertyColored = newProperty.map((data, i, arr) => {
         const perMonth = arr.length === 3
         const color = perMonth ? colors[i] : 'secondary'
-        const monthName = perMonth ? listMonths[data.month - 1 ] : 'All month'
+        const monthName = perMonth ? listMonths[data.month - 1 ] : 'Any month'
         if (!colorsDescriptionIndex.includes(color)) {
           colorsDescription = [ ...colorsDescription, { color, monthName } ]
           colorsDescriptionIndex = [ ...colorsDescriptionIndex, color ]
