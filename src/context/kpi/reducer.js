@@ -53,3 +53,6 @@ export const summaryReducer = (state = null, action) =>
 
 export const calculationStatusReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.GET_CALCULATION_STATUS_SUCCESS)
+
+export const itemsReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.GET_ITEMS_SUCCESS)

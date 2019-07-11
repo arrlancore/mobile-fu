@@ -18,7 +18,9 @@ export const actionTypes = {
   GET_KPI_SUMMARY:'GET_KPI_SUMMARY',
   GET_KPI_SUMMARY_SUCCESS:'GET_KPI_SUMMARY_SUCCESS',
   GET_CALCULATION_STATUS:'GET_CALCULATION_STATUS',
-  GET_CALCULATION_STATUS_SUCCESS:'GET_CALCULATION_STATUS_SUCCESS'
+  GET_CALCULATION_STATUS_SUCCESS:'GET_CALCULATION_STATUS_SUCCESS',
+  GET_ITEMS:'GET_ITEMS',
+  GET_ITEMS_SUCCESS:'GET_ITEMS_SUCCESS'
 }
 
 // actions are where most of the business logic takes place
@@ -176,7 +178,6 @@ export const actionGetSummary = (dispatch, params) => {
  * @param {object} params
  */
 export const actionCalculationStatus = (dispatch, params) => {
-  console.log('status')
   const url = config.baseUrl + '/googledocs/summary/status/calculation'
   const action = async () => {
     const response = await axios.get(url, {
@@ -196,4 +197,32 @@ export const actionCalculationStatus = (dispatch, params) => {
     }
   }
   dispatchAction(dispatch, actionTypes.GET_CALCULATION_STATUS, action )
+}
+
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionGetItems = (dispatch, params) => {
+  const url = config.baseUrl + '/googledocs/kpi/item'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.GET_ITEMS_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.GET_ITEMS, action )
 }
