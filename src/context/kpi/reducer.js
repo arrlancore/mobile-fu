@@ -67,5 +67,5 @@ export const exportReportReducer = (state = null, action) =>
 export const listTeamReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.LIST_TEAM_SUCCESS)
 
-export const ListGroupByTeamReducer = (state = null, action) =>
+export const listGroupByTeamReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.LIST_GROUP_TEAM_SUCCESS)

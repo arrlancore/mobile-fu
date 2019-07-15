@@ -9,7 +9,7 @@ import {
   itemsReducer,
   reportReducer,
   listTeamReducer,
-  ListGroupByTeamReducer
+  listGroupByTeamReducer
 } from './kpi/reducer'
 import { errorReducer, loadingReducer } from './default/reducer'
 
@@ -26,7 +26,7 @@ export const reducers = {
   kpiItem: itemsReducer,
   kpiReport: reportReducer,
   listTeam: listTeamReducer,
-  ListGroupByTeam: ListGroupByTeamReducer
+  listGroupByTeam: listGroupByTeamReducer
 }
 
 const combineReducers = reducer => {

@@ -1,66 +1,92 @@
-import React from 'react'
+import './style.css'
+
+import { Col, Row } from 'antd'
+import Button from 'components/button'
+import Helmet from 'components/helmet'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
-import Helmet from 'components/helmet'
 import Select from 'components/select'
-import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
-import { useTranslation } from 'react-i18next'
-import { Row, Col } from 'antd'
-import { listYear, listQuarter } from 'utils/time'
-import { useStateValue, usePrevious, useStateDefault } from 'context'
+import { usePrevious, useStateDefault, useStateValue } from 'context'
 import {
-  actionGetListGroup,
+  actionExportReport,
   actionGetReport,
-  actionExportReport
+  actionListTeam,
+  actionListGroupByTeam
 } from 'context/kpi/action'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { listQuarter, listYear } from 'utils/time'
+
 /**
  * KPI Calculation page
  */
-function KpiCalculationPage() {
+function KpiReportPage() {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.report.'
-  const [listGroup, dispatch] = useStateValue('listGroup')
   const [groupId, setGroupId] = React.useState(null)
+  const [teamId, setTeamId] = React.useState(null)
   const [paramHasInput, setParamHasInput] = React.useState(false)
   const [, reportLoading] = useStateDefault('GET_REPORT')
   const [, exportLoading] = useStateDefault('EXPORT_REPORT')
+  const [, listGroupTeamLoading] = useStateDefault('LIST_GROUP_TEAM')
   const [year, setYear] = React.useState(null)
   const [quarter, setQuarter] = React.useState(null)
   const [user] = useStateValue('user')
   const [kpiReport] = useStateValue('kpiReport')
+  const [listGroupTeam, dispatch] = useStateValue('listGroupByTeam')
+  const [listTeam] = useStateValue('listTeam')
 
-  const summaryParam = { groupId, year, quarter }
+  const summaryParam = {
+    groupId,
+    year,
+    quarter
+  }
   const prevSummaryParam = usePrevious(summaryParam)
-  const prevListGroup = usePrevious(listGroup)
+  const prevListTeam = usePrevious(listTeam)
+  const prevTeamId = usePrevious(teamId)
   React.useEffect(() => {
     // group summary by the doc Id
-    if (!listGroup && listGroup !== prevListGroup) {
-      actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
+    if (!listTeam && listTeam !== prevListTeam) {
+      actionListTeam(dispatch)
     }
     if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
-      const { groupId, year, quarter } = summaryParam
-      const hasInputAll = year && quarter && groupId
-      if (hasInputAll) {
+      if (summaryParam.year && summaryParam.quarter && summaryParam.groupId) {
         actionGetReport(dispatch, summaryParam)
         setParamHasInput(true)
       }
     }
   }, [
-    listGroup,
-    prevListGroup,
     prevSummaryParam,
     summaryParam,
     dispatch,
-    user.data.employeeid
+    user.data.employeeid,
+    listTeam,
+    prevListTeam,
+    teamId,
+    prevTeamId
   ])
 
-  // const CheckboxGroup = Checkbox.Group
-  // const filterOption = [ 'CRM', 'CPC', 'CTR' ]
+  const onTeamChange = teamId => {
+    setTeamId(teamId)
+    actionListGroupByTeam(dispatch, { teamid: teamId })
+  }
+
   const dataGroup =
-    listGroup && listGroup.data
-      ? listGroup.data.map(data => ({ name: data.group_name, value: data.id }))
+    listGroupTeam && listGroupTeam.data
+      ? listGroupTeam.data.map(data => ({
+          name: data.group_name,
+          value: data.id
+        }))
+      : []
+
+  const dataTeam =
+    listTeam && listTeam.data
+      ? listTeam.data.map(data => ({
+          name: `${data.team} (${data.team_code})`,
+          value: data.id
+        }))
       : []
 
   const onExportReport = () => actionExportReport(dispatch, summaryParam)
@@ -99,7 +125,7 @@ function KpiCalculationPage() {
     </>
   )
 
-  let columnProperty = [
+  const columnProperty = [
     // add special condition for one or each column here
     {
       dataIndex: 'employee_id',
@@ -107,26 +133,31 @@ function KpiCalculationPage() {
     },
     {
       dataIndex: 'name',
-      sorter: (a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0)
+      sorter: (a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0) // eslint-disable-line
     },
     {
       dataIndex: 'perc_final',
       width: 120,
       align: 'center',
       render: function scoreBar(score) {
-        const getColor = score => {
-          if (score > 50 && score <= 100) {
+        const min = 50
+        const max = 100
+        const perTen = 10
+        const getColor = scores => {
+          if (scores > min && scores <= max) {
             return '#52c41a'
           }
+
           return '#F39C12'
         }
+
         return (
           <div className="score-bar">
             <span
               className="score-bar-progress"
               style={{
-                width: `${Math.round(score / 10)}%`,
-                background: getColor(Math.round(score / 10))
+                width: `${Math.round(score / perTen)}%`,
+                background: getColor(Math.round(score / perTen))
               }}
             />
             <span className="score-bar-value">{score}</span>
@@ -139,11 +170,11 @@ function KpiCalculationPage() {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>{t(tKey + 'pageTitle')}</title>
+        <title>{t(`${tKey}pageTitle`)}</title>
       </Helmet>
       <Content>
         <Title bold level={2}>
-          Achivement
+          Report
         </Title>
         <div className="section-row">
           <Row gutter={24}>
@@ -177,20 +208,21 @@ function KpiCalculationPage() {
                 onChange={setQuarter}
               />
             </Col>
-            {/* <Col span={6}>
+            <Col span={6}>
               <Select
                 type="secondary"
                 label="Team"
-                optionList={listYear}
+                optionList={dataTeam}
                 showSearch
                 style={{
-                  maxWidth: 300, width: '100%'
+                  maxWidth: 300,
+                  width: '100%'
                 }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={onChange}
+                onChange={onTeamChange}
               />
-            </Col> */}
+            </Col>
             <Col span={6}>
               <Select
                 type="secondary"
@@ -201,7 +233,8 @@ function KpiCalculationPage() {
                   maxWidth: 300,
                   width: '100%'
                 }}
-                placeholder="select"
+                loading={listGroupTeamLoading}
+                placeholder={listGroupTeamLoading ? 'loading...' : 'select'}
                 optionFilterProp="children"
                 onChange={setGroupId}
               />
@@ -247,4 +280,4 @@ function KpiCalculationPage() {
   )
 }
 
-export default KpiCalculationPage
+export default KpiReportPage

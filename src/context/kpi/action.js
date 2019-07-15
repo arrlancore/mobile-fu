@@ -325,7 +325,7 @@ export const actionListTeam = (dispatch, params) => {
  * @param {object} params
  */
 export const actionListGroupByTeam = (dispatch, params) => {
-  const url = config.baseUrl + '/falcon/team-group'
+  const url = config.baseUrl + '/falcon/group/team'
   const action = async () => {
     const response = await axios.get(url, {
       params,

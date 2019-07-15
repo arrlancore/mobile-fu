@@ -11,8 +11,9 @@ import Title from 'components/text/title'
 import { usePrevious, useStateDefault, useStateValue } from 'context'
 import {
   actionExportReport,
-  actionGetListGroup,
-  actionGetReport
+  actionGetReport,
+  actionListTeam,
+  actionListGroupByTeam
 } from 'context/kpi/action'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,18 +22,21 @@ import { listQuarter, listYear } from 'utils/time'
 /**
  * KPI Calculation page
  */
-function KpiCalculationPage() {
+function KpiAchivementPage() {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.achivement.'
-  const [listGroup, dispatch] = useStateValue('listGroup')
   const [groupId, setGroupId] = React.useState(null)
+  const [teamId, setTeamId] = React.useState(null)
   const [paramHasInput, setParamHasInput] = React.useState(false)
   const [, reportLoading] = useStateDefault('GET_REPORT')
   const [, exportLoading] = useStateDefault('EXPORT_REPORT')
+  const [, listGroupTeamLoading] = useStateDefault('LIST_GROUP_TEAM')
   const [year, setYear] = React.useState(null)
   const [quarter, setQuarter] = React.useState(null)
   const [user] = useStateValue('user')
   const [kpiReport] = useStateValue('kpiReport')
+  const [listGroupTeam, dispatch] = useStateValue('listGroupByTeam')
+  const [listTeam] = useStateValue('listTeam')
 
   const summaryParam = {
     groupId,
@@ -40,37 +44,47 @@ function KpiCalculationPage() {
     quarter
   }
   const prevSummaryParam = usePrevious(summaryParam)
-  const prevListGroup = usePrevious(listGroup)
+  const prevListTeam = usePrevious(listTeam)
+  const prevTeamId = usePrevious(teamId)
   React.useEffect(() => {
     // group summary by the doc Id
-    if (!listGroup && listGroup !== prevListGroup) {
-      actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
+    if (!listTeam && listTeam !== prevListTeam) {
+      actionListTeam(dispatch)
     }
     if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
-      const hasInputAll =
-        summaryParam.year && summaryParam.quarter && summaryParam.groupId
-      if (hasInputAll) {
+      if (summaryParam.year && summaryParam.quarter && summaryParam.groupId) {
         actionGetReport(dispatch, summaryParam)
         setParamHasInput(true)
       }
     }
   }, [
-    listGroup,
-    prevListGroup,
     prevSummaryParam,
     summaryParam,
     dispatch,
-    user.data.employeeid
+    user.data.employeeid,
+    listTeam,
+    prevListTeam,
+    teamId,
+    prevTeamId
   ])
 
-  /*
-   * const CheckboxGroup = Checkbox.Group
-   * const filterOption = [ 'CRM', 'CPC', 'CTR' ]
-   */
+  const onTeamChange = teamId => {
+    setTeamId(teamId)
+    actionListGroupByTeam(dispatch, { teamid: teamId })
+  }
+
   const dataGroup =
-    listGroup && listGroup.data
-      ? listGroup.data.map(data => ({
+    listGroupTeam && listGroupTeam.data
+      ? listGroupTeam.data.map(data => ({
           name: data.group_name,
+          value: data.id
+        }))
+      : []
+
+  const dataTeam =
+    listTeam && listTeam.data
+      ? listTeam.data.map(data => ({
+          name: `${data.team} (${data.team_code})`,
           value: data.id
         }))
       : []
@@ -198,7 +212,7 @@ function KpiCalculationPage() {
               <Select
                 type="secondary"
                 label="Team"
-                optionList={listYear}
+                optionList={dataTeam}
                 showSearch
                 style={{
                   maxWidth: 300,
@@ -206,7 +220,7 @@ function KpiCalculationPage() {
                 }}
                 placeholder="select"
                 optionFilterProp="children"
-                onChange={setGroupId}
+                onChange={onTeamChange}
               />
             </Col>
             <Col span={6}>
@@ -219,7 +233,8 @@ function KpiCalculationPage() {
                   maxWidth: 300,
                   width: '100%'
                 }}
-                placeholder="select"
+                loading={listGroupTeamLoading}
+                placeholder={listGroupTeamLoading ? 'loading...' : 'select'}
                 optionFilterProp="children"
                 onChange={setGroupId}
               />
@@ -265,4 +280,4 @@ function KpiCalculationPage() {
   )
 }
 
-export default KpiCalculationPage
+export default KpiAchivementPage
