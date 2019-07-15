@@ -1,5 +1,6 @@
 import axios from 'axios'
 import config from 'config'
+import { saveAs } from 'file-saver'
 import getUser from 'utils/userData'
 import dispatchAction from 'utils/dispatcher'
 import { message } from 'antd'
@@ -20,7 +21,15 @@ export const actionTypes = {
   GET_CALCULATION_STATUS:'GET_CALCULATION_STATUS',
   GET_CALCULATION_STATUS_SUCCESS:'GET_CALCULATION_STATUS_SUCCESS',
   GET_ITEMS:'GET_ITEMS',
-  GET_ITEMS_SUCCESS:'GET_ITEMS_SUCCESS'
+  GET_ITEMS_SUCCESS:'GET_ITEMS_SUCCESS',
+  GET_REPORT:'GET_REPORT',
+  GET_REPORT_SUCCESS:'GET_REPORT_SUCCESS',
+  EXPORT_REPORT:'EXPORT_REPORT',
+  EXPORT_REPORT_SUCCESS:'EXPORT_REPORT_SUCCESS',
+  LIST_TEAM:'LIST_TEAM',
+  LIST_TEAM_SUCCESS:'LIST_TEAM_SUCCESS',
+  LIST_GROUP_TEAM:'LIST_GROUP_TEAM',
+  LIST_GROUP_TEAM_SUCCESS:'LIST_GROUP_TEAM_SUCCESS'
 }
 
 // actions are where most of the business logic takes place
@@ -225,4 +234,114 @@ export const actionGetItems = (dispatch, params) => {
     }
   }
   dispatchAction(dispatch, actionTypes.GET_ITEMS, action )
+}
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionGetReport = (dispatch, params) => {
+  const url = config.baseUrl + '/googledocs/report'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.GET_REPORT_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.GET_REPORT, action )
+}
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionExportReport = (dispatch, params) => {
+  const url = config.baseUrl + '/googledocs/report/export'
+  const action = async () => {
+    const response = await axios.get(url, {
+      responseType: 'blob',
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let filename = `Report__${params.year + '__' +params.quarter}.xlsx`
+      saveAs(response.data, filename)
+      dispatch({
+        type: actionTypes.EXPORT_REPORT_SUCCESS,
+        data: { message: 'File excel has been exported' }
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.EXPORT_REPORT, action )
+}
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionListTeam = (dispatch, params) => {
+  const url = config.baseUrl + '/falcon/team'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.LIST_TEAM_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.LIST_TEAM, action )
+}
+
+/**
+ *
+ * @param {function} dispatch
+ * @param {object} params
+ */
+export const actionListGroupByTeam = (dispatch, params) => {
+  const url = config.baseUrl + '/falcon/team-group'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      timeout: 20000,
+      headers: { 'Authorization' : getUser().token }
+    })
+    if (response.status <= 201) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.LIST_GROUP_TEAM_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.LIST_GROUP_TEAM, action )
 }

@@ -56,3 +56,15 @@ export const calculationStatusReducer = (state = null, action) =>
 
 export const itemsReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.GET_ITEMS_SUCCESS)
+
+export const reportReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.GET_REPORT_SUCCESS)
+
+export const exportReportReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.EXPORT_REPORT_SUCCESS)
+
+export const listTeamReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.LIST_TEAM_SUCCESS)
+
+export const ListGroupByTeamReducer = (state = null, action) =>
+  setDataReducer(state, action, actionTypes.LIST_GROUP_TEAM_SUCCESS)
