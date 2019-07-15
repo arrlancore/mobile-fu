@@ -1,9 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import {
-  Row, Col
-} from 'antd'
+import { Row, Col } from 'antd'
 
 import LayoutPage from 'components/layout'
 import Helmet from 'components/helmet'
@@ -16,7 +14,6 @@ import exData from './data.json'
 import { useTranslation } from 'react-i18next'
 
 import './mapping.css'
-
 
 const MappingPage = () => {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
@@ -33,7 +30,8 @@ const MappingPage = () => {
     {
       dataIndex: 'first_name',
       width: 100,
-      sorter: (a,b) => (a.first_name > b.first_name) ? 1 : ((b.first_name > a.first_name) ? -1 : 0)
+      sorter: (a, b) =>
+        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
     },
     {
       dataIndex: 'performance',
@@ -41,16 +39,23 @@ const MappingPage = () => {
       align: 'center',
       render: function scoreBar(score) {
         return (
-          <div style={{
-            width: '100%', display: 'block', background: '#E2E2E4', position: 'relative'
-          }}>
-            <span style={{
-              height: '100%',
-              width: `${score * 10}%`,
-              background: '#F39C12',
-              position: 'absolute',
-              left: 0
-            }} />
+          <div
+            style={{
+              width: '100%',
+              display: 'block',
+              background: '#E2E2E4',
+              position: 'relative'
+            }}
+          >
+            <span
+              style={{
+                height: '100%',
+                width: `${score * 10}%`,
+                background: '#F39C12',
+                position: 'absolute',
+                left: 0
+              }}
+            />
             <span style={{ position: 'relative' }}>{score} / 10</span>
           </div>
         )
@@ -64,7 +69,9 @@ const MappingPage = () => {
         <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
-        <Title bold level={2}>Mapping Name</Title>
+        <Title bold level={2}>
+          Mapping Name
+        </Title>
         <Row gutter={24}>
           <Col span={6}>
             <Select
@@ -72,7 +79,8 @@ const MappingPage = () => {
               label="Team"
               showSearch
               style={{
-                maxWidth: 300, width: '100%'
+                maxWidth: 300,
+                width: '100%'
               }}
               placeholder="select"
               optionFilterProp="children"
@@ -84,7 +92,8 @@ const MappingPage = () => {
               label="Group"
               showSearch
               style={{
-                maxWidth: 300, width: '100%'
+                maxWidth: 300,
+                width: '100%'
               }}
               placeholder="select"
               optionFilterProp="children"
@@ -96,7 +105,8 @@ const MappingPage = () => {
               label="Position"
               showSearch
               style={{
-                maxWidth: 300, width: '100%'
+                maxWidth: 300,
+                width: '100%'
               }}
               placeholder="select"
               optionFilterProp="children"
@@ -108,7 +118,8 @@ const MappingPage = () => {
               label="Name"
               showSearch
               style={{
-                maxWidth: 300, width: '100%'
+                maxWidth: 300,
+                width: '100%'
               }}
               placeholder="select"
               optionFilterProp="children"
@@ -119,25 +130,29 @@ const MappingPage = () => {
           <Row gutter={24}>
             <Col span={6} offset={6}>
               <Button style={{ maxWidth: 300 }} type="secondary">
-                  Reset
+                Reset
               </Button>
             </Col>
             <Col span={6}>
               <Button style={{ maxWidth: 300 }} type="secondary">
-                  Apply
+                Apply
               </Button>
             </Col>
           </Row>
         </div>
         {/* <div className="section-row mapping-button"> */}
-        <div className="section-row mapping-button" style={{
-          display: 'flex', justifyContent: 'flex-end'
-        }}>
+        <div
+          className="section-row mapping-button"
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end'
+          }}
+        >
           {/* <Row type="flex" justify="end">
             <Col> */}
           <Link to="/create-mapping">
             <Button style={{ width: 300 }} type="secondary">
-                Create New
+              Create New
             </Button>
           </Link>
           {/* </Col>

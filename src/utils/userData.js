@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-const getUser = (short) => {
+const getUser = short => {
   const userData = Cookies.get('user')
   const data = userData ? JSON.parse(userData) : null
   const { sub, role, fullname, employeeid } = data || {}

@@ -30,6 +30,4 @@ i18n
   .use(LanguageDetector)
   .init(options)
 
-
 export default i18n
-

@@ -3,13 +3,9 @@ import React from 'react'
 import { string } from 'prop-types'
 import './style.css'
 
-
-const checkboxLarge = (props) => (
+const checkboxLarge = props => (
   <span title={props.title}>
-    <Checkbox
-      className={`checkbox-root checkbox-${props.type}`}
-      {...props}
-    />
+    <Checkbox className={`checkbox-root checkbox-${props.type}`} {...props} />
   </span>
 )
 

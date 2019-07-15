@@ -1,9 +1,19 @@
 export const listMonths = [
-  'January', 'February', 'March', 'April', 'May', 'June', 'July',
-  'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
 ]
 
-export function getMonthByQuarter (quarter) {
+export function getMonthByQuarter(quarter) {
   if (!quarter) return null
   const end = quarter * 3
   const start = end - 3
@@ -11,7 +21,7 @@ export function getMonthByQuarter (quarter) {
   return monthByQuarters.map(month => ({ value: month, name: month }))
 }
 
-export const getNumberOfMonth = (selectedMonth) =>
+export const getNumberOfMonth = selectedMonth =>
   listMonths.findIndex(month => month === selectedMonth) + 1
 
 function generateYears(startYear = 2000) {

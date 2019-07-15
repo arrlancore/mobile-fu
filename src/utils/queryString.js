@@ -2,10 +2,12 @@ export function decode(currentSearch) {
   let result = {}
   if (currentSearch) {
     const search = currentSearch.substring(1)
-    result = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
+    result = JSON.parse(
+      '{"' + search.replace(/&/g, '","').replace(/=/g, '":"') + '"}',
       function(key, value) {
         return key === '' ? value : decodeURIComponent(value)
-      })
+      }
+    )
   }
   return result
 }

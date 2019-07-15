@@ -1,23 +1,16 @@
-import React from 'react'
-import Link from 'components/link'
-import {
-  Row, Col
-} from 'antd'
-import { useTranslation } from 'react-i18next'
-// import {
-//   RadialBarChart, RadialBar, Legend
-// } from 'recharts'
-
+import { Col, Row } from 'antd'
+import CardSmall from 'components/card/small'
+import Helmet from 'components/helmet'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
-import Helmet from 'components/helmet'
+import Link from 'components/link'
 import Title from 'components/text/title'
-import CardSmall from 'components/card/small'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+
 // import Card from 'components/card/'
 
-
-function AdministrationPage () {
-
+function AdministrationPage() {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.administration.'
 
@@ -48,11 +41,10 @@ function AdministrationPage () {
   //   justifyContent: 'space-between'
   // }
 
-
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>{t(tKey + 'pageTitle')}</title>
+        <title>{t(`${tKey}pageTitle`)}</title>
       </Helmet>
       <Content>
         <Row gutter={24}>
@@ -61,36 +53,60 @@ function AdministrationPage () {
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
                 <Link to="/administration/user">
-                  <CardSmall icon={require('assets/icon/Intersection.png')} name="User"/>
+                  <CardSmall
+                    icon={require('assets/icon/Intersection.png')}
+                    name="User"
+                  />
                 </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={require('assets/icon/injection.png')} name="Role"/>
+                <CardSmall
+                  icon={require('assets/icon/injection.png')}
+                  name="Role"
+                />
               </Col>
               <Col span={6}>
-                <CardSmall icon={require('assets/icon/heart.png')} name="Module" />
+                <CardSmall
+                  icon={require('assets/icon/heart.png')}
+                  name="Module"
+                />
               </Col>
               <Col span={6}>
-                <CardSmall icon={require('assets/icon/pill.png')} name="User has Role" />
-              </Col>
-            </Row>
-            <Row gutter={128} style={{ marginBottom: 24 }}>
-              <Col span={6}>
-                <CardSmall icon={require('assets/icon/balloon.png')} name="Role Has Module" />
-              </Col>
-              <Col span={6}>
-                <CardSmall icon={require('assets/icon/dollar.png')} name="Other"/>
-              </Col>
-              <Col span={6}>
-                <CardSmall icon={require('assets/icon/scissor.png')} name="Other"/>
-              </Col>
-              <Col span={6}>
-                <CardSmall icon={require('assets/icon/feet.png')} name="Other"/>
+                <CardSmall
+                  icon={require('assets/icon/pill.png')}
+                  name="User has Role"
+                />
               </Col>
             </Row>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
-                <CardSmall icon={require('assets/icon/rip.png')} name="Other"/>
+                <CardSmall
+                  icon={require('assets/icon/balloon.png')}
+                  name="Role Has Module"
+                />
+              </Col>
+              <Col span={6}>
+                <CardSmall
+                  icon={require('assets/icon/dollar.png')}
+                  name="Other"
+                />
+              </Col>
+              <Col span={6}>
+                <CardSmall
+                  icon={require('assets/icon/scissor.png')}
+                  name="Other"
+                />
+              </Col>
+              <Col span={6}>
+                <CardSmall
+                  icon={require('assets/icon/feet.png')}
+                  name="Other"
+                />
+              </Col>
+            </Row>
+            <Row gutter={128} style={{ marginBottom: 24 }}>
+              <Col span={6}>
+                <CardSmall icon={require('assets/icon/rip.png')} name="Other" />
               </Col>
             </Row>
           </Col>

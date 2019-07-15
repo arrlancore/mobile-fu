@@ -9,7 +9,6 @@ export const actionTypes = {
   USER_LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS'
 }
 
-
 export const actionLogin = (dispatch, payload) => {
   const url = config.baseUrl + '/login'
   const userLogin = async () => {
@@ -31,5 +30,5 @@ export const actionLogin = (dispatch, payload) => {
       throw new Error(message || 'An error has been occured during the login')
     }
   }
-  dispatchAction(dispatch, actionTypes.USER_LOGIN, userLogin )
+  dispatchAction(dispatch, actionTypes.USER_LOGIN, userLogin)
 }

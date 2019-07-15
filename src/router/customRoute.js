@@ -9,9 +9,7 @@ function CustomRoute(props) {
   useEffect(() => {
     Nprogress.done()
   })
-  return(
-    <Route {...props} />
-  )
+  return <Route {...props} />
 }
 
 export default CustomRoute

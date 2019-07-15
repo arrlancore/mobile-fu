@@ -1,36 +1,44 @@
-import React from 'react'
-import { Row, Col } from 'antd'
-import { listYear, listQuarter } from 'utils/time'
+import './style.css'
+
+import { Col, Row } from 'antd'
+import Button from 'components/button'
+import Helmet from 'components/helmet'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
-import Helmet from 'components/helmet'
 import Select from 'components/select'
-import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
+import { usePrevious, useStateDefault, useStateValue } from 'context'
+import {
+  actionExportReport,
+  actionGetListGroup,
+  actionGetReport
+} from 'context/kpi/action'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useStateValue, usePrevious, useStateDefault } from 'context'
-import { actionGetListGroup, actionGetReport, actionExportReport } from 'context/kpi/action'
-
-import './style.css'
+import { listQuarter, listYear } from 'utils/time'
 
 /**
  * KPI Calculation page
  */
-function KpiCalculationPage () {
+function KpiCalculationPage() {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.achivement.'
-  const [ listGroup, dispatch ] = useStateValue('listGroup')
-  const [ groupId, setGroupId ] = React.useState(null)
-  const [ paramHasInput, setParamHasInput ] = React.useState(false)
-  const [ , reportLoading ] = useStateDefault('GET_REPORT')
-  const [ , exportLoading ] = useStateDefault('EXPORT_REPORT')
-  const [ year, setYear ] = React.useState(null)
-  const [ quarter, setQuarter ] = React.useState(null)
+  const [listGroup, dispatch] = useStateValue('listGroup')
+  const [groupId, setGroupId] = React.useState(null)
+  const [paramHasInput, setParamHasInput] = React.useState(false)
+  const [, reportLoading] = useStateDefault('GET_REPORT')
+  const [, exportLoading] = useStateDefault('EXPORT_REPORT')
+  const [year, setYear] = React.useState(null)
+  const [quarter, setQuarter] = React.useState(null)
   const [user] = useStateValue('user')
   const [kpiReport] = useStateValue('kpiReport')
 
-  const summaryParam = { groupId, year, quarter }
+  const summaryParam = {
+    groupId,
+    year,
+    quarter
+  }
   const prevSummaryParam = usePrevious(summaryParam)
   const prevListGroup = usePrevious(listGroup)
   React.useEffect(() => {
@@ -39,37 +47,56 @@ function KpiCalculationPage () {
       actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
     }
     if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
-      const { groupId, year, quarter } = summaryParam
-      const hasInputAll = year && quarter && groupId
-      if(hasInputAll) {
+      const hasInputAll =
+        summaryParam.year && summaryParam.quarter && summaryParam.groupId
+      if (hasInputAll) {
         actionGetReport(dispatch, summaryParam)
         setParamHasInput(true)
       }
     }
-  }, [ listGroup, prevListGroup, prevSummaryParam, summaryParam, dispatch, user.data.employeeid ]
-  )
+  }, [
+    listGroup,
+    prevListGroup,
+    prevSummaryParam,
+    summaryParam,
+    dispatch,
+    user.data.employeeid
+  ])
 
-  // const CheckboxGroup = Checkbox.Group
-  // const filterOption = [ 'CRM', 'CPC', 'CTR' ]
-  const dataGroup = listGroup && listGroup.data ?
-    listGroup.data.map(data => ({ name: data.group_name, value: data.id }))
-    : []
+  /*
+   * const CheckboxGroup = Checkbox.Group
+   * const filterOption = [ 'CRM', 'CPC', 'CTR' ]
+   */
+  const dataGroup =
+    listGroup && listGroup.data
+      ? listGroup.data.map(data => ({
+          name: data.group_name,
+          value: data.id
+        }))
+      : []
 
   const onExportReport = () => actionExportReport(dispatch, summaryParam)
 
   const ColumnHeader = () => (
     <>
-      <Row gutter={24} style={{
-        display: 'flex', justifyContent: 'flex-end', marginBottom: 28
-      }}>
-        <Button onClick={onExportReport} style={{ maxWidth: 300 }} type="secondary">
+      <Row
+        gutter={24}
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: 28
+        }}
+      >
+        <Button
+          onClick={onExportReport}
+          style={{ maxWidth: 300 }}
+          type="secondary"
+        >
           Export
         </Button>
       </Row>
       <Row gutter={24}>
-        <Col span={12}>
-          Result
-        </Col>
+        <Col span={12}>Result</Col>
         {/* <Col span={12} style={{
           display: 'flex',
           alignItems: 'center',
@@ -84,8 +111,7 @@ function KpiCalculationPage () {
     </>
   )
 
-
-  let columnProperty = [
+  const columnProperty = [
     // add special condition for one or each column here
     {
       dataIndex: 'employee_id',
@@ -93,25 +119,33 @@ function KpiCalculationPage () {
     },
     {
       dataIndex: 'name',
-      sorter: (a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)
+      sorter: (a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0) // eslint-disable-line
     },
     {
       dataIndex: 'perc_final',
       width: 120,
       align: 'center',
       render: function scoreBar(score) {
-        const getColor = (score) => {
-          if (score > 50 && score <= 100) {
+        const min = 50
+        const max = 100
+        const perTen = 10
+        const getColor = scores => {
+          if (scores > min && scores <= max) {
             return '#52c41a'
           }
+
           return '#F39C12'
         }
+
         return (
           <div className="score-bar">
-            <span className="score-bar-progress" style={{
-              width: `${Math.round(score / 10)}%`,
-              background: getColor(Math.round(score / 10))
-            }} />
+            <span
+              className="score-bar-progress"
+              style={{
+                width: `${Math.round(score / perTen)}%`,
+                background: getColor(Math.round(score / perTen))
+              }}
+            />
             <span className="score-bar-value">{score}</span>
           </div>
         )
@@ -122,10 +156,12 @@ function KpiCalculationPage () {
   return (
     <LayoutPage withHeader>
       <Helmet>
-        <title>{t(tKey + 'pageTitle')}</title>
+        <title>{t(`${tKey}pageTitle`)}</title>
       </Helmet>
       <Content>
-        <Title bold level={2}>Achivement</Title>
+        <Title bold level={2}>
+          Achivement
+        </Title>
         <div className="section-row">
           <Row gutter={24}>
             <Col span={6}>
@@ -135,7 +171,8 @@ function KpiCalculationPage () {
                 optionList={listYear}
                 showSearch
                 style={{
-                  maxWidth: 300, width: '100%'
+                  maxWidth: 300,
+                  width: '100%'
                 }}
                 placeholder="select"
                 optionFilterProp="children"
@@ -149,7 +186,8 @@ function KpiCalculationPage () {
                 optionList={listQuarter}
                 showSearch
                 style={{
-                  maxWidth: 300, width: '100%'
+                  maxWidth: 300,
+                  width: '100%'
                 }}
                 placeholder="select"
                 optionFilterProp="children"
@@ -163,7 +201,8 @@ function KpiCalculationPage () {
                 optionList={listYear}
                 showSearch
                 style={{
-                  maxWidth: 300, width: '100%'
+                  maxWidth: 300,
+                  width: '100%'
                 }}
                 placeholder="select"
                 optionFilterProp="children"
@@ -177,7 +216,8 @@ function KpiCalculationPage () {
                 optionList={dataGroup}
                 showSearch
                 style={{
-                  maxWidth: 300, width: '100%'
+                  maxWidth: 300,
+                  width: '100%'
                 }}
                 placeholder="select"
                 optionFilterProp="children"
@@ -206,16 +246,20 @@ function KpiCalculationPage () {
           </Row>
         </div>
 
-        { paramHasInput ? <div className="section-row">
-          <Table
-            title={() => <ColumnHeader />}
-            data={kpiReport ? kpiReport.data : []}
-            scroll={{ x: 1300 }}
-            columnProperty={columnProperty}
-            excludeColumns={['color']}
-            loading={reportLoading || exportLoading}
-          />
-        </div> : ''}
+        {paramHasInput ? (
+          <div className="section-row">
+            <Table
+              title={() => <ColumnHeader />}
+              data={kpiReport ? kpiReport.data : []}
+              scroll={{ x: 1300 }}
+              columnProperty={columnProperty}
+              excludeColumns={['color']}
+              loading={reportLoading || exportLoading}
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </Content>
     </LayoutPage>
   )

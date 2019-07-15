@@ -14,7 +14,7 @@ const initialState = { data: null, progress: [] }
  * @param {object} action
  * @param {string} actionType
  */
-function setDataReducer (state, action, actionType) {
+function setDataReducer(state, action, actionType) {
   if (action.type === actionType) {
     return { data: action.data }
   }
@@ -31,7 +31,10 @@ export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.UPLOAD_PROGRESS) {
     return {
       ...state,
-      progress: [ ...state.progress, { [action.progress.doc] : action.progress.percentCompleted } ]
+      progress: [
+        ...state.progress,
+        { [action.progress.doc]: action.progress.percentCompleted }
+      ]
     }
   }
   return state
@@ -40,10 +43,8 @@ export const kpiUploadReducer = (state = initialState, action) => {
 export const listGroupReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.LIST_GROUP_SUCCESS)
 
-
 export const listDocReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.LIST_DOC_SUCCESS)
-
 
 export const calculateReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.CALCULATE_KPI_SUCCESS)

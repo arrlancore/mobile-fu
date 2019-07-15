@@ -7,9 +7,7 @@ const { Content } = Layout
 function content({ children }) {
   return (
     <section className="content-fade-in">
-      <Content style={{ padding: '50px 4%' }}>
-        {children}
-      </Content>
+      <Content style={{ padding: '50px 4%' }}>{children}</Content>
     </section>
   )
 }

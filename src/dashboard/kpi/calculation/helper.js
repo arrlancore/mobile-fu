@@ -1,6 +1,6 @@
 import { listMonths } from 'utils/time'
 
-export const kpiEndpointUpload = (key) => {
+export const kpiEndpointUpload = key => {
   let list = [
     {
       name: 'GPN Error',
@@ -20,7 +20,7 @@ export const kpiEndpointUpload = (key) => {
 }
 
 export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
-  const colors = [ 'red', 'yellow', 'green' ]
+  const colors = ['red', 'yellow', 'green']
   let colorsDescription = []
   let colorsDescriptionIndex = []
   let uploaded = false
@@ -34,22 +34,24 @@ export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
     if (value.status === 'uploaded') {
       uploadedCount++
     }
-    summaryUploads[value.doc_id] = summaryUploads[value.doc_id] ? [ ...summaryUploads[value.doc_id], value ] : [value]
+    summaryUploads[value.doc_id] = summaryUploads[value.doc_id]
+      ? [...summaryUploads[value.doc_id], value]
+      : [value]
   }
   notCompleted = uploadedCount && uploadedCount !== kpiSummary.data.length
   uploaded = uploadedCount === kpiSummary.data.length
 
-  const mergedDocs = listDoc.data.map((doc) => {
+  const mergedDocs = listDoc.data.map(doc => {
     const newProperty = summaryUploads[doc.id]
     let newPropertyColored = newProperty
     if (newProperty) {
       newPropertyColored = newProperty.map((data, i, arr) => {
         const perMonth = arr.length === 3
         const color = perMonth ? colors[i] : 'secondary'
-        const monthName = perMonth ? listMonths[data.month - 1 ] : 'Any month'
+        const monthName = perMonth ? listMonths[data.month - 1] : 'Any month'
         if (!colorsDescriptionIndex.includes(color)) {
-          colorsDescription = [ ...colorsDescription, { color, monthName } ]
-          colorsDescriptionIndex = [ ...colorsDescriptionIndex, color ]
+          colorsDescription = [...colorsDescription, { color, monthName }]
+          colorsDescriptionIndex = [...colorsDescriptionIndex, color]
         }
         return {
           ...data,
@@ -64,7 +66,9 @@ export const mergeSummaryToDoc = (listDoc, kpiSummary) => {
     }
   })
   const result = [
-    mergedDocs, colorsDescription, { uploaded, notCompleted, totalUpload: uploadedCount }
+    mergedDocs,
+    colorsDescription,
+    { uploaded, notCompleted, totalUpload: uploadedCount }
   ] || [listDoc.data]
   return result
 }

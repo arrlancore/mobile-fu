@@ -14,22 +14,22 @@ export const actionTypes = {
   LIST_GROUP: 'LIST_GROUP',
   LIST_DOC_SUCCESS: 'LIST_DOC_SUCCESS',
   LIST_DOC: 'LIST_DOC',
-  CALCULATE_KPI:'CALCULATE_KPI',
-  CALCULATE_KPI_SUCCESS:'CALCULATE_KPI_SUCCESS',
-  GET_KPI_SUMMARY:'GET_KPI_SUMMARY',
-  GET_KPI_SUMMARY_SUCCESS:'GET_KPI_SUMMARY_SUCCESS',
-  GET_CALCULATION_STATUS:'GET_CALCULATION_STATUS',
-  GET_CALCULATION_STATUS_SUCCESS:'GET_CALCULATION_STATUS_SUCCESS',
-  GET_ITEMS:'GET_ITEMS',
-  GET_ITEMS_SUCCESS:'GET_ITEMS_SUCCESS',
-  GET_REPORT:'GET_REPORT',
-  GET_REPORT_SUCCESS:'GET_REPORT_SUCCESS',
-  EXPORT_REPORT:'EXPORT_REPORT',
-  EXPORT_REPORT_SUCCESS:'EXPORT_REPORT_SUCCESS',
-  LIST_TEAM:'LIST_TEAM',
-  LIST_TEAM_SUCCESS:'LIST_TEAM_SUCCESS',
-  LIST_GROUP_TEAM:'LIST_GROUP_TEAM',
-  LIST_GROUP_TEAM_SUCCESS:'LIST_GROUP_TEAM_SUCCESS'
+  CALCULATE_KPI: 'CALCULATE_KPI',
+  CALCULATE_KPI_SUCCESS: 'CALCULATE_KPI_SUCCESS',
+  GET_KPI_SUMMARY: 'GET_KPI_SUMMARY',
+  GET_KPI_SUMMARY_SUCCESS: 'GET_KPI_SUMMARY_SUCCESS',
+  GET_CALCULATION_STATUS: 'GET_CALCULATION_STATUS',
+  GET_CALCULATION_STATUS_SUCCESS: 'GET_CALCULATION_STATUS_SUCCESS',
+  GET_ITEMS: 'GET_ITEMS',
+  GET_ITEMS_SUCCESS: 'GET_ITEMS_SUCCESS',
+  GET_REPORT: 'GET_REPORT',
+  GET_REPORT_SUCCESS: 'GET_REPORT_SUCCESS',
+  EXPORT_REPORT: 'EXPORT_REPORT',
+  EXPORT_REPORT_SUCCESS: 'EXPORT_REPORT_SUCCESS',
+  LIST_TEAM: 'LIST_TEAM',
+  LIST_TEAM_SUCCESS: 'LIST_TEAM_SUCCESS',
+  LIST_GROUP_TEAM: 'LIST_GROUP_TEAM',
+  LIST_GROUP_TEAM_SUCCESS: 'LIST_GROUP_TEAM_SUCCESS'
 }
 
 // actions are where most of the business logic takes place
@@ -45,9 +45,11 @@ export const actionProcessFile = async (dispatch, payload) => {
   const action = async () => {
     const response = await axios.post(url, payload, {
       timeout: 20000,
-      headers: { 'Authorization' : user.token },
-      onUploadProgress : function(progressEvent) {
-        const percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+      headers: { Authorization: user.token },
+      onUploadProgress: function(progressEvent) {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        )
         dispatch({
           type: actionTypes.UPLOAD_PROGRESS,
           progress: { percentCompleted, doc: payload.get('docId') }
@@ -60,15 +62,16 @@ export const actionProcessFile = async (dispatch, payload) => {
         type: actionTypes.PROCESS_FILE_SUCCESS,
         data
       })
-      message.success(`File "${payload.get('filename')}" has been successfully uploaded`)
+      message.success(
+        `File "${payload.get('filename')}" has been successfully uploaded`
+      )
     } else {
       const message = response.data && response.data.message
       throw new Error(message || 'An error has been occured')
     }
   }
-  await dispatchAction(dispatch, actionTypes.PROCESS_FILE, action )
+  await dispatchAction(dispatch, actionTypes.PROCESS_FILE, action)
 }
-
 
 /**
  *
@@ -81,7 +84,7 @@ export const actionGetListGroup = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -94,7 +97,7 @@ export const actionGetListGroup = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_GROUP, action )
+  dispatchAction(dispatch, actionTypes.LIST_GROUP, action)
 }
 
 /**
@@ -102,12 +105,12 @@ export const actionGetListGroup = (dispatch, params) => {
  * @param {function} dispatch
  * @param {object} payload
  */
-export const actionGetListDocs = (dispatch) => {
+export const actionGetListDocs = dispatch => {
   const url = config.baseUrl + '/googledocs/doc'
   const action = async () => {
     const response = await axios.get(url, {
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -120,9 +123,8 @@ export const actionGetListDocs = (dispatch) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_DOC, action )
+  dispatchAction(dispatch, actionTypes.LIST_DOC, action)
 }
-
 
 /**
  *
@@ -135,7 +137,7 @@ export const actionCalculate = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -148,9 +150,8 @@ export const actionCalculate = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.CALCULATE_KPI, action )
+  dispatchAction(dispatch, actionTypes.CALCULATE_KPI, action)
 }
-
 
 /**
  *
@@ -165,7 +166,7 @@ export const actionGetSummary = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -178,7 +179,7 @@ export const actionGetSummary = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.GET_KPI_SUMMARY, action )
+  dispatchAction(dispatch, actionTypes.GET_KPI_SUMMARY, action)
 }
 
 /**
@@ -192,7 +193,7 @@ export const actionCalculationStatus = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -205,9 +206,8 @@ export const actionCalculationStatus = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.GET_CALCULATION_STATUS, action )
+  dispatchAction(dispatch, actionTypes.GET_CALCULATION_STATUS, action)
 }
-
 
 /**
  *
@@ -220,7 +220,7 @@ export const actionGetItems = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -233,7 +233,7 @@ export const actionGetItems = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.GET_ITEMS, action )
+  dispatchAction(dispatch, actionTypes.GET_ITEMS, action)
 }
 
 /**
@@ -247,7 +247,7 @@ export const actionGetReport = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -260,7 +260,7 @@ export const actionGetReport = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.GET_REPORT, action )
+  dispatchAction(dispatch, actionTypes.GET_REPORT, action)
 }
 
 /**
@@ -275,10 +275,10 @@ export const actionExportReport = (dispatch, params) => {
       responseType: 'blob',
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
-      let filename = `Report__${params.year + '__' +params.quarter}.xlsx`
+      let filename = `Report__${params.year + '__' + params.quarter}.xlsx`
       saveAs(response.data, filename)
       dispatch({
         type: actionTypes.EXPORT_REPORT_SUCCESS,
@@ -289,7 +289,7 @@ export const actionExportReport = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.EXPORT_REPORT, action )
+  dispatchAction(dispatch, actionTypes.EXPORT_REPORT, action)
 }
 
 /**
@@ -303,7 +303,7 @@ export const actionListTeam = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -316,7 +316,7 @@ export const actionListTeam = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_TEAM, action )
+  dispatchAction(dispatch, actionTypes.LIST_TEAM, action)
 }
 
 /**
@@ -330,7 +330,7 @@ export const actionListGroupByTeam = (dispatch, params) => {
     const response = await axios.get(url, {
       params,
       timeout: 20000,
-      headers: { 'Authorization' : getUser().token }
+      headers: { Authorization: getUser().token }
     })
     if (response.status <= 201) {
       let data = response.data
@@ -343,5 +343,5 @@ export const actionListGroupByTeam = (dispatch, params) => {
       throw new Error(message || 'An error has been occured')
     }
   }
-  dispatchAction(dispatch, actionTypes.LIST_GROUP_TEAM, action )
+  dispatchAction(dispatch, actionTypes.LIST_GROUP_TEAM, action)
 }

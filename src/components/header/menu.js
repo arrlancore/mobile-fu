@@ -58,19 +58,20 @@ function MainMenu() {
         }}
       >
         {listMenus.map(menu => {
-          return menu.submenus && menu.submenus[0] ?
-            (<SubMenu key={menu.path} title={menu.name}>
+          return menu.submenus && menu.submenus[0] ? (
+            <SubMenu key={menu.path} title={menu.name}>
               {menu.submenus.map(submenu => (
                 <Menu.Item key={submenu.path}>
                   <NavLink to={submenu.path}>{submenu.name}</NavLink>
                 </Menu.Item>
               ))}
-            </SubMenu>) :
-            (<Menu.Item key={menu.path}>
+            </SubMenu>
+          ) : (
+            <Menu.Item key={menu.path}>
               <NavLink to={menu.path}>{menu.name}</NavLink>
-            </Menu.Item>)
-        }
-        )}
+            </Menu.Item>
+          )
+        })}
       </Menu>
     </nav>
   )

@@ -12,7 +12,7 @@ import './i18n'
 Nprogress.configure({ showSpinner: false })
 const dev = process.env.NODE_ENV === 'development'
 const EnvironmentLabel = dev ? <EnvInfo /> : ''
-const sw = () => dev ? serviceWorker.unregister() : serviceWorker.register()
+const sw = () => (dev ? serviceWorker.unregister() : serviceWorker.register())
 const Root = () => (
   <ContextProvider reducer={reducers}>
     <App />
@@ -20,10 +20,7 @@ const Root = () => (
   </ContextProvider>
 )
 
-ReactDOM.render(
-  <Root />,
-  document.getElementById('root')
-)
+ReactDOM.render(<Root />, document.getElementById('root'))
 
 // Learn more about service workers: http://bit.ly/CRA-PWA
 sw()

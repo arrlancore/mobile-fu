@@ -16,17 +16,17 @@ import { Link } from 'react-router-dom'
 
 import './style.css'
 
-function UserPage (props) {
+function UserPage(props) {
   const { history } = props
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.user.'
   const initPage = decode(history.location.search)
-  const [ mockData, setMockData ] = React.useState([])
+  const [mockData, setMockData] = React.useState([])
   console.log(initPage.page)
-  const [ pageNumber, setPageNumber ] = React.useState( 1)
+  const [pageNumber, setPageNumber] = React.useState(1)
   const [pageSize] = React.useState(10)
-  const [ collectionData, setCollectionData ] = React.useState({})
-  const [ loadingData, setLoadingData ] = React.useState(true)
+  const [collectionData, setCollectionData] = React.useState({})
+  const [loadingData, setLoadingData] = React.useState(true)
   // exData = exData.slice(0, 10)
   // const [ page, setPage ] = React.useState(1)
   // const [ pageSize, setPageSize ] = React.useState(10)
@@ -64,16 +64,31 @@ function UserPage (props) {
       loadPage(pageNumber, pageSize)
     }
     // }
-  }, [ history.location.search, pageNumber, mockData, loadPage, pageSize, prevPageNumber ])
+  }, [
+    history.location.search,
+    pageNumber,
+    mockData,
+    loadPage,
+    pageSize,
+    prevPageNumber
+  ])
   const ColumnHeader = () => (
     <>
-      <Row gutter={24} style={{
-        display: 'flex', justifyContent: 'flex-end', marginBottom: 28
-      }}>
+      <Row
+        gutter={24}
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: 28
+        }}
+      >
         <Button style={{ maxWidth: 280, margin: '0 14px' }} type="secondary">
           Export
         </Button>
-        <Button style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }} type="secondary">
+        <Button
+          style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }}
+          type="secondary"
+        >
           Create
         </Button>
         {/* <span className="action-title">
@@ -100,7 +115,7 @@ function UserPage (props) {
       fixed: 'left',
       sorter: (a, b) => a.id - b.id,
       render: function renderItem(text) {
-        return(<Link to={`/administration/user/${text}`}>{text}</Link>)
+        return <Link to={`/administration/user/${text}`}>{text}</Link>
       }
     }
   ]
@@ -117,7 +132,9 @@ function UserPage (props) {
         <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
       <Content>
-        <Title bold level={2}>User</Title>
+        <Title bold level={2}>
+          User
+        </Title>
 
         <div className="section-row">
           <Table
@@ -125,9 +142,9 @@ function UserPage (props) {
             data={mockData}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={[ 'emp_id', 'group_id', 'doc_id', 'data_source' ]}
+            excludeColumns={['emp_id', 'group_id', 'doc_id', 'data_source']}
             pagination={{
-              onChange: (page) => {
+              onChange: page => {
                 setPageNumber(page)
               },
               total: 50,

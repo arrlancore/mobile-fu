@@ -1,6 +1,6 @@
 import { message } from 'antd'
 import logout from './logout'
-export default async function dispatchAction (dispatch, actionType, action) {
+export default async function dispatchAction(dispatch, actionType, action) {
   const onRequest = '_REQUEST'
   const onFailure = '_FAILURE'
   dispatch({ type: actionType + onRequest })

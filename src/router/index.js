@@ -11,11 +11,12 @@ function ReactRouter() {
     <BrowserRouter>
       <Suspense fallback={<LoadingPage />}>
         <Switch>
-          {routes.map(({ isProtected, ...rest }, i) => (
-            isProtected
-              ? <ProtectedRoute key={i} {...rest} />
+          {routes.map(({ isProtected, ...rest }, i) =>
+            isProtected ? (
+              <ProtectedRoute key={i} {...rest} />
               : <CustomRoute key={i} {...rest} />
-          ))}
+            )
+          )}
         </Switch>
       </Suspense>
     </BrowserRouter>

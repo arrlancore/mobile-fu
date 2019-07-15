@@ -23,7 +23,9 @@ const ContentList = () => (
       renderItem={item => (
         <List.Item>
           <List.Item.Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={
+              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            }
             title={<a href="#">{item.title}</a>}
             description="Ant Design, a design language for background applications..."
           />
@@ -34,7 +36,12 @@ const ContentList = () => (
 )
 
 const NotoficationPopOver = ({ children }) => (
-  <Popover placement="bottom" title="Notification (4)" content={<ContentList />} trigger="click">
+  <Popover
+    placement="bottom"
+    title="Notification (4)"
+    content={<ContentList />}
+    trigger="click"
+  >
     {children}
   </Popover>
 )

@@ -4,7 +4,10 @@ import { Spin } from 'antd'
 import './style.css'
 
 const Spinner = ({ center, top, style, ...rest }) => (
-  <div style={{ marginTop: top, ...style }} className={center ? 'spin-loader' : 'default'}>
+  <div
+    style={{ marginTop: top, ...style }}
+    className={center ? 'spin-loader' : 'default'}
+  >
     <Spin {...rest} />
   </div>
 )

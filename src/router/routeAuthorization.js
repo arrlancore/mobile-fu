@@ -7,8 +7,7 @@ const Auth = (WrappedComponent, allowedRoles) => {
       return <WrappedComponent {...props} />
     }
     return <div />
-  })(
-  )
+  })()
 }
 
 export default Auth

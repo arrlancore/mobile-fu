@@ -13,13 +13,15 @@ import PageLoad from 'components/loader/pageLoad'
 
 import './style.css'
 
-function UserViewPage (props) {
+function UserViewPage(props) {
   console.log('TCL: UserViewPage -> props', props)
   // const { t } = useTranslation() // t is translate function to show a message by language chosen
 
   return (
     <div>
-      <Helmet><title>{props.match.params.id}</title></Helmet>
+      <Helmet>
+        <title>{props.match.params.id}</title>
+      </Helmet>
       <b>{props.match.params.id}</b>
       <PageLoad />
     </div>

@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  string, func
-} from 'prop-types'
+import { string, func } from 'prop-types'
 
 import './style.css'
 

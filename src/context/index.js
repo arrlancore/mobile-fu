@@ -1,5 +1,9 @@
 import React, {
-  useContext, useState, useReducer, useEffect, useRef
+  useContext,
+  useState,
+  useReducer,
+  useEffect,
+  useRef
 } from 'react'
 import { node, func } from 'prop-types'
 import devTool from './reduxDevTool'
@@ -8,11 +12,9 @@ import devTool from './reduxDevTool'
 const Context = React.createContext()
 
 // Provider to be wrapped on the root of application
-export const Provider = ({
-  children, reducer
-}) => {
-  const [ store, dispatch ] = useReducer(reducer, {})
-  const [ state, setState ] = useState({ isLoaded: false })
+export const Provider = ({ children, reducer }) => {
+  const [store, dispatch] = useReducer(reducer, {})
+  const [state, setState] = useState({ isLoaded: false })
   useEffect(() => {
     dispatch({ type: '@init' })
     setState({ isLoaded: true })
@@ -34,25 +36,19 @@ Provider.propTypes = {
  * @param {string} key optionally
  * if key provided it'll return only property required
  */
-export const useStateValue = (key) => {
+export const useStateValue = key => {
   const { store, dispatch } = useContext(Context)
-  return key ? [ store[key], dispatch ] : [ store, dispatch ]
+  return key ? [store[key], dispatch] : [store, dispatch]
 }
 
 /**
  * use context to get error and loading state
  * @param {string} key is required
  */
-export const useStateDefault = (key) => {
+export const useStateDefault = key => {
   const { store, dispatch } = useContext(Context)
-  const {
-    error, loading
-  } = store
-  return [
-    error[key],
-    loading[key],
-    dispatch
-  ]
+  const { error, loading } = store
+  return [error[key], loading[key], dispatch]
 }
 
 /**

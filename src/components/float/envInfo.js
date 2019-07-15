@@ -3,10 +3,10 @@ import { Tooltip } from 'antd'
 import './style.css'
 
 function EnvInformation() {
-  const [ floatTo, setFloatTo ] = React.useState('float-left')
+  const [floatTo, setFloatTo] = React.useState('float-left')
   const info = 'kpi-frontend is running on development mode'
   const changeFloat = () => {
-    const floats = [ 'float-left', 'float-right' ]
+    const floats = ['float-left', 'float-right']
     if (floatTo === floats[0]) {
       setFloatTo(floats[1])
     } else {
@@ -15,7 +15,9 @@ function EnvInformation() {
   }
   return (
     <Tooltip placement="right" title={info}>
-      <span onClick={changeFloat} className={`float-env-info ${floatTo}`}>DEV</span>
+      <span onClick={changeFloat} className={`float-env-info ${floatTo}`}>
+        DEV
+      </span>
     </Tooltip>
   )
 }

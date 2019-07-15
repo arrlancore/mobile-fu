@@ -1,29 +1,25 @@
-import React from 'react'
-import {
-  Form, Icon, Col, Row, message
-} from 'antd'
-import { actionLogin, actionTypes } from 'context/auth/action'
-import { Redirect } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import {
-  func, object
-} from 'prop-types'
-import { isLogin } from 'utils/userData'
+import './style.css'
+
+import { Col, Form, Icon, message, Row } from 'antd'
 import Logo from 'assets/image/logo/logo1x.png'
-import Helmet from 'components/helmet'
 import Button from 'components/button'
+import Helmet from 'components/helmet'
 import Input from 'components/input'
 import Layout from 'components/layout'
 import { useStateDefault } from 'context'
-import './style.css'
-
+import { actionLogin, actionTypes } from 'context/auth/action'
+import { func, object } from 'prop-types'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Redirect } from 'react-router-dom'
+import { isLogin } from 'utils/userData'
 
 function LoginPage(props) {
   const { t } = useTranslation() // t ->> translate function to show a message by language chosen
   const tKey = 'dashboard.login.'
-  const [ nextPath, setnextPath ] = React.useState('/home')
+  const [nextPath, setnextPath] = React.useState('/home')
   const { history } = props
-  const [ , loadingUserLogin, dispatch ] = useStateDefault(actionTypes.USER_LOGIN)
+  const [, loadingUserLogin, dispatch] = useStateDefault(actionTypes.USER_LOGIN)
   const loading = loadingUserLogin
   const handleSubmit = e => {
     e.preventDefault()
@@ -36,13 +32,6 @@ function LoginPage(props) {
     })
   }
 
-  React.useEffect(() => {
-    setPathRedirect()
-    // if (errorUserLogin && errorUserLogin !== prevError) {
-    // message.error(errorUserLogin)
-    // }
-  })
-
   const setPathRedirect = () => {
     const url = new URL(window.location.href)
     const path = url.searchParams.get('from')
@@ -51,57 +40,81 @@ function LoginPage(props) {
     }
   }
 
+  React.useEffect(() => {
+    setPathRedirect()
+
+    /*
+     * if (errorUserLogin && errorUserLogin !== prevError) {
+     * message.error(errorUserLogin)
+     * }
+     */
+  })
+
   const { getFieldDecorator } = props.form
+
   return (
     <Layout>
       {isLogin() && <Redirect to={nextPath} />}
       <div className="root-login">
         <Helmet>
-          <title>{t(tKey + 'pageTitle')}</title>
+          <title>{t(`${tKey}pageTitle`)}</title>
         </Helmet>
-        <Row
-          type="flex"
-          justify="center"
-          align="middle"
-        >
+        <Row type="flex" justify="center" align="middle">
           <Col span={6} xl={4}>
             <div className="logo_company">
               <img src={Logo} alt="ati-logo" />
             </div>
             <Form onSubmit={handleSubmit} className="login-form">
               <label
-                style={{ marginBottom: '6px', textTransform: 'capitalize' }}
+                style={{
+                  marginBottom: '6px',
+                  textTransform: 'capitalize'
+                }}
                 htmlFor="normal_login_userName"
               >
-                {t(tKey + 'username')}
+                {t(`${tKey}username`)}
               </label>
               <Form.Item>
-                {getFieldDecorator('userName', { rules: [
-                  {
-                    required: true, message: t(tKey + 'form.usernameMessageRequired'), max: 13
-                  }
-                ] })(
+                {getFieldDecorator('userName', {
+                  rules: [
+                    {
+                      required: true,
+                      message: t(`${tKey}form.usernameMessageRequired`),
+                      max: 13
+                    }
+                  ]
+                })(
                   <Input
-                    prefix={<Icon type="user"style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={
+                      <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
                     placeholder="01.01.01.1001"
                     autoFocus
                   />
                 )}
               </Form.Item>
               <label
-                style={{ marginBottom: '6px', textTransform: 'capitalize' }}
+                style={{
+                  marginBottom: '6px',
+                  textTransform: 'capitalize'
+                }}
                 htmlFor="normal_login_password"
               >
-                {t(tKey + 'password')}
+                {t(`${tKey}password`)}
               </label>
               <Form.Item>
-                {getFieldDecorator('password', { rules: [
-                  {
-                    required: true, message: t(tKey + 'form.passwordMessageRequired')
-                  }
-                ] })(
+                {getFieldDecorator('password', {
+                  rules: [
+                    {
+                      required: true,
+                      message: t(`${tKey}form.passwordMessageRequired`)
+                    }
+                  ]
+                })(
                   <Input
-                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    prefix={
+                      <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
+                    }
                     type="password"
                     placeholder="******"
                     onPressEnter={handleSubmit}
@@ -110,7 +123,7 @@ function LoginPage(props) {
               </Form.Item>
               <Col span={24}>
                 <Button loading={loading} type="primary" htmlType="submit">
-                  {t(tKey + 'login').toUpperCase()}
+                  {t(`${tKey}login`).toUpperCase()}
                 </Button>
                 <div
                   style={{
@@ -124,7 +137,7 @@ function LoginPage(props) {
                     onClick={() => history.push('/#forget')}
                     style={{ cursor: 'pointer' }}
                   >
-                    {t(tKey + 'forgot')}
+                    {t(`${tKey}forgot`)}
                   </span>
                 </div>
               </Col>
@@ -142,8 +155,6 @@ LoginPage.propTypes = {
   history: object
 }
 
-const WrappedLoginPage = Form.create({ name: 'normal_login' })(
-  LoginPage
-)
+const WrappedLoginPage = Form.create({ name: 'normal_login' })(LoginPage)
 
 export default WrappedLoginPage

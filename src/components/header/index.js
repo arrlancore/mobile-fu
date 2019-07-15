@@ -1,9 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { node, func, bool } from 'prop-types'
-import {
-  Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge
-} from 'antd'
+import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge } from 'antd'
 import PhotoTemp from 'assets/image/temp/Photo.png'
 import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
@@ -20,17 +18,29 @@ const { Header } = Layout
 function Headers(props) {
   const { t, tReady, ...rest } = props
   const [user] = useStateValue('user')
-  const [ logout, setLogout ] = React.useState(false)
+  const [logout, setLogout] = React.useState(false)
   const firstName = user.data ? user.data.fullname.split(' ')[0] : 'Guest'
   const menu = (
     <Menu>
-      <Menu.Item onClick={() =>{
-        console.log('click my profile')
-      }} key="myprofile">My Profile</Menu.Item>
-      <Menu.Item onClick={() =>{
-        console.log('click my setting')
-      }} key="setting">Setting</Menu.Item>
-      <Menu.Item onClick={() => logouts(setLogout)} key="logout">Logout</Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          console.log('click my profile')
+        }}
+        key="myprofile"
+      >
+        My Profile
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          console.log('click my setting')
+        }}
+        key="setting"
+      >
+        Setting
+      </Menu.Item>
+      <Menu.Item onClick={() => logouts(setLogout)} key="logout">
+        Logout
+      </Menu.Item>
     </Menu>
   )
   const showBadge = true
@@ -53,7 +63,9 @@ function Headers(props) {
               size="large"
               className="header-avatar"
             />
-            <div style={{ display: 'inline' }}>{tReady && t('components.header.wellcome')}, </div>
+            <div style={{ display: 'inline' }}>
+              {tReady && t('components.header.wellcome')},{' '}
+            </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
                 {firstName}
@@ -80,10 +92,12 @@ function Headers(props) {
             }}
           >
             <NotoficationPopOver>
-              <ImageIcon onClick={ () => { }} src={IconBell} alt="Notification" />
-              {showBadge && <Badge style={{ height: 24 }} color="#DC5667" dot={true} />}
+              <ImageIcon onClick={() => {}} src={IconBell} alt="Notification" />
+              {showBadge && (
+                <Badge style={{ height: 24 }} color="#DC5667" dot={true} />
+              )}
             </NotoficationPopOver>
-            <ImageIcon onClick={ () => { }} src={IconMessages} alt="Messages" />
+            <ImageIcon onClick={() => {}} src={IconMessages} alt="Messages" />
           </Col>
           <Col xs={12} xl={12}>
             <MainMenu />
