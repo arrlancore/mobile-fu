@@ -5,5 +5,9 @@ export default function Logout(setLogoutState) {
     window.localStorage.removeItem('isLogin')
     Cookies.remove('user')
   }
-  setLogoutState(true)
+  if (setLogoutState) {
+    setLogoutState(true)
+  } else {
+    window.location.replace('/')
+  }
 }
