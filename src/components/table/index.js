@@ -1,7 +1,5 @@
 import React from 'react'
-import {
-  array, any
-} from 'prop-types'
+import { array, any } from 'prop-types'
 import { Table } from 'antd'
 import './style.css'
 
@@ -13,7 +11,8 @@ const toCapitalize = text => {
           txt.charAt(0).toUpperCase() +
           txt.slice(1) +
           (index !== arr.length - 1 ? ' ' : '')
-    }, '') :
+        )
+      }, '')
     : ''
 }
 

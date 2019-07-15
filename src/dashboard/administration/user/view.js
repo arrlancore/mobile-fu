@@ -1,4 +1,5 @@
 import React from 'react'
+import { object } from 'prop-types'
 // import { Row } from 'antd'
 // import { useTranslation } from 'react-i18next'
 // import { useStateValue } from 'context'
@@ -27,5 +28,7 @@ function UserViewPage(props) {
     </div>
   )
 }
-
+UserViewPage.propTypes = {
+  match: object
+}
 export default UserViewPage

@@ -5,7 +5,6 @@ import CustomRoute from './customRoute'
 import LoadingPage from 'components/loader/pageLoad'
 import routes from './routes'
 
-
 function ReactRouter() {
   return (
     <BrowserRouter>
@@ -14,7 +13,8 @@ function ReactRouter() {
           {routes.map(({ isProtected, ...rest }, i) =>
             isProtected ? (
               <ProtectedRoute key={i} {...rest} />
-              : <CustomRoute key={i} {...rest} />
+            ) : (
+              <CustomRoute key={i} {...rest} />
             )
           )}
         </Switch>

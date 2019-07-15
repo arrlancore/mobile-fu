@@ -1,4 +1,5 @@
 import React from 'react'
+import { node } from 'prop-types'
 import { Avatar, Popover, List } from 'antd'
 const data = [
   {
@@ -45,5 +46,9 @@ const NotoficationPopOver = ({ children }) => (
     {children}
   </Popover>
 )
+
+NotoficationPopOver.propTypes = {
+  children: node
+}
 
 export default NotoficationPopOver

@@ -477,7 +477,8 @@
     "browser": true,
     "commonjs": true,
     "es6": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "plugins": ["react", "react-hooks", "prettier"],
   "extends": [
@@ -485,6 +486,7 @@
     "plugin:react/recommended",
     "plugin:prettier/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018

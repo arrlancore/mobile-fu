@@ -1,15 +1,11 @@
 import React from 'react'
-import {
-  string, object
-} from 'prop-types'
+import { string, object } from 'prop-types'
 import { Input } from 'antd'
 import './style.css'
 
 class InputText extends React.Component {
   render() {
-    const {
-      type, label, style
-    } = this.props
+    const { type, label, style } = this.props
     const primary = type === 'primary'
     const color = primary ? '#D5D6DB' : '#2699FB'
     return (
@@ -21,13 +17,17 @@ class InputText extends React.Component {
       >
         {label && (
           <label
-          htmlFor={`select ${label}`}
-          style={{
-            display: 'block', color: color, fontWeight: 'bold', ...style
+            htmlFor={`select ${label}`}
+            style={{
+              display: 'block',
+              color: color,
+              fontWeight: 'bold',
+              ...style
             }}
-        >
-          {label}
-        </label>}
+          >
+            {label}
+          </label>
+        )}
         <Input
           {...this.props}
           className={`input-base ${

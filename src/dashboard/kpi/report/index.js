@@ -61,7 +61,7 @@ function KpiCalculationPage() {
   const dataGroup =
     listGroup && listGroup.data
       ? listGroup.data.map(data => ({ name: data.group_name, value: data.id }))
-    : []
+      : []
 
   const onExportReport = () => actionExportReport(dispatch, summaryParam)
 
@@ -70,7 +70,9 @@ function KpiCalculationPage() {
       <Row
         gutter={24}
         style={{
-        display: 'flex', justifyContent: 'flex-end', marginBottom: 28
+          display: 'flex',
+          justifyContent: 'flex-end',
+          marginBottom: 28
         }}
       >
         <Button
@@ -82,9 +84,7 @@ function KpiCalculationPage() {
         </Button>
       </Row>
       <Row gutter={24}>
-        <Col span={12}>
-          Result
-        </Col>
+        <Col span={12}>Result</Col>
         {/* <Col span={12} style={{
           display: 'flex',
           alignItems: 'center',
@@ -98,7 +98,6 @@ function KpiCalculationPage() {
       </Row>
     </>
   )
-
 
   let columnProperty = [
     // add special condition for one or each column here
@@ -127,8 +126,9 @@ function KpiCalculationPage() {
               className="score-bar-progress"
               style={{
                 width: `${Math.round(score / 10)}%`,
-              background: getColor(Math.round(score / 10))
-            }} />
+                background: getColor(Math.round(score / 10))
+              }}
+            />
             <span className="score-bar-value">{score}</span>
           </div>
         )
@@ -231,14 +231,17 @@ function KpiCalculationPage() {
         {paramHasInput ? (
           <div className="section-row">
             <Table
-            title={() => <ColumnHeader />}
+              title={() => <ColumnHeader />}
               data={kpiReport ? kpiReport.data : []}
-            scroll={{ x: 1300 }}
+              scroll={{ x: 1300 }}
               columnProperty={columnProperty}
-            excludeColumns={['color']}
-            loading={reportLoading || exportLoading}
+              excludeColumns={['color']}
+              loading={reportLoading || exportLoading}
             />
-        </div> : ''}
+          </div>
+        ) : (
+          ''
+        )}
       </Content>
     </LayoutPage>
   )
