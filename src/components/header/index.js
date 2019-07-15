@@ -21,7 +21,7 @@ function Headers(props) {
   const { t, tReady, ...rest } = props
   const [user] = useStateValue('user')
   const [ logout, setLogout ] = React.useState(false)
-  const firstName = user.data && user.data.fullname.split(' ')[0]
+  const firstName = user.data ? user.data.fullname.split(' ')[0] : 'Guest'
   const menu = (
     <Menu>
       <Menu.Item onClick={() =>{
@@ -49,7 +49,7 @@ function Headers(props) {
         >
           <Col xs={7} xl={5}>
             <Avatar
-              src={user.data.photoProfile || PhotoTemp}
+              src={user.data ? user.data.photoProfile : PhotoTemp}
               size="large"
               className="header-avatar"
             />
