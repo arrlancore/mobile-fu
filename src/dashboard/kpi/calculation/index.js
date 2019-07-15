@@ -3,7 +3,7 @@ import { Row, Col, message } from 'antd' // @TODO: this is need to be fixed to o
 import {
   actionProcessFile, actionGetListGroup, actionGetListDocs, actionGetSummary, actionCalculate, actionCalculationStatus
 } from 'context/kpi/action'
-import { useStateDefault, useStateValue } from 'context'
+import { useStateDefault, useStateValue, usePrevious } from 'context'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
@@ -14,10 +14,10 @@ import Button from 'components/button'
 import Spinner from 'components/loader/spinner'
 import Title from 'components/text/title'
 import UploadForm from './uploadForm'
-import usePrevious from 'utils/usePrevious'
 import {
-  kpiEndpointUpload, getMonthByQuarter, getNumberOfMonth, listYear, listQuarter, mergeSummaryToDoc
+  kpiEndpointUpload, mergeSummaryToDoc
 } from './helper'
+import { getMonthByQuarter, getNumberOfMonth, listYear, listQuarter } from 'utils/time'
 import './style.css'
 
 function KpiCalculationPage () {

@@ -10,7 +10,7 @@ import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
 import { encode, decode } from 'utils/queryString'
-import usePrevious from 'utils/usePrevious'
+import { usePrevious } from 'context'
 import exData from './data.json'
 import { Link } from 'react-router-dom'
 
