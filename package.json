@@ -40,6 +40,7 @@
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
     "react-app-rewired": "^2.1.3",
+    "watch": "^1.0.2",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
@@ -49,7 +50,8 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint src/**/*.js --fix"
+    "lint:fix": "eslint src/**/*.js --fix",
+    "watch": "watch 'clear && npm run -s test | tap-nirvana && npm run -s lint' src"
   },
   "browserslist": {
     "production": [

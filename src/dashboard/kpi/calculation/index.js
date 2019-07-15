@@ -85,9 +85,7 @@ function KpiCalculationPage() {
       onUploadError(uploadError)
     }
     if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
-      const { groupId, year, quarter } = summaryParam
-      const hasInputAll = year && quarter && groupId
-      if (hasInputAll) {
+      if (summaryParam.year && summaryParam.quarter && summaryParam.groupId) {
         actionGetSummary(dispatch, summaryParam)
         actionCalculationStatus(dispatch, summaryParam)
       }
@@ -207,7 +205,7 @@ function KpiCalculationPage() {
       return 'Not Completed'
     }
 
-    return 'Not Uploaded'
+    return 'Not Uploaded Yet'
   }
 
   return (
