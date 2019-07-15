@@ -507,6 +507,6 @@
     "eslint linebreak-style": [0, "error", "unix"],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "max-line-length": [true, { "limit": 120 }]
+    "max-len": ["error", { "code": 120 }]
   }
 }

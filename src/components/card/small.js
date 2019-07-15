@@ -16,9 +16,7 @@ const small = ({ icon, link, name }) => {
           </div>
         </Col>
         <Col span={6}>
-          <div className="card_small--right">
-            {icon ? <img src={icon} alt="icon"></img> : ''}
-          </div>
+          <div className="card_small--right">{icon ? <img src={icon} alt="icon"></img> : ''}</div>
         </Col>
       </Row>
     </Card>

@@ -12,19 +12,14 @@ export default function withDevTools(initialState, actionCreators) {
     id += 1
     const name = `react-context: ${instanceID}`
     const isInstalled = window && window.__REDUX_DEVTOOLS_EXTENSION__
-    const devTools = isInstalled
-      ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators })
-      : null
+    const devTools = isInstalled ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators }) : null
     devTools &&
       devTools.subscribe(message => {
         if (message.type === 'START') {
           devTools.init(initialState)
         }
         if (message.type === 'DISPATCH' && message.state) {
-          console.log(
-            'DevTools requested to change the state to',
-            message.state
-          )
+          console.log('DevTools requested to change the state to', message.state)
         }
       })
   }

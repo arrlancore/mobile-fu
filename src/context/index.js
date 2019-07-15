@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useState,
-  useReducer,
-  useEffect,
-  useRef
-} from 'react'
+import React, { useContext, useState, useReducer, useEffect, useRef } from 'react'
 import { node, func } from 'prop-types'
 import devTool from './reduxDevTool'
 
@@ -20,11 +14,7 @@ export const Provider = ({ children, reducer }) => {
     setState({ isLoaded: true })
   }, [])
   devTool(store)
-  return (
-    <Context.Provider value={{ dispatch, store }}>
-      {state.isLoaded ? children : false}
-    </Context.Provider>
-  )
+  return <Context.Provider value={{ dispatch, store }}>{state.isLoaded ? children : false}</Context.Provider>
 }
 Provider.propTypes = {
   children: node,

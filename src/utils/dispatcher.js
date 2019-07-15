@@ -10,7 +10,7 @@ export default async function dispatchAction(dispatch, actionType, action) {
     await action()
   } catch (error) {
     const response = error.response || {}
-    if (dev) console.info('[Error]:', error.response.data)
+    if (dev) console.info('[Error]:', response.data || response)
     const textMessage =
       response.data && response.data.error ? response.data.error + '. ' : ''
     if (error.response && error.response.status === 401) {

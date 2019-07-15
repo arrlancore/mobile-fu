@@ -16,8 +16,8 @@ function ErrorNotFound() {
       <Icon type="robot" />
       <Title level={1}>Oops! That page can’t be found.</Title>
       <p className="notFoundDesc">
-        It looks like nothing was found at this location. Please check the link
-        or press back to go to the previous page.
+        It looks like nothing was found at this location. Please check the link or press back to go to the previous
+        page.
       </p>
     </div>
   )

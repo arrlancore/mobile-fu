@@ -28,12 +28,7 @@ class InputText extends React.Component {
             {label}
           </label>
         )}
-        <Input
-          {...this.props}
-          className={`input-base ${
-            this.props.type === 'secondary' ? 'input-secondary' : ''
-          }`}
-        />
+        <Input {...this.props} className={`input-base ${this.props.type === 'secondary' ? 'input-secondary' : ''}`} />
       </div>
     )
   }

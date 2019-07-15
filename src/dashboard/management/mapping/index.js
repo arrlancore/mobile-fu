@@ -30,8 +30,7 @@ const MappingPage = () => {
     {
       dataIndex: 'first_name',
       width: 100,
-      sorter: (a, b) =>
-        a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0
+      sorter: (a, b) => (a.first_name > b.first_name ? 1 : b.first_name > a.first_name ? -1 : 0)
     },
     {
       dataIndex: 'performance',

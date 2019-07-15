@@ -18,6 +18,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { listQuarter, listYear } from 'utils/time'
+import { sortNumber, sortString } from 'utils/sorter'
 
 /**
  * KPI Calculation page
@@ -70,7 +71,10 @@ function KpiReportPage() {
 
   const onTeamChange = teamId => {
     setTeamId(teamId)
-    actionListGroupByTeam(dispatch, { teamid: teamId })
+    actionListGroupByTeam(dispatch, {
+      teamid: teamId,
+      employeeid: user.data.employeeid
+    })
   }
 
   const dataGroup =
@@ -129,11 +133,11 @@ function KpiReportPage() {
     // add special condition for one or each column here
     {
       dataIndex: 'employee_id',
-      sorter: (a, b) => a - b
+      sorter: (a, b) => sortNumber(a, b)('employee_id')
     },
     {
       dataIndex: 'name',
-      sorter: (a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0) // eslint-disable-line
+      sorter: (a, b) => sortString(a, b)('name')
     },
     {
       dataIndex: 'perc_final',

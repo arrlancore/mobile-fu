@@ -85,9 +85,7 @@ function LoginPage(props) {
                   ]
                 })(
                   <Input
-                    prefix={
-                      <Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
+                    prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     placeholder="01.01.01.1001"
                     autoFocus
                   />
@@ -112,9 +110,7 @@ function LoginPage(props) {
                   ]
                 })(
                   <Input
-                    prefix={
-                      <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-                    }
+                    prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                     type="password"
                     placeholder="******"
                     onPressEnter={handleSubmit}
@@ -133,10 +129,7 @@ function LoginPage(props) {
                     margin: ' 15px 0px'
                   }}
                 >
-                  <span
-                    onClick={() => history.push('/#forget')}
-                    style={{ cursor: 'pointer' }}
-                  >
+                  <span onClick={() => history.push('/#forget')} style={{ cursor: 'pointer' }}>
                     {t(`${tKey}forgot`)}
                   </span>
                 </div>

@@ -5,13 +5,7 @@ import './style.css'
 
 const button = ({ children, type, ...rest }) => {
   return (
-    <Button
-      {...rest}
-      type={type}
-      className={`button-base ${
-        type === 'secondary' ? 'button-secondary' : ''
-      }`}
-    >
+    <Button {...rest} type={type} className={`button-base ${type === 'secondary' ? 'button-secondary' : ''}`}>
       {children}
     </Button>
   )

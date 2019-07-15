@@ -64,14 +64,7 @@ function UserPage(props) {
       loadPage(pageNumber, pageSize)
     }
     // }
-  }, [
-    history.location.search,
-    pageNumber,
-    mockData,
-    loadPage,
-    pageSize,
-    prevPageNumber
-  ])
+  }, [history.location.search, pageNumber, mockData, loadPage, pageSize, prevPageNumber])
   const ColumnHeader = () => (
     <>
       <Row
@@ -85,10 +78,7 @@ function UserPage(props) {
         <Button style={{ maxWidth: 280, margin: '0 14px' }} type="secondary">
           Export
         </Button>
-        <Button
-          style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }}
-          type="secondary"
-        >
+        <Button style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }} type="secondary">
           Create
         </Button>
         {/* <span className="action-title">

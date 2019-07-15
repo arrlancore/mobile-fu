@@ -21,8 +21,7 @@ export function getMonthByQuarter(quarter) {
   return monthByQuarters.map(month => ({ value: month, name: month }))
 }
 
-export const getNumberOfMonth = selectedMonth =>
-  listMonths.findIndex(month => month === selectedMonth) + 1
+export const getNumberOfMonth = selectedMonth => listMonths.findIndex(month => month === selectedMonth) + 1
 
 function generateYears(startYear = 2000) {
   let currentYear = new Date().getFullYear()
@@ -36,9 +35,4 @@ function generateYears(startYear = 2000) {
 
 export const listYear = generateYears()
 
-export const listQuarter = [
-  { name: 1, value: 1 },
-  { name: 2, value: 2 },
-  { name: 3, value: 3 },
-  { name: 4, value: 4 }
-]
+export const listQuarter = [{ name: 1, value: 1 }, { name: 2, value: 2 }, { name: 3, value: 3 }, { name: 4, value: 4 }]
