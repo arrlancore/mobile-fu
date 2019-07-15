@@ -1,8 +1,9 @@
 import React, {
-  useContext, useState, useReducer, useEffect
+  useContext, useState, useReducer, useEffect, useRef
 } from 'react'
 import { node, func } from 'prop-types'
 import devTool from './reduxDevTool'
+
 // create a global context
 const Context = React.createContext()
 
@@ -54,3 +55,14 @@ export const useStateDefault = (key) => {
   ]
 }
 
+/**
+ * usePrevious is a method to get tracked previous value of a state or props
+ * @param {*} value state to detect the previous value
+ */
+export function usePrevious(value) {
+  const ref = useRef()
+  useEffect(() => {
+    ref.current = value
+  })
+  return ref.current
+}
