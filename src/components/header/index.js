@@ -59,7 +59,7 @@ function Headers(props) {
         >
           <Col xs={7} xl={5}>
             <Avatar
-              src={user.data ? user.data.photoProfile : PhotoTemp}
+              src={(user.data && user.data.photoProfile) || PhotoTemp}
               size="large"
               className="header-avatar"
             />

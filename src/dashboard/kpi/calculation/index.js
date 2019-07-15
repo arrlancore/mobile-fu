@@ -1,6 +1,6 @@
 import './style.css'
 
-import { Col, message, Row } from 'antd' // @TODO: this is need to be fixed to optimize bundle size
+import { Col, message, Row } from 'antd' // @TODO: this need to be fixed to optimize bundle size
 import Button from 'components/button'
 import Helmet from 'components/helmet'
 import Input from 'components/input'
@@ -70,48 +70,62 @@ function KpiCalculationPage() {
   const prevListGroup = usePrevious(listGroup)
   const prevSummaryParam = usePrevious(summaryParam)
   const prevCalculateLoading = usePrevious(calculateLoading)
-  React.useEffect(
-    () => {
-      // group summary by the doc Id
-      if (!listGroup && listGroup !== prevListGroup) {
-        actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
+  React.useEffect(() => {
+    // group summary by the doc Id
+    if (!listGroup && listGroup !== prevListGroup) {
+      actionGetListGroup(dispatch, { employeeid: user.data.employeeid })
+    }
+    if (!listDoc && listDoc !== prevListDoc) {
+      actionGetListDocs(dispatch)
+    }
+    if (listDoc && listDoc !== prevListDoc) {
+      setSummaryUploaded(listDoc.data)
+    }
+    if (uploadError && uploadError !== prevError) {
+      onUploadError(uploadError)
+    }
+    if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
+      const { groupId, year, quarter } = summaryParam
+      const hasInputAll = year && quarter && groupId
+      if (hasInputAll) {
+        actionGetSummary(dispatch, summaryParam)
+        actionCalculationStatus(dispatch, summaryParam)
       }
-      if (!listDoc && listDoc !== prevListDoc) {
-        actionGetListDocs(dispatch)
-      }
-      if (listDoc && listDoc !== prevListDoc) {
-        setSummaryUploaded(listDoc.data)
-      }
-      if (uploadError && uploadError !== prevError) {
-        onUploadError(uploadError)
-      }
-      if (JSON.stringify(prevSummaryParam) !== JSON.stringify(summaryParam)) {
-        const { groupId, year, quarter } = summaryParam
-        const hasInputAll = year && quarter && groupId
-        if (hasInputAll) {
-          actionGetSummary(dispatch, summaryParam)
-          actionCalculationStatus(dispatch, summaryParam)
-        }
-      }
-      if (kpiSummary && kpiSummary !== prevKpiSummary) {
-        const [dataSummary, dataColor, uploaded] = mergeSummaryToDoc(
-          listDoc,
-          kpiSummary
-        )
-        setSummaryUploaded(dataSummary)
-        setListColor(dataColor)
-        setUploadedStatus(uploaded)
-      }
-      if (
-        prevCalculateLoading &&
-        calculateLoading === false &&
-        !calculateError
-      ) {
-        message.info('Calculate has been finished')
-      }
-    },
-  [ listGroup, prevListGroup, listDoc, prevListDoc, uploadError, prevError, dispatch, kpiUpload, prevProgress, fileList.length, fileUploaded, onUpload, prevSummaryParam, summaryParam, user.data.employeeid, kpiSummary, prevKpiSummary ] //eslint-disable-line
-  )
+    }
+    if (kpiSummary && kpiSummary !== prevKpiSummary) {
+      const [dataSummary, dataColor, uploaded] = mergeSummaryToDoc(
+        listDoc,
+        kpiSummary
+      )
+      setSummaryUploaded(dataSummary)
+      setListColor(dataColor)
+      setUploadedStatus(uploaded)
+    }
+    if (prevCalculateLoading && calculateLoading === false && !calculateError) {
+      message.info('Calculate has been finished')
+    }
+  }, [
+    listGroup,
+    prevListGroup,
+    listDoc,
+    prevListDoc,
+    uploadError,
+    prevError,
+    dispatch,
+    kpiUpload,
+    prevProgress,
+    fileList.length,
+    fileUploaded,
+    onUpload,
+    prevSummaryParam,
+    summaryParam,
+    user.data.employeeid,
+    kpiSummary,
+    prevKpiSummary,
+    prevCalculateLoading,
+    calculateLoading,
+    calculateError
+  ])
   const onQuarterChange = quarter => {
     setQuarter(quarter)
     setMonths(year, quarter)

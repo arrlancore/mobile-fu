@@ -481,11 +481,7 @@
     "jest": true
   },
   "plugins": ["react", "react-hooks", "prettier"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
   "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
@@ -510,6 +506,7 @@
     "global-require": 0,
     "eslint linebreak-style": [0, "error", "unix"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "max-line-length": [true, { "limit": 120 }]
   }
 }
