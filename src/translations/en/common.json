@@ -4,7 +4,7 @@
   },
   "components": {
     "header": {
-      "wellcome": "Hello"
+      "wellcome": "Hi"
     }
   },
   "dashboard": {
@@ -18,7 +18,7 @@
       "forgot" : "Forgot your password?",
       "login": "login",
       "form": {
-        "usernameMessageRequired": "Please input your username!",
+        "usernameMessageRequired": "Please input your email!",
         "passwordMessageRequired": "Please input your password!"
       }
     },

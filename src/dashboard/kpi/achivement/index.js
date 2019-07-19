@@ -9,12 +9,7 @@ import Select from 'components/select'
 import Table from 'components/table'
 import Title from 'components/text/title'
 import { usePrevious, useStateDefault, useStateValue } from 'context'
-import {
-  actionExportReport,
-  actionGetReport,
-  actionListTeam,
-  actionListGroupByTeam
-} from 'context/kpi/action'
+import { actionExportReport, actionGetReport, actionListTeam, actionListGroupByTeam } from 'context/kpi/action'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { listQuarter, listYear } from 'utils/time'
@@ -58,16 +53,7 @@ function KpiAchivementPage() {
         setParamHasInput(true)
       }
     }
-  }, [
-    prevSummaryParam,
-    summaryParam,
-    dispatch,
-    user.data.employeeid,
-    listTeam,
-    prevListTeam,
-    teamId,
-    prevTeamId
-  ])
+  }, [prevSummaryParam, summaryParam, dispatch, user.data.employeeid, listTeam, prevListTeam, teamId, prevTeamId])
 
   const onTeamChange = teamId => {
     setTeamId(teamId)
@@ -105,11 +91,7 @@ function KpiAchivementPage() {
           marginBottom: 28
         }}
       >
-        <Button
-          onClick={onExportReport}
-          style={{ maxWidth: 300 }}
-          type="secondary"
-        >
+        <Button onClick={onExportReport} style={{ maxWidth: 300 }} type="secondary">
           Export
         </Button>
       </Row>

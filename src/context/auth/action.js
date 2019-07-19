@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import config from 'config'
-import jwtDecode from 'jwt-decode'
 import dispatchAction from 'utils/dispatcher'
 
 export const actionTypes = {
@@ -10,16 +9,17 @@ export const actionTypes = {
 }
 
 export const actionLogin = (dispatch, payload) => {
-  const url = config.baseUrl + '/login'
+  const url = config.baseUrl + '/api/auth/login'
   const userLogin = async () => {
     const response = await axios.post(url, payload, { timeout: 10000 })
-    let { data } = response.data
-    if (response.data.status === 200 && response.status <= 201) {
+    let { data, token } = response.data
+    if (response.status <= 201) {
       const user = {
-        token: 'Bearer ' + data,
-        ...jwtDecode(data)
+        token: token,
+        ...data
       }
       Cookies.set('user', JSON.stringify(user))
+      console.log('TCL: userLogin -> user', user)
       localStorage.setItem('isLogin', 'true')
       dispatch({
         type: actionTypes.USER_LOGIN_SUCCESS,

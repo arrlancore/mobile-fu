@@ -19,7 +19,7 @@ function Headers(props) {
   const { t, tReady, ...rest } = props
   const [user] = useStateValue('user')
   const [logout, setLogout] = React.useState(false)
-  const firstName = user.data ? user.data.fullname.split(' ')[0] : 'Guest'
+  const firstName = user.data ? user.data.firstName : 'Guest'
   const menu = (
     <Menu>
       <Menu.Item

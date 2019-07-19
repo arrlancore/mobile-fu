@@ -9,3 +9,8 @@
   font-weight: 800;
   color: #8288ac;
 }
+
+.card_small--right svg {
+  width: 50px;
+  height: 30px;
+}

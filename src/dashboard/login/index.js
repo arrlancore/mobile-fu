@@ -1,7 +1,7 @@
 import './style.css'
 
 import { Col, Form, Icon, message, Row } from 'antd'
-import Logo from 'assets/image/logo/logo1x.png'
+// import Logo from 'assets/image/logo/logo1x.png'
 import Button from 'components/button'
 import Helmet from 'components/helmet'
 import Input from 'components/input'
@@ -61,9 +61,7 @@ function LoginPage(props) {
         </Helmet>
         <Row type="flex" justify="center" align="middle">
           <Col span={6} xl={4}>
-            <div className="logo_company">
-              <img src={Logo} alt="ati-logo" />
-            </div>
+            <div className="logo_company">{/* <img src={Logo} alt="ati-logo" /> */}</div>
             <Form onSubmit={handleSubmit} className="login-form">
               <label
                 style={{
@@ -75,18 +73,17 @@ function LoginPage(props) {
                 {t(`${tKey}username`)}
               </label>
               <Form.Item>
-                {getFieldDecorator('userName', {
+                {getFieldDecorator('email', {
                   rules: [
                     {
                       required: true,
-                      message: t(`${tKey}form.usernameMessageRequired`),
-                      max: 13
+                      message: t(`${tKey}form.usernameMessageRequired`)
                     }
                   ]
                 })(
                   <Input
                     prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                    placeholder="01.01.01.1001"
+                    placeholder="2015@ftumj.ac.id"
                     autoFocus
                   />
                 )}

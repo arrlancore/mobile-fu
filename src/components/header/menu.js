@@ -8,41 +8,41 @@ function MainMenu() {
   const path = document.location.pathname
   const listMenus = [
     {
-      name: 'Home',
+      name: 'Logout',
       path: '/home'
-    },
-    {
-      name: 'KPI',
-      path: '/kpi',
-      submenus: [
-        {
-          name: 'Calculation',
-          path: '/kpi/calculation'
-        },
-        {
-          name: 'Achivement',
-          path: '/kpi/achivement'
-        },
-        {
-          name: 'Report',
-          path: '/kpi/report'
-        }
-      ]
-    },
-    {
-      name: 'Management',
-      path: '/management',
-      submenus: [
-        {
-          name: 'Mapping',
-          path: '/management/mapping'
-        }
-      ]
-    },
-    {
-      name: 'Administration',
-      path: '/administration'
     }
+    // {
+    //   name: 'KPI',
+    //   path: '/kpi',
+    //   submenus: [
+    //     {
+    //       name: 'Calculation',
+    //       path: '/kpi/calculation'
+    //     },
+    //     {
+    //       name: 'Achivement',
+    //       path: '/kpi/achivement'
+    //     },
+    //     {
+    //       name: 'Report',
+    //       path: '/kpi/report'
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'Management',
+    //   path: '/management',
+    //   submenus: [
+    //     {
+    //       name: 'Mapping',
+    //       path: '/management/mapping'
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'Administration',
+    //   path: '/administration'
+    // }
   ]
 
   return (

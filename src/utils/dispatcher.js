@@ -11,14 +11,13 @@ export default async function dispatchAction(dispatch, actionType, action) {
   } catch (error) {
     const response = error.response || {}
     if (dev) console.info('[Error]:', response.data || response)
-    const textMessage =
-      response.data && response.data.error ? response.data.error + '. ' : ''
+    const textMessage = response.data && response.data.message ? response.data.message : error.message
     if (error.response && error.response.status === 401) {
-      message.error(textMessage + error.message).then(() => {
+      message.error(textMessage).then(() => {
         logout()
       })
     } else {
-      message.error(textMessage + error.message)
+      message.error(textMessage)
     }
     dispatch({ type: actionType + onFailure, error })
   }

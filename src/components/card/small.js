@@ -9,14 +9,13 @@ const small = ({ icon, link, name }) => {
       <Row className="card--wrapper">
         <Col span={18}>
           <div className="card_small--left">
-            <p>Manage</p>
             <a className="title_bottom" href={link}>
               {name}
             </a>
           </div>
         </Col>
         <Col span={6}>
-          <div className="card_small--right">{icon ? <img src={icon} alt="icon"></img> : ''}</div>
+          <div className="card_small--right">{icon}</div>
         </Col>
       </Row>
     </Card>
