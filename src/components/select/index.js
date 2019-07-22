@@ -22,7 +22,7 @@ function select({ optionList, type, label, ...rest }) {
       >
         {label}
       </label>
-      <div className={`select-root ${primary ? '' : 'select-secondary'}`}>
+      <div className={`select-root ${primary || ''}`}>
         <Select {...rest}>
           {optionList.map(list => (
             <Option key={list.value} value={list.value}>

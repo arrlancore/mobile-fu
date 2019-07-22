@@ -3,12 +3,18 @@ import { array, any } from 'prop-types'
 import { Table } from 'antd'
 import './style.css'
 
-const toCapitalize = text => {
-  return typeof text === 'string'
-    ? text.split('_').reduce((acc, txt, index, arr) => {
-        return acc + txt.charAt(0).toUpperCase() + txt.slice(1) + (index !== arr.length - 1 ? ' ' : '')
-      }, '')
-    : ''
+// const toCapitalize = text => {
+//   return typeof text === 'string'
+//     ? text.split('_').reduce((acc, txt, index, arr) => {
+//         return acc + txt.charAt(0).toUpperCase() + txt.slice(1) + (index !== arr.length - 1 ? ' ' : '')
+//       }, '')
+//     : ''
+// }
+
+const toCapitalize = (text = '') => {
+  const result = text.replace(/([A-Z])/g, ' $1')
+  const finalResult = result.charAt(0).toUpperCase() + result.slice(1)
+  return finalResult
 }
 
 function MainTable({ data, excludeColumns, columnProperty, ...rest }) {

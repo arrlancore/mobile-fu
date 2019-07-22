@@ -31,20 +31,15 @@ export const kpiUploadReducer = (state = initialState, action) => {
   if (action.type === actionTypes.UPLOAD_PROGRESS) {
     return {
       ...state,
-      progress: [
-        ...state.progress,
-        { [action.progress.doc]: action.progress.percentCompleted }
-      ]
+      progress: [...state.progress, { [action.progress.doc]: action.progress.percentCompleted }]
     }
   }
   return state
 }
 
-export const listGroupReducer = (state = null, action) =>
-  setDataReducer(state, action, actionTypes.LIST_GROUP_SUCCESS)
+export const listGroupReducer = (state = null, action) => setDataReducer(state, action, actionTypes.LIST_GROUP_SUCCESS)
 
-export const listDocReducer = (state = null, action) =>
-  setDataReducer(state, action, actionTypes.LIST_DOC_SUCCESS)
+export const listDocReducer = (state = null, action) => setDataReducer(state, action, actionTypes.LIST_DOC_SUCCESS)
 
 export const calculateReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.CALCULATE_KPI_SUCCESS)
@@ -55,17 +50,14 @@ export const summaryReducer = (state = null, action) =>
 export const calculationStatusReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.GET_CALCULATION_STATUS_SUCCESS)
 
-export const itemsReducer = (state = null, action) =>
-  setDataReducer(state, action, actionTypes.GET_ITEMS_SUCCESS)
+export const itemsReducer = (state = null, action) => setDataReducer(state, action, actionTypes.GET_ITEMS_SUCCESS)
 
-export const reportReducer = (state = null, action) =>
-  setDataReducer(state, action, actionTypes.GET_REPORT_SUCCESS)
+export const reportReducer = (state = null, action) => setDataReducer(state, action, actionTypes.GET_REPORT_SUCCESS)
 
 export const exportReportReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.EXPORT_REPORT_SUCCESS)
 
-export const listTeamReducer = (state = null, action) =>
-  setDataReducer(state, action, actionTypes.LIST_TEAM_SUCCESS)
+export const listTeamReducer = (state = null, action) => setDataReducer(state, action, actionTypes.LIST_TEAM_SUCCESS)
 
 export const listGroupByTeamReducer = (state = null, action) =>
   setDataReducer(state, action, actionTypes.LIST_GROUP_TEAM_SUCCESS)

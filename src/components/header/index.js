@@ -52,7 +52,8 @@ function Headers(props) {
       <Header {...rest} className="header-base header-font">
         <Row gutter={8} align="middle" type="flex" justify="center" style={{ height: '100%' }}>
           <Col xs={7} xl={5}>
-            <Avatar src={(user.data && user.data.photoProfile) || PhotoTemp} size="large" className="header-avatar" />
+            <Icon type="user" />
+            {/* <Avatar src={(user.data && user.data.photoProfile) || PhotoTemp} size="large" className="header-avatar" /> */}
             <div style={{ display: 'inline' }}>{tReady && t('components.header.wellcome')}, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">

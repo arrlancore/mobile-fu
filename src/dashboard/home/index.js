@@ -25,7 +25,7 @@ function HomePage() {
             </Title>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
-                <Link to="/administration/user">
+                <Link to="/user">
                   <CardSmall icon={<Icon type="user" />} name="User" />
                 </Link>
               </Col>

@@ -1,32 +1,13 @@
 import { userReducer } from './auth/reducer'
-import {
-  kpiUploadReducer,
-  listGroupReducer,
-  listDocReducer,
-  calculateReducer,
-  summaryReducer,
-  calculationStatusReducer,
-  itemsReducer,
-  reportReducer,
-  listTeamReducer,
-  listGroupByTeamReducer
-} from './kpi/reducer'
+import { listUserReducer, singleUserReducer } from './general/reducer'
 import { errorReducer, loadingReducer } from './default/reducer'
 
 export const reducers = {
   loading: loadingReducer,
   error: errorReducer,
   user: userReducer,
-  kpiUpload: kpiUploadReducer,
-  listGroup: listGroupReducer,
-  listDoc: listDocReducer,
-  kpiCalculate: calculateReducer,
-  kpiSummary: summaryReducer,
-  kpiCalculationStatus: calculationStatusReducer,
-  kpiItem: itemsReducer,
-  kpiReport: reportReducer,
-  listTeam: listTeamReducer,
-  listGroupByTeam: listGroupByTeamReducer
+  listUser: listUserReducer,
+  singleUser: singleUserReducer
 }
 
 const combineReducers = reducer => {

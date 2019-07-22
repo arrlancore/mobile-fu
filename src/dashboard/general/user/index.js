@@ -2,17 +2,17 @@ import React, { useCallback } from 'react'
 import { object } from 'prop-types'
 import { Row } from 'antd'
 import { useTranslation } from 'react-i18next'
-// import { useStateValue } from 'context'
 import LayoutPage from 'components/layout'
+import { list } from 'context/general/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
 import Table from 'components/table'
 import Title from 'components/text/title'
 import { encode, decode } from 'utils/queryString'
-import { usePrevious } from 'context'
+import { usePrevious, useStateValue, useStateDefault } from 'context'
 import exData from './data.json'
-import { Link } from 'react-router-dom'
+import Modal from './modal'
 
 import './style.css'
 
@@ -20,18 +20,23 @@ function UserPage(props) {
   const { history } = props
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.user.'
-  const initPage = decode(history.location.search)
+  // const initPage = decode(history.location.search)
+  const [, loadListUser] = useStateDefault('LIST_USER')
   const [mockData, setMockData] = React.useState([])
-  console.log(initPage.page)
+  const [onView, setOnView] = React.useState({})
+  const [listUser, dispatch] = useStateValue('listUser')
+  const [openViewModal, setOpenViewModal] = React.useState(false)
+  const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
   const [pageSize] = React.useState(10)
   const [collectionData, setCollectionData] = React.useState({})
-  const [loadingData, setLoadingData] = React.useState(true)
+  const [, setLoadingData] = React.useState(true)
   // exData = exData.slice(0, 10)
   // const [ page, setPage ] = React.useState(1)
   // const [ pageSize, setPageSize ] = React.useState(10)
   // const [ data, dispatch ] = React.useMemo(() => (useStateValue('users', page, pageSize)))
   const prevPageNumber = usePrevious(pageNumber)
+  const prevListUser = usePrevious(listUser)
   const loadPage = useCallback((page, pageSize, data = exData) => {
     console.log('TCL: loadPage -> page', page)
     let start = (page - 1) * pageSize
@@ -54,6 +59,9 @@ function UserPage(props) {
   React.useEffect(() => {
     const urlQuery = decode(history.location.search)
     const { page } = urlQuery
+    if (!listUser && listUser !== prevListUser) {
+      loadData()
+    }
     if (page && page !== pageNumber) {
       setPageNumber(page)
     }
@@ -64,7 +72,24 @@ function UserPage(props) {
       loadPage(pageNumber, pageSize)
     }
     // }
-  }, [history.location.search, pageNumber, mockData, loadPage, pageSize, prevPageNumber])
+  }, [
+    history.location.search,
+    pageNumber,
+    mockData,
+    loadPage,
+    pageSize,
+    prevPageNumber,
+    listUser,
+    prevListUser,
+    dispatch,
+    loadData
+  ])
+  function loadData() {
+    list(dispatch, {
+      selected: 'status firstName lastName role email'
+    })
+  }
+
   const ColumnHeader = () => (
     <>
       <Row
@@ -78,7 +103,11 @@ function UserPage(props) {
         <Button style={{ maxWidth: 280, margin: '0 14px' }} type="secondary">
           Export
         </Button>
-        <Button style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }} type="secondary">
+        <Button
+          onClick={() => setNewEntry(true)}
+          style={{ maxWidth: 280, margin: '0 14px', background: '#35b97a' }}
+          type="secondary"
+        >
           Create
         </Button>
         {/* <span className="action-title">
@@ -95,20 +124,20 @@ function UserPage(props) {
     </>
   )
 
-  console.log('TCL: UserPage -> pageNumber', pageNumber)
-
   let columnProperty = [
     // add special condition for one or each column here
     {
       dataIndex: 'id',
       width: 50,
       fixed: 'left',
-      sorter: (a, b) => a.id - b.id,
-      render: function renderItem(text) {
-        return <Link to={`/administration/user/${text}`}>{text}</Link>
-      }
+      sorter: (a, b) => a.id - b.id
     }
   ]
+
+  const handleRowClick = data => {
+    setOnView(data)
+    setOpenViewModal(true)
+  }
 
   const updateQueryUrl = (key, value) => {
     const search = history.location.search
@@ -121,6 +150,17 @@ function UserPage(props) {
       <Helmet>
         <title>{t(tKey + 'pageTitle')}</title>
       </Helmet>
+      <Modal
+        newEntry={newEntry}
+        openModal={openViewModal}
+        onViewData={onView}
+        onUpdateSuccess={loadData}
+        onClose={() => {
+          setOpenViewModal(false)
+          setNewEntry(false)
+          setOnView({})
+        }}
+      />
       <Content>
         <Title bold level={2}>
           User
@@ -129,18 +169,19 @@ function UserPage(props) {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={mockData}
+            data={listUser ? listUser.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['emp_id', 'group_id', 'doc_id', 'data_source']}
+            // excludeColumns={['roles', 'updatedAt', 'createdAt', 'password', 'fullName', 'deviceIds', '_id', '__v']}
+            onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: 50,
+              total: listUser ? listUser.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadingData}
+            loading={loadListUser}
           />
         </div>
       </Content>

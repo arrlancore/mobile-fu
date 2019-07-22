@@ -9,10 +9,10 @@
   },
   "dashboard": {
     "home": {
-      "pageTitle": "KPI Dashboard - ATI Business Group"
+      "pageTitle": "KPI Dashboard - Perkuliahan FTUMJ"
     },
     "login": {
-      "pageTitle": "KPI Login - ATI Business Group",
+      "pageTitle": "KPI Login - Perkuliahan FTUMJ",
       "username": "username",
       "password": "password",
       "forgot" : "Forgot your password?",
@@ -23,22 +23,22 @@
       }
     },
     "calculation": {
-      "pageTitle": "Calculation | KPI - ATI Business Group"
+      "pageTitle": "Calculation | KPI - Perkuliahan FTUMJ"
     },
     "achivement": {
-      "pageTitle": "Achivement | KPI - ATI Business Group"
+      "pageTitle": "Achivement | KPI - Perkuliahan FTUMJ"
     },
     "report": {
-      "pageTitle": "Report | KPI - ATI Business Group"
+      "pageTitle": "Report | KPI - Perkuliahan FTUMJ"
     },
     "administration": {
-      "pageTitle": "Administration - ATI Business Group"
+      "pageTitle": "Administration - Perkuliahan FTUMJ"
     },
     "user": {
-      "pageTitle": "User | Administration - ATI Business Group"
+      "pageTitle": "User | Administration - Perkuliahan FTUMJ"
     },
     "mapping": {
-      "pageTitle": "Mapping | Management - ATI Business Group"
+      "pageTitle": "Mapping | Management - Perkuliahan FTUMJ"
     }
   }
 }
