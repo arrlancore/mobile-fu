@@ -22,9 +22,7 @@ function UserPage(props) {
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.user.'
-  // const initPage = decode(history.location.search)
   const [, loadListUser] = useStateDefault('LIST_USER')
-  // const [mockData, setMockData] = React.useState([])
   const [onView, setOnView] = React.useState({})
 
   const [listUser = [], dispatch] = useStateValue('listUser')
