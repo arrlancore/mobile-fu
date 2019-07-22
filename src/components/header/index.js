@@ -15,7 +15,6 @@ import './style.css'
 const { Header } = Layout
 
 function Headers(props) {
-  console.log('TCL: Headers -> props', window && window.location)
   const { t, tReady, ...rest } = props
   const [user] = useStateValue('user')
   const firstName = user.data ? user.data.firstName : 'Guest'

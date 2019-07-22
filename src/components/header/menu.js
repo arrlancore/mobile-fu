@@ -18,38 +18,6 @@ function MainMenu() {
         setLogout(true)
       }
     }
-    // {
-    //   name: 'KPI',
-    //   path: '/kpi',
-    //   submenus: [
-    //     {
-    //       name: 'Calculation',
-    //       path: '/kpi/calculation'
-    //     },
-    //     {
-    //       name: 'Achivement',
-    //       path: '/kpi/achivement'
-    //     },
-    //     {
-    //       name: 'Report',
-    //       path: '/kpi/report'
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'Management',
-    //   path: '/management',
-    //   submenus: [
-    //     {
-    //       name: 'Mapping',
-    //       path: '/management/mapping'
-    //     }
-    //   ]
-    // },
-    // {
-    //   name: 'Administration',
-    //   path: '/administration'
-    // }
   ]
   if (logout) {
     return <Redirect push to="/" />
