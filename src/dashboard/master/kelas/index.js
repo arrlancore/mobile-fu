@@ -4,7 +4,8 @@ import { object } from 'prop-types'
 import { Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/master-kelas/action'
+import { list as loadListGedung } from 'context/master-gedung/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
@@ -17,32 +18,41 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function KelasPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.kelas.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListKelas] = useStateDefault('LIST_KELAS')
   const [onView, setOnView] = React.useState({})
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listKelas, dispatch] = useStateValue('listMasterKelas')
+  const [listGedung] = useStateValue('listMasterGedung')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+  const prevListKelas = usePrevious(listKelas)
   const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    const loadMaster = () => {
+      loadListGedung(dispatch, {
+        selected: 'namaGedung'
+      })
+    }
+    if (!listKelas && listKelas !== prevListKelas) {
       loadData()
     } else {
       if (pathname && prevPathName !== pathname) {
         loadData()
       }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+    if (loadListKelas === false && listKelas && prevListKelas !== listKelas && !listGedung) {
+      loadMaster()
+    }
+  }, [listKelas, prevListKelas, dispatch, loadData, prevPathName, pathname, loadListKelas, listGedung])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'status firstName lastName role email'
+      selected: 'namaKelas deskripsi gedung'
     })
   }
 
@@ -83,10 +93,10 @@ function UserPage(props) {
   let columnProperty = [
     // add special condition for one or each column here
     {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
+      dataIndex: 'gedung',
+      title: 'Gedung',
+      key: 'Gedung',
+      render: data => (data ? data.namaGedung : '')
     }
   ]
 
@@ -94,7 +104,7 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+  const title = 'Kelas'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -125,19 +135,19 @@ function UserPage(props) {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
+            data={listKelas ? listKelas.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['_id']}
+            excludeColumns={['_id', 'createdBy']}
             onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: listUser ? listUser.count : 10,
+              total: listKelas ? listKelas.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadListUser}
+            loading={loadListKelas}
           />
         </div>
       </Content>
@@ -145,8 +155,8 @@ function UserPage(props) {
   )
 }
 
-UserPage.propTypes = {
+KelasPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default KelasPage

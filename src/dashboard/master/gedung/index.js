@@ -4,7 +4,7 @@ import { object } from 'prop-types'
 import { Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/master-gedung/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
@@ -17,32 +17,32 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function GedungPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.gedung.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListGedung] = useStateDefault('LIST_GEDUNG')
   const [onView, setOnView] = React.useState({})
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listGedung = [], dispatch] = useStateValue('listMasterGedung')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+  const prevListGedung = usePrevious(listGedung)
   const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    if (!listGedung && listGedung !== prevListGedung) {
       loadData()
     } else {
       if (pathname && prevPathName !== pathname) {
         loadData()
       }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+  }, [listGedung, prevListGedung, dispatch, loadData, prevPathName, pathname])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'status firstName lastName role email'
+      selected: 'namaGedung deskripsi'
     })
   }
 
@@ -82,19 +82,19 @@ function UserPage(props) {
 
   let columnProperty = [
     // add special condition for one or each column here
-    {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
-    }
+    // {
+    //   dataIndex: 'id',
+    //   width: 50,
+    //   fixed: 'left',
+    //   sorter: (a, b) => a.id - b.id
+    // }
   ]
 
   const handleRowClick = data => {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+  const title = 'Gedung'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -125,19 +125,19 @@ function UserPage(props) {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
+            data={listGedung ? listGedung.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['_id']}
+            excludeColumns={['_id', 'createdBy']}
             onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: listUser ? listUser.count : 10,
+              total: listGedung ? listGedung.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadListUser}
+            loading={loadListGedung}
           />
         </div>
       </Content>
@@ -145,8 +145,8 @@ function UserPage(props) {
   )
 }
 
-UserPage.propTypes = {
+GedungPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default GedungPage

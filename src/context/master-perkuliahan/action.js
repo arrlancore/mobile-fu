@@ -109,7 +109,7 @@ export const update = (dispatch, payload, params) => {
 export const remove = (dispatch, params) => {
   const url = config.baseUrl + moduleRoutes + '/remove'
   const action = async () => {
-    const response = await axios.put(url, {
+    const response = await axios.delete(url, {
       params,
       headers: { Authorization: getUser().token }
     })
