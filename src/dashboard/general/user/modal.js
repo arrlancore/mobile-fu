@@ -8,13 +8,6 @@ import ViewInput from 'components/card/ViewInput'
 
 import FormInput from './formInput'
 
-const data = {
-  nama: 'dwiki arlan',
-  alamat: 'jakarta',
-  noHp: '0864579000',
-  color: 'blue'
-}
-
 const objectToArray = obj => {
   const keys = Object.keys(obj)
   return keys.map(key => ({ fieldName: key, value: obj[key] }))
@@ -35,11 +28,10 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
   const [typeform, setTypeform] = React.useState('edit')
   const [inputData, setInputData] = React.useState({})
   const [isUpdated, setIsupdated] = React.useState(false)
-  const [user, dispatch] = useStateValue('user')
-  const [, loadingUser] = useStateDefault('USER')
+  const [user, dispatch] = useStateValue('singleUser')
+  const [errLoadingUser, loadingUser] = useStateDefault('USER')
   const [openModalVisible, setOpenModalVisible] = React.useState(openModal)
   // set new data
-  const arrData = objectToArray(data)
 
   const prevEntry = usePrevious(newEntry)
   const prevOpenModal = usePrevious(openModal)
@@ -55,30 +47,39 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       setOpenModalVisible(true)
       view(dispatch, { id: onViewData._id })
     }
-    if (loadingUser === 'false' && loadingUser !== prevLoadingUser && isUpdated) {
-      setOpenModalVisible(false)
+    if (loadingUser === false && loadingUser !== prevLoadingUser && isUpdated && !errLoadingUser) {
+      if (typeform !== 'create') {
+        view(dispatch, { id: onViewData._id })
+        onClose()
+        setTypeform('edit')
+        setEdit(false)
+      } else {
+        onModalClose()
+      }
       setIsupdated(false)
       onUpdateSuccess()
     }
   }, [
     dispatch,
+    errLoadingUser,
     isUpdated,
     loadingUser,
     newEntry,
     onClose,
+    onModalClose,
     onUpdateSuccess,
     onViewData._id,
     openModal,
     prevEntry,
     prevLoadingUser,
     prevOpenModal,
-    user._id
+    typeform
   ])
 
   // actions
 
-  const onModalClose = () => {
-    setOpenModalVisible(false)
+  async function onModalClose (view) {  // eslint-disable-line
+    await setOpenModalVisible(false)
     onClose()
     setTypeform('edit')
     setEdit(false)
@@ -92,11 +93,22 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     }
   }
 
-  const handleSave = () => (edit ? create(dispatch, inputData) : update(dispatch, inputData))
+  const handleSave = () => {
+    if (typeform === 'create') {
+      create(dispatch, inputData)
+    } else {
+      let updatedData = inputData
+      delete updatedData.password
+      delete updatedData.email
+      update(dispatch, updatedData, { id: user.data._id })
+    }
+  }
 
+  const userdata = onViewData.email || (user && user.data && user.data.email)
+  const titles = userdata ? 'User ' + userdata : 'User'
   return (
     <Modal
-      title="User"
+      title={titles}
       visible={openModalVisible}
       onCancel={onModalClose}
       footer={[
@@ -109,24 +121,17 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       ]}
     >
       {edit ? (
-        <FormInput returnData={setInputData} type={typeform} payload={{}} />
-      ) : user.data ? (
+        <FormInput returnData={setInputData} type={typeform} payload={user ? user.data : {}} />
+      ) : user && user.data && !loadingUser ? (
         <div className="view">
-          <ViewInput
-            fieldName="Name"
-            value="Arlan"
-            customRender={value => {
-              return <span style={{ color: 'red' }}>{value}</span>
-            }}
-          />
-          {arrData
-            .filter(data => filterField(['nama', 'alamat'], data.fieldName))
+          {objectToArray(user.data)
+            .filter(data => filterField(['deviceIds', 'roles', '__v', 'password'], data.fieldName))
             .map((data, i) => (
               <ViewInput key={i} fieldName={capitalize(data.fieldName)} value={data.value} />
             ))}
         </div>
       ) : (
-        <div>loading...</div>
+        <div>Loading...</div>
       )}
     </Modal>
   )

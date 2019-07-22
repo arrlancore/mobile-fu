@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { node, func, bool } from 'prop-types'
 import { Layout, Avatar, Col, Row, Menu, Dropdown, Icon, Badge } from 'antd'
-import PhotoTemp from 'assets/image/temp/Photo.png'
+import PhotoTemp from 'assets/image/temp/avatar.png'
 import IconBell from 'assets/icon/Bell.svg'
 import IconMessages from 'assets/icon/Messages.svg'
 import ImageIcon from 'components/image-icon'
@@ -52,8 +52,7 @@ function Headers(props) {
       <Header {...rest} className="header-base header-font">
         <Row gutter={8} align="middle" type="flex" justify="center" style={{ height: '100%' }}>
           <Col xs={7} xl={5}>
-            <Icon type="user" />
-            {/* <Avatar src={(user.data && user.data.photoProfile) || PhotoTemp} size="large" className="header-avatar" /> */}
+            <Avatar src={(user.data && user.data.photoProfile) || PhotoTemp} size="large" className="header-avatar" />
             <div style={{ display: 'inline' }}>{tReady && t('components.header.wellcome')}, </div>
             <Dropdown overlay={menu}>
               <span className="primary-header-color">
