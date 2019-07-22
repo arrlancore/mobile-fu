@@ -1,6 +1,6 @@
 import React from 'react'
 import { bool, func, object } from 'prop-types'
-import { Modal, Button } from 'antd'
+import { Modal, Button, message } from 'antd'
 import { view, update, create } from 'context/general/action'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
 
@@ -56,6 +56,9 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       } else {
         onModalClose()
       }
+      if (user && user.message) {
+        message.success(user.message)
+      }
       setIsupdated(false)
       onUpdateSuccess()
     }
@@ -73,7 +76,8 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     prevEntry,
     prevLoadingUser,
     prevOpenModal,
-    typeform
+    typeform,
+    user
   ])
 
   // actions

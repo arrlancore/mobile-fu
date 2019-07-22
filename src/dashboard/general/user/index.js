@@ -17,24 +17,31 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage() {
-  // const { history } = props
+function UserPage(props) {
+  const { history } = props
+  const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.user.'
   // const initPage = decode(history.location.search)
   const [, loadListUser] = useStateDefault('LIST_USER')
   // const [mockData, setMockData] = React.useState([])
   const [onView, setOnView] = React.useState({})
-  const [listUser, dispatch] = useStateValue('listUser')
+
+  const [listUser = [], dispatch] = useStateValue('listUser')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
   const prevListUser = usePrevious(listUser)
+  const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
     if (!listUser && listUser !== prevListUser) {
       loadData()
+    } else {
+      if (pathname && prevPathName !== pathname) {
+        loadData()
+      }
     }
-  }, [listUser, prevListUser, dispatch, loadData])
+  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
   function loadData() { // eslint-disable-line
     list(dispatch, {
       selected: 'status firstName lastName role email'
