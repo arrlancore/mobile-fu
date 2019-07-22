@@ -4,15 +4,15 @@
   },
   "components": {
     "header": {
-      "wellcome": "Hi"
+      "wellcome": "Halo"
     }
   },
   "dashboard": {
     "home": {
-      "pageTitle": "KPI Dashboard - Perkuliahan FTUMJ"
+      "pageTitle": "Dashboard - Perkuliahan FTUMJ"
     },
     "login": {
-      "pageTitle": "KPI Login - Perkuliahan FTUMJ",
+      "pageTitle": "Login - Perkuliahan FTUMJ",
       "username": "username",
       "password": "password",
       "forgot" : "Forgot your password?",
@@ -23,13 +23,13 @@
       }
     },
     "calculation": {
-      "pageTitle": "Calculation | KPI - Perkuliahan FTUMJ"
+      "pageTitle": "Calculation | Perkuliahan FTUMJ"
     },
     "achivement": {
-      "pageTitle": "Achivement | KPI - Perkuliahan FTUMJ"
+      "pageTitle": "Achivement | Perkuliahan FTUMJ"
     },
     "report": {
-      "pageTitle": "Report | KPI - Perkuliahan FTUMJ"
+      "pageTitle": "Report | Perkuliahan FTUMJ"
     },
     "administration": {
       "pageTitle": "Administration - Perkuliahan FTUMJ"
@@ -37,8 +37,35 @@
     "user": {
       "pageTitle": "User | Administration - Perkuliahan FTUMJ"
     },
-    "mapping": {
-      "pageTitle": "Mapping | Management - Perkuliahan FTUMJ"
+    "jadwal": {
+      "pageTitle": "Jadwal - Perkuliahan FTUMJ"
+    },
+    "perkuliahanBerjalan": {
+      "pageTitle": "Perkuliahan Berjalan - Perkuliahan FTUMJ"
+    },
+    "presensiDosen": {
+      "pageTitle": "Presensi Dosen - Perkuliahan FTUMJ"
+    },
+    "presensiMahasiswa": {
+      "pageTitle": "Presensi Mahasiswa - Perkuliahan FTUMJ"
+    },
+    "gedung": {
+      "pageTitle": "Master Gedung - Perkuliahan FTUMJ"
+    },
+    "kelas": {
+      "pageTitle": "Master Kelas - Perkuliahan FTUMJ"
+    },
+    "perkuliahan": {
+      "pageTitle": "Master Perkuliahan - Perkuliahan FTUMJ"
+    },
+    "jamPerkuliahan": {
+      "pageTitle": "Master Jam Perkuliahan - Perkuliahan FTUMJ"
+    },
+    "mataKuliah": {
+      "pageTitle": "Master Mata Kuliah - Perkuliahan FTUMJ"
+    },
+    "jurusan": {
+      "pageTitle": "Master Jurusan - Perkuliahan FTUMJ"
     }
   }
 }

@@ -44,7 +44,14 @@ function MainTable({ data, excludeColumns, columnProperty, ...rest }) {
 
   const columns = getColumn(data)
 
-  return <Table rowKey={data => data.id || data._id} columns={columns} dataSource={data} {...rest} />
+  return (
+    <Table
+      rowKey={data => data.id || data._id}
+      columns={columns}
+      dataSource={data && data[0] ? data : null}
+      {...rest}
+    />
+  )
 }
 
 MainTable.propTypes = {

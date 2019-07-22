@@ -30,18 +30,26 @@ function HomePage() {
                 </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Jadwal" />
+                <Link to="/jadwal">
+                  <CardSmall icon={<Icon type="schedule" />} name="Jadwal" />
+                </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Perkuliahan Berjalan" />
+                <Link to="/perkuliahan-berjalan">
+                  <CardSmall icon={<Icon type="user" />} name="Perkuliahan Berjalan" />
+                </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Presensi Dosen" />
+                <Link to="/presensi-dosen">
+                  <CardSmall icon={<Icon type="user" />} name="Presensi Dosen" />
+                </Link>
               </Col>
             </Row>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Presensi Mahasiswa" />
+                <Link to="/presensi-mahasiswa">
+                  <CardSmall icon={<Icon type="user" />} name="Presensi Mahasiswa" />
+                </Link>
               </Col>
             </Row>
           </Col>
@@ -51,26 +59,36 @@ function HomePage() {
             </Title>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
-                <Link to="/administration/user">
+                <Link to="/master/gedung">
                   <CardSmall icon={<Icon type="user" />} name="Gedung" />
                 </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Kelas" />
+                <Link to="/master/kelas">
+                  <CardSmall icon={<Icon type="user" />} name="Kelas" />
+                </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Perkuliahan" />
+                <Link to="/master/perkuliahan">
+                  <CardSmall icon={<Icon type="user" />} name="Perkuliahan" />
+                </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Jam Perkuliahan" />
+                <Link to="/master/jam-perkuliahan">
+                  <CardSmall icon={<Icon type="user" />} name="Jam Perkuliahan" />
+                </Link>
               </Col>
             </Row>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Mata Kuliah" />
+                <Link to="/master/mata-kuliah">
+                  <CardSmall icon={<Icon type="user" />} name="Mata Kuliah" />
+                </Link>
               </Col>
               <Col span={6}>
-                <CardSmall icon={<Icon type="user" />} name="Jurusan" />
+                <Link to="/master/jurusan">
+                  <CardSmall icon={<Icon type="user" />} name="Jurusan" />
+                </Link>
               </Col>
             </Row>
           </Col>

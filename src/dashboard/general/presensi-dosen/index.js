@@ -21,7 +21,7 @@ function UserPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
-  const tKey = 'dashboard.user.'
+  const tKey = 'dashboard.presensiDosen.'
   const [, loadListUser] = useStateDefault('LIST_USER')
   const [onView, setOnView] = React.useState({})
 

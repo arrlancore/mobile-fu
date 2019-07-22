@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { object } from 'prop-types'
-import { Row } from 'antd'
+import { Row, Col } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/jadwal/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
 import Table from 'components/table'
+import Select from 'components/select'
 import Title from 'components/text/title'
 // import { encode, decode } from 'utils/queryString'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
@@ -17,32 +18,32 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function JadwalPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
-  const tKey = 'dashboard.user.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const tKey = 'dashboard.jadwal.'
+  const [, loadListJadwal] = useStateDefault('LIST_JADWAL')
   const [onView, setOnView] = React.useState({})
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listJadwal, dispatch] = useStateValue('listJadwal')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+  const prevListJadwal = usePrevious(listJadwal)
   const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    if (!listJadwal && listJadwal !== prevListJadwal) {
       loadData()
     } else {
       if (pathname && prevPathName !== pathname) {
         loadData()
       }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+  }, [dispatch, loadData, prevPathName, pathname, listJadwal, prevListJadwal])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'status firstName lastName role email'
+      selected: 'pertemuan waktuMulai waktuSelesai tanggal'
     })
   }
 
@@ -83,10 +84,38 @@ function UserPage(props) {
   let columnProperty = [
     // add special condition for one or each column here
     {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
+      dataIndex: 'tanggal',
+      render: date => new Date(date).toLocaleDateString()
+    },
+    {
+      dataIndex: 'dosen',
+      title: 'Dosen',
+      key: 'Dosen',
+      render: data => data.fullName
+    },
+    {
+      dataIndex: 'mataKuliah',
+      title: 'Mata Kuliah',
+      key: 'mataKuliah',
+      render: data => data.namaMataKuliah
+    },
+    {
+      dataIndex: 'kelas',
+      title: 'Kelas',
+      key: 'kelas',
+      render: data => data.namaKelas
+    },
+    {
+      dataIndex: 'kelas',
+      title: 'Gedung',
+      key: 'gedung',
+      render: data => data.gedung.namaGedung
+    },
+    {
+      dataIndex: 'perkuliahan',
+      title: 'Jurusan',
+      key: 'Jurusan',
+      render: data => data.jurusan.namaJurusan
     }
   ]
 
@@ -94,7 +123,7 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+  const title = 'Jadwal'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -123,21 +152,71 @@ function UserPage(props) {
         </Title>
 
         <div className="section-row">
+          <Row gutter={24}>
+            <Col span={6}>
+              <Select
+                type="secondary"
+                label="Year"
+                optionList={[]}
+                showSearch
+                style={{
+                  maxWidth: 300,
+                  width: '100%'
+                }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={() => {}}
+              />
+            </Col>
+            <Col span={6}>
+              <Select
+                type="secondary"
+                label="Quarter"
+                optionList={[]}
+                showSearch
+                style={{
+                  maxWidth: 300,
+                  width: '100%'
+                }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={() => {}}
+              />
+            </Col>
+            <Col span={6}>
+              <Select
+                type="secondary"
+                label="Team"
+                optionList={[]}
+                showSearch
+                style={{
+                  maxWidth: 300,
+                  width: '100%'
+                }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={() => {}}
+              />
+            </Col>
+          </Row>
+        </div>
+
+        <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
+            data={listJadwal ? listJadwal.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['_id']}
+            excludeColumns={['_id', 'createdBy']}
             onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: listUser ? listUser.count : 10,
+              total: listJadwal ? listJadwal.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadListUser}
+            loading={loadListJadwal}
           />
         </div>
       </Content>
@@ -145,8 +224,8 @@ function UserPage(props) {
   )
 }
 
-UserPage.propTypes = {
+JadwalPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default JadwalPage
