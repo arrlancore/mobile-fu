@@ -1,129 +1,100 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
-import { usePrevious } from 'context'
-import Input from 'components/input'
+import { usePrevious, useStateValue } from 'context'
 import Select from 'components/select'
+import { message } from 'antd'
 
 export default function FormInput({ type, returnData, payload }) {
-  const [firstName, setFirstName] = React.useState(payload ? payload.firstName : '')
-  const [lastName, setLastName] = React.useState(payload ? payload.lastName : '')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState(undefined)
-  const [role, setRole] = React.useState(payload ? payload.role : '')
-  const [statuses, setStatuses] = React.useState(payload ? payload.status : '')
+  const [location, setLocation] = React.useState({})
+  const [dosenId, setDosenId] = React.useState(payload && payload.dosen ? payload.dosen._id : '')
+  const [jadwalId, setJadwalId] = React.useState(payload && payload.jadwal ? payload.jadwal._id : '')
 
-  const nextData = { firstName, lastName, password, email, role, status: statuses }
+  const [listJadwal] = useStateValue('listJadwal')
+  const listDataJadwal = listJadwal ? listJadwal.data : []
+
+  const [listUser] = useStateValue('listUser')
+  const listDataDosen = listUser ? listUser.data : []
+
+  const nextData = { dosen: dosenId, jadwal: jadwalId }
   const prevData = usePrevious(nextData)
   const prevType = usePrevious(type)
+  const prevLocation = usePrevious(location)
+  function getLocation() {
+    const showPosition = position => {
+      setLocation({
+        longitude: position.coords.latitude,
+        latitude: position.coords.latitude
+      })
+    }
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition)
+    } else {
+      message.error('Your browser is not supported to detect the location')
+    }
+  }
+
   React.useEffect(() => {
+    if (!location && location !== prevLocation) {
+      getLocation()
+    }
     if (JSON.stringify(prevData) !== JSON.stringify(nextData)) {
       returnData(nextData)
     }
     if (type === 'create' && prevType !== type) {
       clearForm()
     }
-  }, [nextData, prevData, prevType, returnData, type])
+  }, [location, nextData, prevData, prevLocation, prevType, returnData, type])
   const editForm = [
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [firstName, setFirstName],
-      label: 'Nama Depan *',
-      props: { type: 'text', required: true }
-    },
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [lastName, setLastName],
-      label: 'Nama Belakang',
-      props: { type: 'text' }
-    },
     {
       Component: Select,
       typeInput: 'select',
-      state: [role, setRole],
-      label: 'Role *',
+      state: [jadwalId, setJadwalId],
+      label: 'Jadwal *',
       props: {
-        defaultValue: role,
+        defaultValue: jadwalId,
         showSearch: true,
         style: {
           width: '100%'
         },
-        optionList: [
-          {
-            value: 'admin',
-            name: 'Administrator'
-          },
-          {
-            value: 'staf',
-            name: 'Staf Perkuliahan'
-          },
-          {
-            value: 'dosen',
-            name: 'Dosen'
-          },
-          {
-            value: 'mahasiswa',
-            name: 'Mahasiswa'
+        optionList: listDataJadwal.map(data => {
+          const name =
+            data &&
+            `${data.mataKuliah && data.mataKuliah.namaMataKuliah + '-' + data.mataKuliah.kodeMataKuliah} (${new Date(
+              data.tanggal
+            ).toLocaleDateString()}) Pertemuan:${data.pertemuan}`
+          return {
+            name,
+            value: data._id
           }
-        ]
+        })
       }
     },
     {
       Component: Select,
       typeInput: 'select',
-      state: [statuses, setStatuses],
-      label: 'Status *',
+      state: [dosenId, setDosenId],
+      label: 'Nama Dosen *',
       props: {
-        defaultValue: statuses,
+        defaultValue: dosenId,
         showSearch: true,
         style: {
           width: '100%'
         },
-        optionList: [
-          {
-            value: 'confirmed',
-            name: 'Confirmed'
-          },
-          {
-            value: 'pending',
-            name: 'Pending'
-          },
-          {
-            value: 'blocked',
-            name: 'Blocked'
+        optionList: listDataDosen.map(data => {
+          return {
+            name: data.fullName,
+            value: data._id
           }
-        ]
+        })
       }
     }
   ]
 
-  const createForm = [
-    ...editForm.slice(0, 2),
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [email, setEmail],
-      label: 'Email *',
-      props: { type: 'email' }
-    },
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [password, setPassword],
-      label: 'Password *',
-      props: { type: 'password' }
-    },
-    ...editForm.slice(-2)
-  ]
+  const createForm = [...editForm]
 
   function clearForm() {
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setPassword('')
-    setRole('')
-    setStatuses('')
+    setDosenId('')
+    setJadwalId('')
   }
 
   const form = type === 'create' ? createForm : editForm

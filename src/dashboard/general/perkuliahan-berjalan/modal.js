@@ -16,7 +16,7 @@ const objectToArray = obj => {
 const handleObjectProp = (key, prop) => {
   try {
     let data = prop
-    const isObject = typeof prop === 'object' && Object.keys(prop).length
+    const isObject = typeof prop === 'object' && Object.keys(prop || []).length
     if (isObject) {
       if (prop[0] && (key === 'createdBy' || key === 'updatedBy')) {
         data = prop.map(data => data.fullName).toString()

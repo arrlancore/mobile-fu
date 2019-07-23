@@ -25,7 +25,7 @@ function PresensiMahasiswaPage(props) {
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.presensiMahasiswa.'
-  const [, loadListPresensiMahasiswa] = useStateDefault('LIST_PERKULIAHAN_BERJALAN')
+  const [, loadListPresensiMahasiswa] = useStateDefault('LIST_PRESENSI_MAHASISWA')
   const [onView, setOnView] = React.useState({})
   const [mahasiswa, setMahasiswa] = React.useState('')
 

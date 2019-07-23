@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, object } from 'prop-types'
-import { Modal, Button, message } from 'antd'
-import { view, update, create } from 'context/user/action'
+import { Modal, Button, message, Popconfirm } from 'antd'
+import { view, update, create, remove } from 'context/presensi-dosen/action'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
 
 import ViewInput from 'components/card/ViewInput'
@@ -11,6 +11,40 @@ import FormInput from './formInput'
 const objectToArray = obj => {
   const keys = Object.keys(obj)
   return keys.map(key => ({ fieldName: key, value: obj[key] }))
+}
+
+const handleObjectProp = (key, prop) => {
+  try {
+    let data = prop
+    const isObject = typeof prop === 'object' && Object.keys(prop || []).length
+    if (isObject) {
+      if (prop[0] && (key === 'createdBy' || key === 'updatedBy')) {
+        data = prop.map(data => data.fullName).toString()
+      }
+      if (key === 'dosen') {
+        data = prop.fullName
+      }
+      if (key === 'isActive') {
+        data = prop ? 'Ya' : 'Tidak'
+      }
+      if (key === 'jadwal') {
+        const name =
+          data &&
+          `${data.mataKuliah && data.mataKuliah.namaMataKuliah + '-' + data.mataKuliah.kodeMataKuliah} (${new Date(
+            data.tanggal
+          ).toLocaleDateString()}) Pertemuan:${data.pertemuan}`
+        data = name
+      }
+      if (key === 'lokasi') {
+        data = prop.latitude + ',' + prop.longitude
+      }
+    }
+    // data = typeof data === 'string' || typeof data === 'number' ? data : ''
+    const value = { fieldName: key, value: data }
+    return value
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const capitalize = (text = '') => {
@@ -28,14 +62,14 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
   const [typeform, setTypeform] = React.useState('edit')
   const [inputData, setInputData] = React.useState({})
   const [isUpdated, setIsupdated] = React.useState(false)
-  const [user, dispatch] = useStateValue('singleUser')
-  const [errLoadingUser, loadingUser] = useStateDefault('USER')
+  const [presensiDosen, dispatch] = useStateValue('presensiDosen')
+  const [errLoadingPresensiDosen, loadingPresensiDosen] = useStateDefault('PRESENSI_DOSEN')
   const [openModalVisible, setOpenModalVisible] = React.useState(openModal)
   // set new data
 
   const prevEntry = usePrevious(newEntry)
   const prevOpenModal = usePrevious(openModal)
-  const prevLoadingUser = usePrevious(loadingUser)
+  const prevLoadingPresensiDosen = usePrevious(loadingPresensiDosen)
 
   React.useEffect(() => {
     if (newEntry && prevEntry !== newEntry) {
@@ -45,28 +79,33 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     }
     if (openModal && prevOpenModal !== openModal) {
       setOpenModalVisible(true)
-      view(dispatch, { id: onViewData._id })
+      view(dispatch, { id: onViewData._id || presensiDosen._id })
     }
-    if (loadingUser === false && loadingUser !== prevLoadingUser && isUpdated && !errLoadingUser) {
+    if (
+      loadingPresensiDosen === false &&
+      loadingPresensiDosen !== prevLoadingPresensiDosen &&
+      isUpdated &&
+      !errLoadingPresensiDosen
+    ) {
       if (typeform !== 'create') {
-        view(dispatch, { id: onViewData._id })
+        view(dispatch, { id: onViewData._id || presensiDosen._id })
         onClose()
         setTypeform('edit')
         setEdit(false)
       } else {
         onModalClose()
       }
-      if (user && user.message) {
-        message.success(user.message)
+      if (presensiDosen && presensiDosen.message) {
+        message.success(presensiDosen.message)
       }
       setIsupdated(false)
       onUpdateSuccess()
     }
   }, [
     dispatch,
-    errLoadingUser,
+    errLoadingPresensiDosen,
     isUpdated,
-    loadingUser,
+    loadingPresensiDosen,
     newEntry,
     onClose,
     onModalClose,
@@ -74,10 +113,10 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     onViewData._id,
     openModal,
     prevEntry,
-    prevLoadingUser,
+    prevLoadingPresensiDosen,
     prevOpenModal,
     typeform,
-    user
+    presensiDosen
   ])
 
   // actions
@@ -104,35 +143,67 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       let updatedData = inputData
       delete updatedData.password
       delete updatedData.email
-      update(dispatch, updatedData, { id: user.data._id })
+      update(dispatch, updatedData, { id: presensiDosen.data._id })
     }
   }
+  const handleDelete = () => {
+    remove(dispatch, { id: onViewData._id })
+    onModalClose()
+    setTimeout(() => {
+      onUpdateSuccess()
+    }, 200)
+  }
 
-  const userdata = onViewData.email || (user && user.data && user.data.email)
-  const titles = userdata ? 'User ' + userdata : 'User'
+  const presensiDosendata = onViewData._id || (presensiDosen && presensiDosen.data && presensiDosen.data._id)
+  const titles = presensiDosendata && typeform === 'edit' ? 'Presensi ID ' + presensiDosendata : 'Presensi'
+  const ConfirmDelete = () => (
+    <Popconfirm title="Are you sure to delete?" onConfirm={handleDelete}>
+      <Button style={{ color: 'tomato' }} loading={loadingPresensiDosen}>
+        Delete
+      </Button>
+    </Popconfirm>
+  )
   return (
     <Modal
       title={titles}
       visible={openModalVisible}
       onCancel={onModalClose}
       footer={[
-        <Button loading={loadingUser} key="edit" onClick={handleButtonEdit}>
+        <ConfirmDelete key="delete" />,
+        <Button type="primary" loading={loadingPresensiDosen} key="edit" onClick={handleButtonEdit}>
           {edit ? 'Save' : 'Edit'}
-        </Button>,
-        <Button key="close" type="primary" onClick={onModalClose}>
-          Close
         </Button>
       ]}
     >
       {edit ? (
-        <FormInput returnData={setInputData} type={typeform} payload={user ? user.data : {}} />
-      ) : user && user.data && !loadingUser ? (
+        <FormInput returnData={setInputData} type={typeform} payload={presensiDosen ? presensiDosen.data : {}} />
+      ) : presensiDosen && presensiDosen.data && !loadingPresensiDosen ? (
         <div className="view">
-          {objectToArray(user.data)
-            .filter(data => filterField(['deviceIds', 'roles', '__v', 'password'], data.fieldName))
-            .map((data, i) => (
-              <ViewInput key={i} fieldName={capitalize(data.fieldName)} value={data.value} />
-            ))}
+          {objectToArray(presensiDosen.data)
+            .filter(data => filterField(['__v'], data.fieldName))
+            .map((data, i) => {
+              const newValue = handleObjectProp(data.fieldName, data.value)
+              return (
+                <ViewInput
+                  key={i}
+                  customRender={() =>
+                    newValue.fieldName === 'lokasi' ? (
+                      <a
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href={`http://www.google.com/maps/place/${newValue.value}`}
+                      >
+                        {newValue.value}
+                      </a>
+                    ) : (
+                      newValue.value
+                    )
+                  }
+                  fieldName={capitalize(newValue.fieldName)}
+                  value={newValue.value}
+                />
+              )
+            })}
         </div>
       ) : (
         <div>Loading...</div>

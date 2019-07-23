@@ -11,7 +11,7 @@ function MainMenu() {
   const path = document.location.pathname
   const listMenus = [
     {
-      name: 'Logout',
+      name: 'logout',
       path: '/logout',
       onClick: () => {
         doLogouts()

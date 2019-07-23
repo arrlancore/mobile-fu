@@ -148,11 +148,10 @@ export default function FormInput({ type, returnData, payload }) {
   ]
 
   function clearForm() {
-    setStatusPresensi()
-    setCatatan()
-    setLocation()
-    setMahasiswaId()
-    setJadwalId()
+    setStatusPresensi('')
+    setCatatan('')
+    setMahasiswaId('')
+    setJadwalId('')
   }
 
   const form = type === 'create' ? createForm : editForm
