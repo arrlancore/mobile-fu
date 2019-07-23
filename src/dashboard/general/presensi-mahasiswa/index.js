@@ -1,14 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { object } from 'prop-types'
-import { Row } from 'antd'
+import { Row, Col } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/presensi-mahasiswa/action'
+import { list as loadListJadwal } from 'context/jadwal/action'
+import { list as loadListMahasiswa } from 'context/user/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
 import Table from 'components/table'
+import Select from 'components/select'
 import Title from 'components/text/title'
 // import { encode, decode } from 'utils/queryString'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
@@ -17,33 +20,63 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function PresensiMahasiswaPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.presensiMahasiswa.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListPresensiMahasiswa] = useStateDefault('LIST_PERKULIAHAN_BERJALAN')
   const [onView, setOnView] = React.useState({})
+  const [mahasiswa, setMahasiswa] = React.useState('')
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listPresensiMahasiswa, dispatch] = useStateValue('listPresensiMahasiswa')
+
+  const dataQuery = {}
+
+  const [listMahasiswa] = useStateValue('listUser')
+  const listDataMahasiswa = listMahasiswa
+    ? listMahasiswa.data.map(data => {
+        return {
+          name: data.fullName,
+          value: data._id
+        }
+      })
+    : []
+
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+
+  const prevListPresensiMahasiswa = usePrevious(listPresensiMahasiswa)
   const prevPathName = usePrevious(pathname)
+  const prevMahasiswa = usePrevious(mahasiswa)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    if (pathname !== prevPathName) {
       loadData()
-    } else {
-      if (pathname && prevPathName !== pathname) {
-        loadData()
-      }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+    if (listPresensiMahasiswa && prevListPresensiMahasiswa !== listPresensiMahasiswa) {
+      loadListJadwal(dispatch)
+      loadListMahasiswa(dispatch, { role: 'mahasiswa' })
+    }
+    if (mahasiswa && mahasiswa !== prevMahasiswa) {
+      loadData()
+    }
+  }, [
+    dispatch,
+    loadData,
+    prevPathName,
+    pathname,
+    listPresensiMahasiswa,
+    prevListPresensiMahasiswa,
+    mahasiswa,
+    prevMahasiswa
+  ])
   function loadData() { // eslint-disable-line
-    list(dispatch, {
-      selected: 'status firstName lastName role email'
-    })
+    const queries = {
+      selected: 'statusPresensi waktuPresensi jadwal mahasiswa catatan',
+      mahasiswa
+    }
+    list(dispatch, queries)
   }
 
   const ColumnHeader = () => (
@@ -83,10 +116,23 @@ function UserPage(props) {
   let columnProperty = [
     // add special condition for one or each column here
     {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
+      dataIndex: 'mahasiswa',
+      title: 'Mahasiswa',
+      key: 'Mahasiswa',
+      render: data => data && <span style={{ textTransform: 'capitalize' }}>{data.fullName}</span>
+    },
+    {
+      dataIndex: 'jadwal',
+      title: 'Jadwal',
+      key: 'Jadwal',
+      render: data => {
+        const name =
+          data &&
+          `${data.mataKuliah && data.mataKuliah.namaMataKuliah + '-' + data.mataKuliah.kodeMataKuliah} (${new Date(
+            data.tanggal
+          ).toLocaleDateString()}) Pertemuan:${data.pertemuan}`
+        return name
+      }
     }
   ]
 
@@ -94,7 +140,8 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+
+  const title = 'Presensi Mahasiswa'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -102,6 +149,7 @@ function UserPage(props) {
       </Helmet>
       <Modal
         newEntry={newEntry}
+        query={dataQuery}
         openModal={openViewModal}
         onViewData={onView}
         onUpdateSuccess={loadData}
@@ -123,30 +171,55 @@ function UserPage(props) {
         </Title>
 
         <div className="section-row">
-          <Table
-            title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
-            scroll={{ x: 1300 }}
-            columnProperty={columnProperty}
-            excludeColumns={['_id']}
-            onRowClick={handleRowClick}
-            pagination={{
-              onChange: page => {
-                setPageNumber(page)
-              },
-              total: listUser ? listUser.count : 10,
-              defaultCurrent: Number(pageNumber)
-            }}
-            loading={loadListUser}
-          />
+          <Row gutter={24}>
+            <Col span={6}>
+              <Select
+                allowClear={true}
+                type="secondary"
+                label="Nama Mahasiswa"
+                defaultValue={mahasiswa || 'Semua'}
+                optionList={listDataMahasiswa}
+                showSearch
+                style={{
+                  width: '100%'
+                }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={setMahasiswa}
+              />
+            </Col>
+          </Row>
+        </div>
+
+        <div className="section-row">
+          {listPresensiMahasiswa ? (
+            <Table
+              title={() => <ColumnHeader />}
+              data={listPresensiMahasiswa ? listPresensiMahasiswa.data : []}
+              scroll={{ x: 1300 }}
+              columnProperty={columnProperty}
+              excludeColumns={['_id', 'createdBy']}
+              onRowClick={handleRowClick}
+              pagination={{
+                onChange: page => {
+                  setPageNumber(page)
+                },
+                total: listPresensiMahasiswa ? listPresensiMahasiswa.count : 10,
+                defaultCurrent: Number(pageNumber)
+              }}
+              loading={loadListPresensiMahasiswa}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </Content>
     </LayoutPage>
   )
 }
 
-UserPage.propTypes = {
+PresensiMahasiswaPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default PresensiMahasiswaPage
