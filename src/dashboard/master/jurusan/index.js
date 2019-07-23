@@ -4,7 +4,7 @@ import { object } from 'prop-types'
 import { Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/master-jurusan/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
@@ -17,32 +17,32 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function JurusanPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.jurusan.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListJurusan] = useStateDefault('LIST_JURUSAN')
   const [onView, setOnView] = React.useState({})
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listJurusan, dispatch] = useStateValue('listMasterJurusan')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+  const prevListJurusan = usePrevious(listJurusan)
   const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    if (!listJurusan && listJurusan !== prevListJurusan) {
       loadData()
     } else {
       if (pathname && prevPathName !== pathname) {
         loadData()
       }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+  }, [listJurusan, prevListJurusan, dispatch, loadData, prevPathName, pathname])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'status firstName lastName role email'
+      selected: 'fakultas namaJurusan'
     })
   }
 
@@ -94,7 +94,7 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+  const title = 'Jurusan'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -125,19 +125,19 @@ function UserPage(props) {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
+            data={listJurusan ? listJurusan.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['_id']}
+            excludeColumns={['_id', 'createdBy']}
             onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: listUser ? listUser.count : 10,
+              total: listJurusan ? listJurusan.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadListUser}
+            loading={loadListJurusan}
           />
         </div>
       </Content>
@@ -145,8 +145,8 @@ function UserPage(props) {
   )
 }
 
-UserPage.propTypes = {
+JurusanPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default JurusanPage

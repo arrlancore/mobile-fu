@@ -1,7 +1,7 @@
 import React from 'react'
 import { bool, func, object } from 'prop-types'
 import { Modal, Button, message, Popconfirm } from 'antd'
-import { view, update, create, remove } from 'context/master-kelas/action'
+import { view, update, create, remove } from 'context/master-jurusan/action'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
 
 import ViewInput from 'components/card/ViewInput'
@@ -17,9 +17,6 @@ const handleObjectProp = (key, prop) => {
   let data = prop || ''
   if (prop && prop.length && prop[0] && (key === 'createdBy' || key === 'updatedBy')) {
     data = prop.map(data => data.fullName).toString()
-  }
-  if (prop && prop.namaGedung) {
-    data = prop.namaGedung
   }
   return { fieldName: key, value: data }
 }
@@ -39,14 +36,14 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
   const [typeform, setTypeform] = React.useState('edit')
   const [inputData, setInputData] = React.useState({})
   const [isUpdated, setIsupdated] = React.useState(false)
-  const [kelas, dispatch] = useStateValue('masterKelas')
-  const [errLoadingKelas, loadingKelas] = useStateDefault('KELAS')
+  const [jurusan, dispatch] = useStateValue('masterJurusan')
+  const [errLoadingJurusan, loadingJurusan] = useStateDefault('JURUSAN')
   const [openModalVisible, setOpenModalVisible] = React.useState(openModal)
   // set new data
 
   const prevEntry = usePrevious(newEntry)
   const prevOpenModal = usePrevious(openModal)
-  const prevLoadingKelas = usePrevious(loadingKelas)
+  const prevLoadingJurusan = usePrevious(loadingJurusan)
 
   React.useEffect(() => {
     if (newEntry && prevEntry !== newEntry) {
@@ -58,7 +55,7 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       setOpenModalVisible(true)
       view(dispatch, { id: onViewData._id })
     }
-    if (loadingKelas === false && loadingKelas !== prevLoadingKelas && isUpdated && !errLoadingKelas) {
+    if (loadingJurusan === false && loadingJurusan !== prevLoadingJurusan && isUpdated && !errLoadingJurusan) {
       if (typeform !== 'create') {
         view(dispatch, { id: onViewData._id })
         onClose()
@@ -67,17 +64,17 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       } else {
         onModalClose()
       }
-      if (kelas && kelas.message) {
-        message.success(kelas.message)
+      if (jurusan && jurusan.message) {
+        message.success(jurusan.message)
       }
       setIsupdated(false)
       onUpdateSuccess()
     }
   }, [
     dispatch,
-    errLoadingKelas,
+    errLoadingJurusan,
     isUpdated,
-    loadingKelas,
+    loadingJurusan,
     newEntry,
     onClose,
     onModalClose,
@@ -85,10 +82,10 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     onViewData._id,
     openModal,
     prevEntry,
-    prevLoadingKelas,
+    prevLoadingJurusan,
     prevOpenModal,
     typeform,
-    kelas
+    jurusan
   ])
 
   // actions
@@ -115,7 +112,7 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       let updatedData = inputData
       delete updatedData.password
       delete updatedData.email
-      update(dispatch, updatedData, { id: kelas.data._id })
+      update(dispatch, updatedData, { id: jurusan.data._id })
     }
   }
   const handleDelete = () => {
@@ -126,11 +123,11 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
     }, 200)
   }
 
-  const kelasdata = onViewData.namaKelas || (kelas && kelas.data && kelas.data.namaKelas)
-  const titles = kelasdata && typeform === 'edit' ? 'Kelas ' + kelasdata : 'Kelas'
+  const jurusandata = onViewData.namaJurusan || (jurusan && jurusan.data && jurusan.data.namaJurusan)
+  const titles = jurusandata && typeform === 'edit' ? 'Jurusan ' + jurusandata : 'Jurusan'
   const ConfirmDelete = () => (
     <Popconfirm title="Are you sure to delete?" onConfirm={handleDelete}>
-      <Button style={{ color: 'tomato' }} loading={loadingKelas}>
+      <Button style={{ color: 'tomato' }} loading={loadingJurusan}>
         Delete
       </Button>
     </Popconfirm>
@@ -142,16 +139,16 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       onCancel={onModalClose}
       footer={[
         <ConfirmDelete key="delete" />,
-        <Button type="primary" loading={loadingKelas} key="edit" onClick={handleButtonEdit}>
+        <Button type="primary" loading={loadingJurusan} key="edit" onClick={handleButtonEdit}>
           {edit ? 'Save' : 'Edit'}
         </Button>
       ]}
     >
       {edit ? (
-        <FormInput returnData={setInputData} type={typeform} payload={kelas ? kelas.data : {}} />
-      ) : kelas && kelas.data && !loadingKelas ? (
+        <FormInput returnData={setInputData} type={typeform} payload={jurusan ? jurusan.data : {}} />
+      ) : jurusan && jurusan.data && !loadingJurusan ? (
         <div className="view">
-          {objectToArray(kelas.data)
+          {objectToArray(jurusan.data)
             .filter(data => filterField(['__v'], data.fieldName))
             .map((data, i) => {
               const newValue = handleObjectProp(data.fieldName, data.value)

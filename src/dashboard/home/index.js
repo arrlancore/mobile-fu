@@ -74,10 +74,15 @@ function HomePage() {
                 </Link>
               </Col>
               <Col span={6}>
+                <Link to="/master/jurusan">
+                  <CardSmall icon={<Icon type="user" />} name="Jurusan" />
+                </Link>
+              </Col>
+              {/* <Col span={6}>
                 <Link to="/master/jam-perkuliahan">
                   <CardSmall icon={<Icon type="user" />} name="Jam Perkuliahan" />
                 </Link>
-              </Col>
+              </Col> */}
             </Row>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
@@ -85,11 +90,11 @@ function HomePage() {
                   <CardSmall icon={<Icon type="user" />} name="Mata Kuliah" />
                 </Link>
               </Col>
-              <Col span={6}>
+              {/* <Col span={6}>
                 <Link to="/master/jurusan">
                   <CardSmall icon={<Icon type="user" />} name="Jurusan" />
                 </Link>
-              </Col>
+              </Col> */}
             </Row>
           </Col>
         </Row>

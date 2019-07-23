@@ -1,18 +1,19 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
-import { usePrevious } from 'context'
+import { usePrevious, useStateValue } from 'context'
 import Input from 'components/input'
 import Select from 'components/select'
 
 export default function FormInput({ type, returnData, payload }) {
-  const [firstName, setFirstName] = React.useState(payload ? payload.firstName : '')
-  const [lastName, setLastName] = React.useState(payload ? payload.lastName : '')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState(undefined)
-  const [role, setRole] = React.useState(payload ? payload.role : '')
-  const [statuses, setStatuses] = React.useState(payload ? payload.status : '')
+  const [namaMataKuliah, setNamaMataKuliah] = React.useState(payload ? payload.namaMataKuliah : '')
+  const [kodeMataKuliah, setKodeMataKuliah] = React.useState(payload ? payload.kodeMataKuliah : '')
+  const [jumlahSks, setJumlahSks] = React.useState(payload ? payload.jumlahSks : '')
+  const [jurusanId, setJurusanId] = React.useState(payload && payload.jurusan ? payload.jurusan._id : '')
 
-  const nextData = { firstName, lastName, password, email, role, status: statuses }
+  const [listJurusan] = useStateValue('listMasterJurusan')
+  const listDataJurusan = listJurusan ? listJurusan.data : []
+
+  const nextData = { namaMataKuliah, kodeMataKuliah, jumlahSks, jurusan: jurusanId }
   const prevData = usePrevious(nextData)
   const prevType = usePrevious(type)
   React.useEffect(() => {
@@ -27,103 +28,52 @@ export default function FormInput({ type, returnData, payload }) {
     {
       Component: Input,
       typeInput: 'input',
-      state: [firstName, setFirstName],
-      label: 'Nama Depan *',
+      state: [namaMataKuliah, setNamaMataKuliah],
+      label: 'Nama Mata Kuliah *',
       props: { type: 'text', required: true }
     },
     {
       Component: Input,
       typeInput: 'input',
-      state: [lastName, setLastName],
-      label: 'Nama Belakang',
+      state: [kodeMataKuliah, setKodeMataKuliah],
+      label: 'Kode Mata Kuliah *',
       props: { type: 'text' }
     },
     {
-      Component: Select,
-      typeInput: 'select',
-      state: [role, setRole],
-      label: 'Role *',
-      props: {
-        defaultValue: role,
-        showSearch: true,
-        style: {
-          width: '100%'
-        },
-        optionList: [
-          {
-            value: 'admin',
-            name: 'Administrator'
-          },
-          {
-            value: 'staf',
-            name: 'Staf Perkuliahan'
-          },
-          {
-            value: 'dosen',
-            name: 'Dosen'
-          },
-          {
-            value: 'mahasiswa',
-            name: 'Mahasiswa'
-          }
-        ]
-      }
+      Component: Input,
+      typeInput: 'input',
+      state: [jumlahSks, setJumlahSks],
+      label: 'Jumlah SKS *',
+      props: { type: 'number' }
     },
     {
       Component: Select,
       typeInput: 'select',
-      state: [statuses, setStatuses],
-      label: 'Status *',
+      state: [jurusanId, setJurusanId],
+      label: 'Jurusan *',
       props: {
-        defaultValue: statuses,
+        defaultValue: jurusanId,
         showSearch: true,
         style: {
           width: '100%'
         },
-        optionList: [
-          {
-            value: 'confirmed',
-            name: 'Confirmed'
-          },
-          {
-            value: 'pending',
-            name: 'Pending'
-          },
-          {
-            value: 'blocked',
-            name: 'Blocked'
+        optionList: listDataJurusan.map(data => {
+          return {
+            name: data.namaJurusan,
+            value: data._id
           }
-        ]
+        })
       }
     }
   ]
 
-  const createForm = [
-    ...editForm.slice(0, 2),
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [email, setEmail],
-      label: 'Email *',
-      props: { type: 'email' }
-    },
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [password, setPassword],
-      label: 'Password *',
-      props: { type: 'password' }
-    },
-    ...editForm.slice(-2)
-  ]
+  const createForm = [...editForm]
 
   function clearForm() {
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setPassword('')
-    setRole('')
-    setStatuses('')
+    setNamaMataKuliah('')
+    setKodeMataKuliah('')
+    setJumlahSks('')
+    setJurusanId('')
   }
 
   const form = type === 'create' ? createForm : editForm
