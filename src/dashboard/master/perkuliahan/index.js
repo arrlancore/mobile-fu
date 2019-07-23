@@ -4,7 +4,8 @@ import { object } from 'prop-types'
 import { Row } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/master-perkuliahan/action'
+import { list as loadListJurusan } from 'context/master-jurusan/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
@@ -17,32 +18,53 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function PerkuliahanPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.perkuliahan.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListPerkuliahan] = useStateDefault('LIST_PERKULIAHAN')
   const [onView, setOnView] = React.useState({})
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listPerkuliahan, dispatch] = useStateValue('listMasterPerkuliahan')
+  const [listJurusan] = useStateValue('listMasterJurusan')
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+  const prevListPerkuliahan = usePrevious(listPerkuliahan)
+  const prevListJurusan = usePrevious(listJurusan)
   const prevPathName = usePrevious(pathname)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
+    const loadMaster = () => {
+      loadListJurusan(dispatch, {
+        selected: 'namaJurusan'
+      })
+    }
+
+    if (loadListPerkuliahan === false && listPerkuliahan && prevListPerkuliahan !== listPerkuliahan && !listJurusan) {
+      loadMaster()
+    }
+    if (!listPerkuliahan && listPerkuliahan !== prevListPerkuliahan) {
       loadData()
     } else {
       if (pathname && prevPathName !== pathname) {
         loadData()
       }
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+  }, [
+    listPerkuliahan,
+    prevListPerkuliahan,
+    dispatch,
+    loadData,
+    prevPathName,
+    pathname,
+    loadListPerkuliahan,
+    listJurusan,
+    prevListJurusan
+  ])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'status firstName lastName role email'
+      selected: 'tahunAjar semester semesterKe kelas deskripsiPerkuliahan'
     })
   }
 
@@ -83,10 +105,10 @@ function UserPage(props) {
   let columnProperty = [
     // add special condition for one or each column here
     {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
+      dataIndex: 'jurusan',
+      title: 'Jurusan',
+      key: 'Jurusan',
+      render: data => data.namaJurusan
     }
   ]
 
@@ -94,7 +116,7 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+  const title = 'Perkuliahan'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -125,19 +147,19 @@ function UserPage(props) {
         <div className="section-row">
           <Table
             title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
+            data={listPerkuliahan ? listPerkuliahan.data : []}
             scroll={{ x: 1300 }}
             columnProperty={columnProperty}
-            excludeColumns={['_id']}
+            excludeColumns={['_id', 'createdBy', 'deskripsiPerkuliahan']}
             onRowClick={handleRowClick}
             pagination={{
               onChange: page => {
                 setPageNumber(page)
               },
-              total: listUser ? listUser.count : 10,
+              total: listPerkuliahan ? listPerkuliahan.count : 10,
               defaultCurrent: Number(pageNumber)
             }}
-            loading={loadListUser}
+            loading={loadListPerkuliahan}
           />
         </div>
       </Content>
@@ -145,8 +167,8 @@ function UserPage(props) {
   )
 }
 
-UserPage.propTypes = {
+PerkuliahanPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default PerkuliahanPage

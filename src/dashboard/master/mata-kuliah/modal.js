@@ -72,7 +72,7 @@ export default function ViewModal({ openModal, onClose, newEntry, onViewData, on
       !errLoadingMataKuliah
     ) {
       if (typeform !== 'create') {
-        view(dispatch, { id: onViewData._id })
+        view(dispatch, { id: onViewData._id || mataKuliah._id })
         onClose()
         setTypeform('edit')
         setEdit(false)
