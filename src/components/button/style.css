@@ -8,6 +8,7 @@
 }
 
 .button-secondary {
-  background: #2699FB;
+  background: rgb(107,52,226);
+  background: linear-gradient(90deg, rgba(107,52,226,1) 35%, rgba(33,112,255,1) 100%);
   color: #FFFFFF;
 }

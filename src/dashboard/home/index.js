@@ -36,19 +36,19 @@ function HomePage() {
               </Col>
               <Col span={6}>
                 <Link to="/perkuliahan-berjalan">
-                  <CardSmall icon={<Icon type="user" />} name="Perkuliahan Berjalan" />
+                  <CardSmall icon={<Icon type="file-done" />} name="Perkuliahan Berjalan" />
                 </Link>
               </Col>
               <Col span={6}>
                 <Link to="/presensi-dosen">
-                  <CardSmall icon={<Icon type="user" />} name="Presensi Dosen" />
+                  <CardSmall icon={<Icon type="user-add" />} name="Presensi Dosen" />
                 </Link>
               </Col>
             </Row>
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
                 <Link to="/presensi-mahasiswa">
-                  <CardSmall icon={<Icon type="user" />} name="Presensi Mahasiswa" />
+                  <CardSmall icon={<Icon type="usergroup-add" />} name="Presensi Mahasiswa" />
                 </Link>
               </Col>
             </Row>
@@ -60,22 +60,22 @@ function HomePage() {
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
                 <Link to="/master/gedung">
-                  <CardSmall icon={<Icon type="user" />} name="Gedung" />
+                  <CardSmall icon={<Icon type="build" />} name="Gedung" />
                 </Link>
               </Col>
               <Col span={6}>
                 <Link to="/master/kelas">
-                  <CardSmall icon={<Icon type="user" />} name="Kelas" />
+                  <CardSmall icon={<Icon type="home" />} name="Kelas" />
                 </Link>
               </Col>
               <Col span={6}>
                 <Link to="/master/perkuliahan">
-                  <CardSmall icon={<Icon type="user" />} name="Perkuliahan" />
+                  <CardSmall icon={<Icon type="crown" />} name="Perkuliahan" />
                 </Link>
               </Col>
               <Col span={6}>
                 <Link to="/master/jurusan">
-                  <CardSmall icon={<Icon type="user" />} name="Jurusan" />
+                  <CardSmall icon={<Icon type="swap" />} name="Jurusan" />
                 </Link>
               </Col>
               {/* <Col span={6}>
@@ -87,7 +87,7 @@ function HomePage() {
             <Row gutter={128} style={{ marginBottom: 24 }}>
               <Col span={6}>
                 <Link to="/master/mata-kuliah">
-                  <CardSmall icon={<Icon type="user" />} name="Mata Kuliah" />
+                  <CardSmall icon={<Icon type="experiment" />} name="Mata Kuliah" />
                 </Link>
               </Col>
               {/* <Col span={6}>

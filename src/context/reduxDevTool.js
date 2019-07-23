@@ -10,7 +10,7 @@ export default function withDevTools(initialState, actionCreators) {
   if (process.env.NODE_ENV === 'development') {
     const instanceID = id
     id += 1
-    const name = `react-context: ${instanceID}`
+    const name = `react-context-umj: ${instanceID}`
     const isInstalled = window && window.__REDUX_DEVTOOLS_EXTENSION__
     const devTools = isInstalled ? window.__REDUX_DEVTOOLS_EXTENSION__.connect({ name, actionCreators }) : null
     devTools &&

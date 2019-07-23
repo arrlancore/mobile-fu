@@ -1,14 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { object } from 'prop-types'
-import { Row } from 'antd'
+import { Row, Col } from 'antd'
 import { useTranslation } from 'react-i18next'
 import LayoutPage from 'components/layout'
-import { list } from 'context/user/action'
+import { list } from 'context/perkuliahan-berjalan/action'
+import { list as loadListPerkuliahan } from 'context/master-perkuliahan/action'
+import { list as loadListMahasiswa } from 'context/user/action'
+import { list as loadListMataKuliah } from 'context/master-mata-kuliah/action'
 import Content from 'components/layout/content'
 import Helmet from 'components/helmet'
 import Button from 'components/button'
 import Table from 'components/table'
+import Select from 'components/select'
 import Title from 'components/text/title'
 // import { encode, decode } from 'utils/queryString'
 import { usePrevious, useStateValue, useStateDefault } from 'context'
@@ -17,33 +21,97 @@ import Modal from './modal'
 
 import './style.css'
 
-function UserPage(props) {
+function PerkuliahanBerjalanPage(props) {
   const { history } = props
   const pathname = history.location.pathname
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.perkuliahanBerjalan.'
-  const [, loadListUser] = useStateDefault('LIST_USER')
+  const [, loadListPerkuliahanBerjalan] = useStateDefault('LIST_PERKULIAHAN_BERJALAN')
   const [onView, setOnView] = React.useState({})
+  const [deskripsiPerkuliahan, setDeskripsiPerkuliahan] = React.useState('')
+  const [perkuliahan, setPerkuliahan] = React.useState(undefined)
+  const [mataKuliah, setMataKuliah] = React.useState('')
+  const [peserta, setPeserta] = React.useState('')
 
-  const [listUser = [], dispatch] = useStateValue('listUser')
+  const [listPerkuliahanBerjalan, dispatch] = useStateValue('listPerkuliahanBerjalan')
+
+  const [listMataKuliah] = useStateValue('listMastermataKuliah')
+  const listDataMataKuliah = listMataKuliah
+    ? listMataKuliah.data.map(data => {
+        return {
+          name: `${data.namaMataKuliah} (${data.kodeMataKuliah})`,
+          value: data._id
+        }
+      })
+    : []
+
+  const dataQuery = { perkuliahan, mataKuliah, deskripsiPerkuliahan }
+
+  const [listMahasiswa] = useStateValue('listUser')
+  const listDataMahasiswa = listMahasiswa
+    ? listMahasiswa.data.map(data => {
+        return {
+          name: data.fullName,
+          value: data._id
+        }
+      })
+    : []
+
+  const [listPerkuliahan] = useStateValue('listMasterPerkuliahan')
+  const listDataPerkuliahan = listPerkuliahan ? listPerkuliahan.data : []
+
   const [openViewModal, setOpenViewModal] = React.useState(false)
   const [newEntry, setNewEntry] = React.useState(false)
   const [pageNumber, setPageNumber] = React.useState(1)
-  const prevListUser = usePrevious(listUser)
+
+  const prevListPerkuliahanBerjalan = usePrevious(listPerkuliahanBerjalan)
+  const prevListPerkuliahan = usePrevious(listPerkuliahan)
   const prevPathName = usePrevious(pathname)
+  const prevPerkuliahan = usePrevious(perkuliahan)
+  const prevMataKuliah = usePrevious(mataKuliah)
+  const prevPeserta = usePrevious(peserta)
   React.useEffect(() => {
-    if (!listUser && listUser !== prevListUser) {
-      loadData()
-    } else {
-      if (pathname && prevPathName !== pathname) {
-        loadData()
-      }
+    if (!listPerkuliahan && prevListPerkuliahan !== listPerkuliahan) {
+      loadListPerkuliahan(dispatch, { selected: 'deskripsiPerkuliahan', isActive: 1 })
     }
-  }, [listUser, prevListUser, dispatch, loadData, prevPathName, pathname])
+    if (perkuliahan && perkuliahan !== prevPerkuliahan) {
+      loadData()
+    }
+    if (mataKuliah && perkuliahan && mataKuliah !== prevMataKuliah) {
+      loadData()
+    }
+    if (peserta && perkuliahan && peserta !== prevPeserta) {
+      loadData()
+    }
+    if (listPerkuliahanBerjalan && listPerkuliahanBerjalan !== prevListPerkuliahanBerjalan) {
+      loadListMahasiswa(dispatch, { role: 'mahasiswa', selected: 'fullName' })
+      loadListMataKuliah(dispatch, { selected: 'namaMataKuliah kodeMataKuliah' })
+    }
+  }, [
+    dispatch,
+    loadData,
+    prevPathName,
+    pathname,
+    listPerkuliahanBerjalan,
+    prevListPerkuliahanBerjalan,
+    listPerkuliahan,
+    prevListPerkuliahan,
+    perkuliahan,
+    prevPerkuliahan,
+    mataKuliah,
+    prevMataKuliah,
+    peserta,
+    prevPeserta
+  ])
   function loadData() { // eslint-disable-line
-    list(dispatch, {
-      selected: 'status firstName lastName role email'
-    })
+    const queries = {
+      selected: 'peserta mataKuliah jurusan',
+      perkuliahan
+    }
+    if (mataKuliah) {
+      queries.mataKuliah = mataKuliah
+    }
+    list(dispatch, queries)
   }
 
   const ColumnHeader = () => (
@@ -83,10 +151,26 @@ function UserPage(props) {
   let columnProperty = [
     // add special condition for one or each column here
     {
-      dataIndex: 'id',
-      width: 50,
-      fixed: 'left',
-      sorter: (a, b) => a.id - b.id
+      dataIndex: 'tanggal',
+      render: date => new Date(date).toLocaleDateString()
+    },
+    {
+      dataIndex: 'peserta',
+      title: 'Peserta',
+      key: 'Peserta',
+      render: data => data && <span style={{ textTransform: 'capitalize' }}>{data.fullName}</span>
+    },
+    {
+      dataIndex: 'mataKuliah',
+      title: 'Mata Kuliah',
+      key: 'mataKuliah',
+      render: data => data && data.namaMataKuliah
+    },
+    {
+      dataIndex: 'perkuliahan',
+      title: 'Jurusan',
+      key: 'Jurusan',
+      render: data => data && data.jurusan && data.jurusan.namaJurusan
     }
   ]
 
@@ -94,7 +178,14 @@ function UserPage(props) {
     setOnView(data)
     setOpenViewModal(true)
   }
-  const title = 'User'
+
+  const handleSetPerkuliahan = id => {
+    const desc = listDataPerkuliahan.filter(data => data._id === id)
+    setDeskripsiPerkuliahan(desc[0].deskripsiPerkuliahan)
+    setPerkuliahan(id)
+  }
+
+  const title = 'Perkuliahan Berjalan'
   return (
     <LayoutPage withHeader>
       <Helmet>
@@ -102,6 +193,7 @@ function UserPage(props) {
       </Helmet>
       <Modal
         newEntry={newEntry}
+        query={dataQuery}
         openModal={openViewModal}
         onViewData={onView}
         onUpdateSuccess={loadData}
@@ -123,30 +215,99 @@ function UserPage(props) {
         </Title>
 
         <div className="section-row">
-          <Table
-            title={() => <ColumnHeader />}
-            data={listUser ? listUser.data : []}
-            scroll={{ x: 1300 }}
-            columnProperty={columnProperty}
-            excludeColumns={['_id']}
-            onRowClick={handleRowClick}
-            pagination={{
-              onChange: page => {
-                setPageNumber(page)
-              },
-              total: listUser ? listUser.count : 10,
-              defaultCurrent: Number(pageNumber)
-            }}
-            loading={loadListUser}
-          />
+          <Row gutter={24}>
+            <Col span={6}>
+              <Select
+                type="secondary"
+                label="Pilih Perkuliahan Aktif"
+                optionList={listDataPerkuliahan.map(data => {
+                  return {
+                    name: data.deskripsiPerkuliahan,
+                    value: data._id
+                  }
+                })}
+                showSearch
+                style={{
+                  width: '100%'
+                }}
+                placeholder="select"
+                optionFilterProp="children"
+                onChange={handleSetPerkuliahan}
+              />
+            </Col>
+          </Row>
+          <Row gutter={24}>
+            <label style={{ display: 'block', margin: '20px 0 0 14px' }}>{perkuliahan ? 'Filter:' : ''}</label>
+            {perkuliahan ? (
+              <>
+                <Col span={6}>
+                  <Select
+                    allowClear={true}
+                    type="secondary"
+                    label="Mata Kuliah"
+                    defaultValue={mataKuliah || 'Semua'}
+                    optionList={listDataMataKuliah}
+                    showSearch
+                    style={{
+                      width: '100%'
+                    }}
+                    placeholder="select"
+                    optionFilterProp="children"
+                    onChange={setMataKuliah}
+                  />
+                </Col>
+                <Col span={6}>
+                  <Select
+                    allowClear={true}
+                    type="secondary"
+                    label="Nama Mahasiswa"
+                    defaultValue={peserta || 'Semua'}
+                    optionList={listDataMahasiswa}
+                    showSearch
+                    style={{
+                      width: '100%'
+                    }}
+                    placeholder="select"
+                    optionFilterProp="children"
+                    onChange={setPeserta}
+                  />
+                </Col>
+              </>
+            ) : (
+              ''
+            )}
+          </Row>
+        </div>
+
+        <div className="section-row">
+          {listPerkuliahanBerjalan && perkuliahan ? (
+            <Table
+              title={() => <ColumnHeader />}
+              data={listPerkuliahanBerjalan ? listPerkuliahanBerjalan.data : []}
+              scroll={{ x: 1300 }}
+              columnProperty={columnProperty}
+              excludeColumns={['_id', 'createdBy']}
+              onRowClick={handleRowClick}
+              pagination={{
+                onChange: page => {
+                  setPageNumber(page)
+                },
+                total: listPerkuliahanBerjalan ? listPerkuliahanBerjalan.count : 10,
+                defaultCurrent: Number(pageNumber)
+              }}
+              loading={loadListPerkuliahanBerjalan}
+            />
+          ) : (
+            ''
+          )}
         </div>
       </Content>
     </LayoutPage>
   )
 }
 
-UserPage.propTypes = {
+PerkuliahanBerjalanPage.propTypes = {
   history: object
 }
 
-export default UserPage
+export default PerkuliahanBerjalanPage

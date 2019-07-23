@@ -115,7 +115,7 @@ function LoginPage(props) {
                 )}
               </Form.Item>
               <Col span={24}>
-                <Button loading={loading} type="primary" htmlType="submit">
+                <Button loading={loading} type="secondary" htmlType="submit">
                   {t(`${tKey}login`).toUpperCase()}
                 </Button>
                 <div

@@ -1,18 +1,35 @@
 import React from 'react'
 import { string, object, func } from 'prop-types'
-import { usePrevious } from 'context'
-import Input from 'components/input'
+import { usePrevious, useStateValue } from 'context'
 import Select from 'components/select'
+import ViewInput from 'components/card/ViewInput'
 
 export default function FormInput({ type, returnData, payload }) {
-  const [firstName, setFirstName] = React.useState(payload ? payload.firstName : '')
-  const [lastName, setLastName] = React.useState(payload ? payload.lastName : '')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState(undefined)
-  const [role, setRole] = React.useState(payload ? payload.role : '')
-  const [statuses, setStatuses] = React.useState(payload ? payload.status : '')
+  const [mahasiswaId, setMahasiswaId] = React.useState(payload && payload.peserta ? payload.peserta._id : '')
+  const [matkulId, setMatkulId] = React.useState(payload && payload.mataKuliah ? payload.mataKuliah._id : '')
 
-  const nextData = { firstName, lastName, password, email, role, status: statuses }
+  const [listMahasiswa] = useStateValue('listUser')
+  const listDataMahasiswa = listMahasiswa
+    ? listMahasiswa.data.map(data => ({
+        name: data.fullName,
+        value: data._id
+      }))
+    : []
+
+  const [listMataKuliah] = useStateValue('listMastermataKuliah')
+  const listDataMatkul = listMataKuliah
+    ? listMataKuliah.data.map(data => ({
+        name: `${data.namaMataKuliah} (${data.kodeMataKuliah})`,
+        value: data._id
+      }))
+    : []
+
+  const nextData = {
+    peserta: mahasiswaId,
+    mataKuliah: matkulId,
+    perkuliahan: (payload.perkuliahan && payload.perkuliahan['_id']) || payload.perkuliahan
+  }
+  console.log('TCL: FormInput -> nextData', nextData)
   const prevData = usePrevious(nextData)
   const prevType = usePrevious(type)
   React.useEffect(() => {
@@ -23,107 +40,43 @@ export default function FormInput({ type, returnData, payload }) {
       clearForm()
     }
   }, [nextData, prevData, prevType, returnData, type])
+
   const editForm = [
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [firstName, setFirstName],
-      label: 'Nama Depan *',
-      props: { type: 'text', required: true }
-    },
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [lastName, setLastName],
-      label: 'Nama Belakang',
-      props: { type: 'text' }
-    },
     {
       Component: Select,
       typeInput: 'select',
-      state: [role, setRole],
-      label: 'Role *',
+      state: [matkulId, setMatkulId],
+      label: 'Mata Kuliah *',
       props: {
-        defaultValue: role,
+        defaultValue: matkulId,
         showSearch: true,
         style: {
           width: '100%'
         },
-        optionList: [
-          {
-            value: 'admin',
-            name: 'Administrator'
-          },
-          {
-            value: 'staf',
-            name: 'Staf Perkuliahan'
-          },
-          {
-            value: 'dosen',
-            name: 'Dosen'
-          },
-          {
-            value: 'mahasiswa',
-            name: 'Mahasiswa'
-          }
-        ]
+        optionList: listDataMatkul
       }
     },
     {
       Component: Select,
       typeInput: 'select',
-      state: [statuses, setStatuses],
-      label: 'Status *',
+      state: [mahasiswaId, setMahasiswaId],
+      label: 'Mahasiswa *',
       props: {
-        defaultValue: statuses,
+        defaultValue: mahasiswaId,
         showSearch: true,
         style: {
           width: '100%'
         },
-        optionList: [
-          {
-            value: 'confirmed',
-            name: 'Confirmed'
-          },
-          {
-            value: 'pending',
-            name: 'Pending'
-          },
-          {
-            value: 'blocked',
-            name: 'Blocked'
-          }
-        ]
+        optionList: listDataMahasiswa
       }
     }
   ]
 
-  const createForm = [
-    ...editForm.slice(0, 2),
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [email, setEmail],
-      label: 'Email *',
-      props: { type: 'email' }
-    },
-    {
-      Component: Input,
-      typeInput: 'input',
-      state: [password, setPassword],
-      label: 'Password *',
-      props: { type: 'password' }
-    },
-    ...editForm.slice(-2)
-  ]
+  const createForm = [...editForm]
 
   function clearForm() {
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setPassword('')
-    setRole('')
-    setStatuses('')
+    setMahasiswaId(null)
+    setMatkulId(null)
   }
 
   const form = type === 'create' ? createForm : editForm
@@ -131,23 +84,30 @@ export default function FormInput({ type, returnData, payload }) {
   return (
     <div className={type}>
       <form onChange={() => console.log(123)}>
+        <ViewInput fieldName="Perkuliahan" value={payload.deskripsiPerkuliahan} />
         {form.map((data, i) => (
           <div key={i}>
             <label>
               <small>{data.label}</small>
             </label>
-            <data.Component
-              {...data.props}
-              onChange={e => {
-                if (data.typeInput === 'input') {
-                  data.state[1](e.target.value)
-                }
-                if (data.typeInput === 'select') {
-                  data.state[1](e)
-                }
-              }}
-              value={data.state[0]}
-            />
+            <div>
+              <data.Component
+                {...data.props}
+                onChange={(e, str) => {
+                  if (data.typeInput === 'input') {
+                    data.state[1](e.target.value)
+                  }
+                  if (data.typeInput === 'select' || data.typeInput === 'date') {
+                    data.state[1](e)
+                  }
+                  if (data.typeInput === 'time') {
+                    console.log(e, str)
+                    data.state[1](str)
+                  }
+                }}
+                value={data.state[0]}
+              />
+            </div>
           </div>
         ))}
       </form>
