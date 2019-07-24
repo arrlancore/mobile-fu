@@ -32,6 +32,7 @@ function JadwalPage(props) {
   const [deskripsiPerkuliahan, setDeskripsiPerkuliahan] = React.useState('')
   const [perkuliahan, setPerkuliahan] = React.useState(undefined)
   const [mataKuliah, setMataKuliah] = React.useState('')
+  const [jurusan, setJurusan] = React.useState('')
 
   const [listJadwal, dispatch] = useStateValue('listJadwal')
 
@@ -62,10 +63,13 @@ function JadwalPage(props) {
   const prevPathName = usePrevious(pathname)
   const prevPerkuliahan = usePrevious(perkuliahan)
   const prevMataKuliah = usePrevious(mataKuliah)
+  const prevJurusan = usePrevious(jurusan)
   React.useEffect(() => {
     if (!listPerkuliahan && prevListPerkuliahan !== listPerkuliahan) {
       loadListPerkuliahan(dispatch, { selected: 'deskripsiPerkuliahan' })
-      loadListMataKuliah(dispatch, { selected: 'namaMataKuliah kodeMataKuliah' })
+    }
+    if (perkuliahan && jurusan !== prevJurusan && jurusan) {
+      loadListMataKuliah(dispatch, { selected: 'namaMataKuliah kodeMataKuliah', jurusan })
     }
     if (perkuliahan && perkuliahan !== prevPerkuliahan) {
       loadData()
@@ -73,10 +77,10 @@ function JadwalPage(props) {
     if (mataKuliah && perkuliahan && mataKuliah !== prevMataKuliah) {
       loadData()
     }
-    if (listJadwal && listJadwal !== prevListJadwal && !listDosen) {
+    if (listJadwal && listJadwal !== prevListJadwal) {
       loadListDosen(dispatch, { role: 'dosen', selected: 'fullName' })
     }
-    if (listJadwal && listJadwal !== prevListJadwal && !listKelas) {
+    if (listJadwal && listJadwal !== prevListJadwal) {
       loadListKelas(dispatch, { selected: 'namaKelas' })
     }
   }, [
@@ -93,7 +97,9 @@ function JadwalPage(props) {
     mataKuliah,
     prevMataKuliah,
     listDosen,
-    listKelas
+    listKelas,
+    jurusan,
+    prevJurusan
   ])
   function loadData() { // eslint-disable-line
     const queries = {
@@ -186,6 +192,7 @@ function JadwalPage(props) {
   const handleSetPerkuliahan = id => {
     const desc = listDataPerkuliahan.filter(data => data._id === id)
     setDeskripsiPerkuliahan(desc[0].deskripsiPerkuliahan)
+    setJurusan(desc[0].jurusan._id)
     setPerkuliahan(id)
   }
 

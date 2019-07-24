@@ -122,6 +122,12 @@ function PresensiMahasiswaPage(props) {
       render: data => data && <span style={{ textTransform: 'capitalize' }}>{data.fullName}</span>
     },
     {
+      dataIndex: 'waktuPresensi',
+      title: 'Waktu Presensi',
+      key: 'waktuPresensi',
+      render: waktu => new Date(waktu).toLocaleTimeString()
+    },
+    {
       dataIndex: 'jadwal',
       title: 'Jadwal',
       key: 'Jadwal',

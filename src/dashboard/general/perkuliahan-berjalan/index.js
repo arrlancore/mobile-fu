@@ -32,6 +32,7 @@ function PerkuliahanBerjalanPage(props) {
   const [perkuliahan, setPerkuliahan] = React.useState(undefined)
   const [mataKuliah, setMataKuliah] = React.useState('')
   const [peserta, setPeserta] = React.useState('')
+  const [jurusan, setJurusan] = React.useState('')
 
   const [listPerkuliahanBerjalan, dispatch] = useStateValue('listPerkuliahanBerjalan')
 
@@ -70,9 +71,13 @@ function PerkuliahanBerjalanPage(props) {
   const prevPerkuliahan = usePrevious(perkuliahan)
   const prevMataKuliah = usePrevious(mataKuliah)
   const prevPeserta = usePrevious(peserta)
+  const prevJurusan = usePrevious(jurusan)
   React.useEffect(() => {
     if (!listPerkuliahan && prevListPerkuliahan !== listPerkuliahan) {
       loadListPerkuliahan(dispatch, { selected: 'deskripsiPerkuliahan', isActive: 1 })
+    }
+    if (perkuliahan && jurusan !== prevJurusan && jurusan) {
+      loadListMataKuliah(dispatch, { selected: 'namaMataKuliah kodeMataKuliah', jurusan })
     }
     if (perkuliahan && perkuliahan !== prevPerkuliahan) {
       loadData()
@@ -85,7 +90,6 @@ function PerkuliahanBerjalanPage(props) {
     }
     if (listPerkuliahanBerjalan && listPerkuliahanBerjalan !== prevListPerkuliahanBerjalan) {
       loadListMahasiswa(dispatch, { role: 'mahasiswa', selected: 'fullName' })
-      loadListMataKuliah(dispatch, { selected: 'namaMataKuliah kodeMataKuliah' })
     }
   }, [
     dispatch,
@@ -101,7 +105,9 @@ function PerkuliahanBerjalanPage(props) {
     mataKuliah,
     prevMataKuliah,
     peserta,
-    prevPeserta
+    prevPeserta,
+    jurusan,
+    prevJurusan
   ])
   function loadData() { // eslint-disable-line
     const queries = {
@@ -110,6 +116,9 @@ function PerkuliahanBerjalanPage(props) {
     }
     if (mataKuliah) {
       queries.mataKuliah = mataKuliah
+    }
+    if (peserta) {
+      queries.peserta = peserta
     }
     list(dispatch, queries)
   }
@@ -182,6 +191,7 @@ function PerkuliahanBerjalanPage(props) {
   const handleSetPerkuliahan = id => {
     const desc = listDataPerkuliahan.filter(data => data._id === id)
     setDeskripsiPerkuliahan(desc[0].deskripsiPerkuliahan)
+    setJurusan(desc[0].jurusan._id)
     setPerkuliahan(id)
   }
 
