@@ -1,7 +1,7 @@
 import './style.css'
 
 import { Col, Form, Icon, message, Row } from 'antd'
-// import Logo from 'assets/image/logo/logo1x.png'
+import Logo from 'assets/image/logo/logo.png'
 import Button from 'components/button'
 import Helmet from 'components/helmet'
 import Input from 'components/input'
@@ -61,7 +61,10 @@ function LoginPage(props) {
         </Helmet>
         <Row type="flex" justify="center" align="middle">
           <Col span={6} xl={4}>
-            <div className="logo_company">{/* <img src={Logo} alt="ati-logo" /> */}</div>
+            <div className="logo_company">
+              {' '}
+              <img src={Logo} alt="ati-logo" />
+            </div>
             <Form onSubmit={handleSubmit} className="login-form">
               <label
                 style={{
