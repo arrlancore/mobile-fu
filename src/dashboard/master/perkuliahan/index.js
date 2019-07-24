@@ -64,7 +64,7 @@ function PerkuliahanPage(props) {
   ])
   function loadData() { // eslint-disable-line
     list(dispatch, {
-      selected: 'tahunAjar semester semesterKe kelas deskripsiPerkuliahan'
+      selected: 'tahunAjar isActive semester semesterKe kelas deskripsiPerkuliahan'
     })
   }
 
@@ -109,6 +109,12 @@ function PerkuliahanPage(props) {
       title: 'Jurusan',
       key: 'Jurusan',
       render: data => data.namaJurusan
+    },
+    {
+      dataIndex: 'isActive',
+      title: 'Is Active',
+      key: 'Is Active',
+      render: data => String(data)
     }
   ]
 
