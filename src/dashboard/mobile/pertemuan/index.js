@@ -35,9 +35,6 @@ function PertemuanPage(props) {
     const loadStatusPresensiMahasiswa = jadwal => {
       viewByParam(dispatch, { jadwal, mahasiswa: user.data._id })
     }
-    if (!lokasi && item) {
-      getGeoLocation()
-    }
     if (item && prevItem !== item) {
       loadStatusPresensiDosen(item._id)
       loadStatusPresensiMahasiswa(item._id)
@@ -78,6 +75,7 @@ function PertemuanPage(props) {
   }
 
   const handleAmbilPresensi = () => {
+    getGeoLocation()
     if (kunciKelas) {
       if (kunciKelas.length !== 4) {
         message.warning('Kunci kelas tidak valid')
@@ -88,7 +86,9 @@ function PertemuanPage(props) {
         lokasi,
         kunciKelas
       }
-      ambilPresensi(dispatch, payload)
+      setTimeout(() => {
+        ambilPresensi(dispatch, payload)
+      }, 200)
     } else {
       message.warning('Kunci kelas belum di input')
     }
@@ -119,8 +119,8 @@ function PertemuanPage(props) {
       await navigator.geolocation.getCurrentPosition(
         function(position) {
           coords = {
-            latitude: -6.172584 || position.coords.latitude,
-            longitude: 106.871743 || position.coords.longitude
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
           }
           setLokasi(coords)
         },

@@ -8,7 +8,6 @@ import './style.css'
 
 function JadwalPage(props) {
   const [jadwals, setJadwals] = React.useState([])
-  console.log('TCL: JadwalPage -> jadwals', props.history)
   React.useEffect(() => {
     const listJadwal = localStorage.getItem('jadwal')
     if (!jadwals[0]) {
