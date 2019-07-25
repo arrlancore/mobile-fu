@@ -1,8 +1,8 @@
 {
-  "name": "kpi-frontend",
+  "name": "mobile-umj",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://reqres.in",
+  "homepage": "https://ftumj.ac.id",
   "dependencies": {
     "antd": "^3.18.1",
     "axios": "^0.18.0",

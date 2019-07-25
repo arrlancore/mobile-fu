@@ -126,3 +126,66 @@ export const remove = (dispatch, params) => {
   }
   dispatchAction(dispatch, actionTypes.PRESENSI_MAHASISWA, action)
 }
+
+export const ambilPresensi = (dispatch, payload, params) => {
+  const url = config.baseUrl + moduleRoutes + '/ambil'
+  const action = async () => {
+    const response = await axios.put(url, payload, {
+      params,
+      headers: { Authorization: getUser().token }
+    })
+    if (response.status <= 204) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.PRESENSI_MAHASISWA_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.PRESENSI_MAHASISWA, action)
+}
+
+export const viewByParam = (dispatch, params) => {
+  const url = config.baseUrl + moduleRoutes + '/view-by-param'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      headers: { Authorization: getUser().token }
+    })
+    if (response.status <= 204) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.PRESENSI_MAHASISWA_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.PRESENSI_MAHASISWA, action)
+}
+
+export const getReport = (dispatch, params) => {
+  const url = config.baseUrl + moduleRoutes + '/report'
+  const action = async () => {
+    const response = await axios.get(url, {
+      params,
+      headers: { Authorization: getUser().token }
+    })
+    if (response.status <= 204) {
+      let data = response.data
+      dispatch({
+        type: actionTypes.LIST_PRESENSI_MAHASISWA_SUCCESS,
+        data
+      })
+    } else {
+      const message = response.data && response.data.message
+      throw new Error(message || 'An error has been occured')
+    }
+  }
+  dispatchAction(dispatch, actionTypes.LIST_PRESENSI_MAHASISWA, action)
+}

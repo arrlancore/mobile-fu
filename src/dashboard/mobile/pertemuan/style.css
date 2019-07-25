@@ -1,0 +1,15 @@
+.mobile--menu{
+  margin-bottom: 20px;
+}
+
+.card--menu {
+  box-shadow: 5px 5px #ddd;
+  transition: all ease-in-out 0.2s;
+}
+
+.card--menu :active {
+  background: #efefef;
+}
+.--loader{
+  height: 21px;
+}

@@ -1,5 +1,4 @@
-import { Col, Row, Icon } from 'antd'
-import CardSmall from 'components/card/small'
+import { Col, Row, Card } from 'antd'
 import Helmet from 'components/helmet'
 import LayoutPage from 'components/layout'
 import Content from 'components/layout/content'
@@ -7,97 +6,55 @@ import Link from 'components/link'
 import Title from 'components/text/title'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useStateValue } from 'context'
+
+import './style.css'
+
+const MenuMahasiswa = () => (
+  <Row gutter={16}>
+    <Col className="mobile--menu" span={24}>
+      <Link to="/mobile/jadwal">
+        <Card className="card--menu">
+          <Title level={4}>Jadwal</Title>
+        </Card>
+      </Link>
+    </Col>
+    <Col className="mobile--menu" span={24}>
+      <Link to="/mobile/laporan-presensi">
+        <Card className="card--menu">
+          <Title level={4}>Laporan Presensi</Title>
+        </Card>
+      </Link>
+    </Col>
+  </Row>
+)
+const MenuDosen = () => (
+  <Row gutter={16}>
+    <Col className="mobile--menu" span={24}>
+      <Link to="/mobile/jadwal-dosen">
+        <Card className="card--menu">
+          <Title level={4}>Jadwal</Title>
+        </Card>
+      </Link>
+    </Col>
+  </Row>
+)
 
 function HomePage() {
   const { t } = useTranslation() // t is translate function to show a message by language chosen
   const tKey = 'dashboard.home.'
+  const [user] = useStateValue('user')
+  // propsMobileHeader
+
+  const Menus = user.data.role === 'mahasiswa' ? MenuMahasiswa : MenuDosen
 
   return (
-    <LayoutPage withHeader>
+    <LayoutPage withMobileHeader>
       <Helmet>
         <title>{t(`${tKey}pageTitle`)}</title>
       </Helmet>
       <Content>
-        <Row gutter={24}>
-          <Col span={24} style={{ marginTop: 50 }}>
-            <Title bold level={3}>
-              {'Home'}
-            </Title>
-            <Row gutter={128} style={{ marginBottom: 24 }}>
-              <Col span={6}>
-                <Link to="/user">
-                  <CardSmall icon={<Icon type="user" />} name="User" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/jadwal">
-                  <CardSmall icon={<Icon type="schedule" />} name="Jadwal" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/perkuliahan-berjalan">
-                  <CardSmall icon={<Icon type="file-done" />} name="Perkuliahan Berjalan" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/presensi-dosen">
-                  <CardSmall icon={<Icon type="user-add" />} name="Presensi Dosen" />
-                </Link>
-              </Col>
-            </Row>
-            <Row gutter={128} style={{ marginBottom: 24 }}>
-              <Col span={6}>
-                <Link to="/presensi-mahasiswa">
-                  <CardSmall icon={<Icon type="usergroup-add" />} name="Presensi Mahasiswa" />
-                </Link>
-              </Col>
-            </Row>
-          </Col>
-          <Col style={{ marginTop: 50 }} span={24}>
-            <Title bold level={3}>
-              {'Master Data'}
-            </Title>
-            <Row gutter={128} style={{ marginBottom: 24 }}>
-              <Col span={6}>
-                <Link to="/master/gedung">
-                  <CardSmall icon={<Icon type="build" />} name="Gedung" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/master/kelas">
-                  <CardSmall icon={<Icon type="home" />} name="Kelas" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/master/perkuliahan">
-                  <CardSmall icon={<Icon type="crown" />} name="Perkuliahan" />
-                </Link>
-              </Col>
-              <Col span={6}>
-                <Link to="/master/jurusan">
-                  <CardSmall icon={<Icon type="swap" />} name="Jurusan" />
-                </Link>
-              </Col>
-              {/* <Col span={6}>
-                <Link to="/master/jam-perkuliahan">
-                  <CardSmall icon={<Icon type="user" />} name="Jam Perkuliahan" />
-                </Link>
-              </Col> */}
-            </Row>
-            <Row gutter={128} style={{ marginBottom: 24 }}>
-              <Col span={6}>
-                <Link to="/master/mata-kuliah">
-                  <CardSmall icon={<Icon type="experiment" />} name="Mata Kuliah" />
-                </Link>
-              </Col>
-              {/* <Col span={6}>
-                <Link to="/master/jurusan">
-                  <CardSmall icon={<Icon type="user" />} name="Jurusan" />
-                </Link>
-              </Col> */}
-            </Row>
-          </Col>
-        </Row>
+        <Menus />
       </Content>
     </LayoutPage>
   )

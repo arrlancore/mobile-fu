@@ -60,7 +60,7 @@ function LoginPage(props) {
           <title>{t(`${tKey}pageTitle`)}</title>
         </Helmet>
         <Row type="flex" justify="center" align="middle">
-          <Col span={6} xl={4}>
+          <Col style={{ margin: 20, padding: '0 30px' }} span={24} xl={6}>
             <div className="logo_company">
               {' '}
               <img src={Logo} alt="ati-logo" />
